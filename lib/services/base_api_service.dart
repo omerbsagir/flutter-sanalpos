@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 //import '../utils/constants.dart';
 
-class ApiService {
+class BaseApiService {
   Future<Map<String, dynamic>> get(String url) async {
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
