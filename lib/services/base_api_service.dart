@@ -3,8 +3,11 @@ import 'package:http/http.dart' as http;
 //import '../utils/constants.dart';
 
 class BaseApiService {
-  Future<Map<String, dynamic>> get(String url) async {
-    final response = await http.get(Uri.parse(url));
+
+  final String _baseUrl = 'https://yourapiurl.com'; // API base URL
+
+  Future<Map<String, dynamic>> get(String endpoint) async {
+    final response = await http.get(Uri.parse('$_baseUrl/$endpoint'));
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -12,9 +15,9 @@ class BaseApiService {
     }
   }
 
-  Future<Map<String, dynamic>> post(String url, Map<String, dynamic> body) async {
+  Future<Map<String, dynamic>> post(String endpoint, Map<String, dynamic> body) async {
     final response = await http.post(
-      Uri.parse(url),
+      Uri.parse('$_baseUrl/$endpoint'),
       headers: {"Content-Type": "application/json"},
       body: json.encode(body),
     );
