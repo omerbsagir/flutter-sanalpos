@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterprojects/views/home_view/home_screen.dart';
+import 'package:flutterprojects/views/login_register_view/base_login_register_views/login_screen.dart';
 import 'package:flutterprojects/views/login_register_view/base_login_register_views/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'viewmodels/user_viewmodel.dart';
-import 'views/login_register_view/base_login_register_views/register_screen.dart';
+
 
 void main() {
   runApp(MyApp());
