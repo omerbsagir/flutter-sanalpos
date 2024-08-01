@@ -7,7 +7,7 @@ class UserService extends BaseApiService {
 
   // User login
   Future<void> login(String email, String password) async {
-    final response = await post('login', {'email': email, 'password': password,},);
+    final response = await post('/login', {'email': email, 'password': password,},);
 
     if (response.containsKey('token')) {
       String token = response['token'];
@@ -21,7 +21,7 @@ class UserService extends BaseApiService {
 
   // User registration
   Future<void> register(String email, String phone, String password) async {
-    final response = await post('register', {'email': email, 'phone': phone, 'password': password,},);
+    final response = await post('/register', {'email': email, 'phone': phone, 'password': password,},);
 
     if (response.containsKey('message') && response['message'] == 'Registration successful') {
       print('Registration successful');

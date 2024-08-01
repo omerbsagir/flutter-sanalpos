@@ -15,15 +15,26 @@ class BaseApiService {
   }
 
   Future<Map<String, dynamic>> post(String endpoint, Map<String, dynamic> body) async {
-    final response = await http.post(
-      Uri.parse('${Constants.apiBaseUrl}/$endpoint'),
-      headers: {"Content-Type": "application/json"},
-      body: json.encode(body),
-    );
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to post data');
+    try {
+      final response = await http.post(
+        Uri.parse('${Constants.apiBaseUrl}/$endpoint'),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: json.encode(body),
+      );
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to post data: ${response.statusCode} - ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Failed to post data: $e');
     }
   }
+
 }
