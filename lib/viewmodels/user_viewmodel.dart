@@ -5,26 +5,28 @@ import '../data/remote/response/api_response.dart';
 
 class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
-  ApiResponse<UserModel> user = ApiResponse.loading();
+  ApiResponse<String> userResponse = ApiResponse.loading();
 
   Future<void> login(String email, String password) async {
     try {
-      user = ApiResponse.loading();
+      userResponse = ApiResponse.loading();
       notifyListeners();
-      user = ApiResponse.completed(await _userRepository.login(email, password));
+      await _userRepository.login(email, password);
+      userResponse = ApiResponse.completed('Login successful');
     } catch (e) {
-      user = ApiResponse.error(e.toString());
+      userResponse = ApiResponse.error(e.toString());
     }
     notifyListeners();
   }
 
   Future<void> register(UserModel newUser) async {
     try {
-      user = ApiResponse.loading();
+      userResponse = ApiResponse.loading();
       notifyListeners();
-      user = ApiResponse.completed(await _userRepository.register(newUser));
+      await _userRepository.register(newUser);
+      userResponse = ApiResponse.completed('Registration successful');
     } catch (e) {
-      user = ApiResponse.error(e.toString());
+      userResponse = ApiResponse.error(e.toString());
     }
     notifyListeners();
   }

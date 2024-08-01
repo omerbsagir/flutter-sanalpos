@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutterprojects/models/user_model.dart';
 import '/services/user_service.dart';
 
 class UserRepository {
@@ -9,8 +10,8 @@ class UserRepository {
     await _userService.login(email, password);
   }
 
-  Future<void> register(String email, String phone, String password) async {
-    await _userService.register(email, phone, password);
+  Future<void> register(UserModel user) async {
+    await _userService.register(user.email, user.phone, user.password);
   }
 
   Future<void> logout() async {
