@@ -17,11 +17,13 @@ class MyApp extends StatelessWidget {
         // Diğer ViewModel'leri burada ekleyin
       ],
       child: MaterialApp(
-        title: 'Sanal POS',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: RegisterScreen(),
+        title: 'Sanal Pos',
+        initialRoute: '/',
+        routes: {
+          '/': (context) => RegisterScreen(),
+          '/login': (context) => LoginScreen(),
+          '/home': (context) => HomeScreen()
+        },
       ),
     );
   }

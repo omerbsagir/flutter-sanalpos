@@ -18,9 +18,6 @@ class BaseApiService {
     try {
       final response = await http.post(
         Uri.parse('${Constants.apiBaseUrl}/$endpoint'),
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: json.encode(body),
       );
       print('Response status: ${response.statusCode}');
