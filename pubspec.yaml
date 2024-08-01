@@ -40,8 +40,7 @@ dependencies:
   json_serializable: ^6.1.5
   shared_preferences: ^2.0.8
   logger: ^1.0.0
-  nfc_manager: ^3.0.1
-  flutter_nfc_kit: ^3.1.0
+  #flutternfckit
   cupertino_icons: ^1.0.6
 
 dev_dependencies:
