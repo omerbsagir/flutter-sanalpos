@@ -13,9 +13,14 @@ class UserService extends BaseApiService {
       '/login',
       {'email': email, 'password': password},
     );
-    print('API Yanıtı: $response');
-    String token = response['token'];
-    await _storage.write(key: 'token', value: token);
+
+    if (response['token'] == null) {
+      throw Exception('Login failed: No token found');
+    }
+    else{
+      String token = response['token'];
+      await _storage.write(key: 'token', value: token);
+    }
 
   }
 

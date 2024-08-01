@@ -47,7 +47,7 @@ class RegisterScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/login');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(userViewModel.userResponse.message!)),
+                    SnackBar(content: Text(userViewModel.userResponse.status.toString())),
                   );
                 }
               },

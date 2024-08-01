@@ -33,14 +33,15 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                await userViewModel.login(emailController.text, passwordController.text);
-                if (userViewModel.userResponse.status == Status.COMPLETED) {
+                await userViewModel.login(emailController.text.toString(), passwordController.text.toString());
+                print(userViewModel.userResponse.status);
+                /*if (userViewModel.userResponse.status == Status.COMPLETED) {
                   Navigator.pushNamed(context, '/home');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(userViewModel.userResponse.message!)),
                   );
-                }
+                }*/
               },
               child: Text('Login'),
             ),

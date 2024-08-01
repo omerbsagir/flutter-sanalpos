@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         title: 'Sanal Pos',
         initialRoute: '/',
         routes: {
-          '/': (context) => RegisterScreen(),
+          '/': (context) => LoginScreen(),
           '/login': (context) => LoginScreen(),
           '/home': (context) => HomeScreen()
         },
