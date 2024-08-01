@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutterprojects/data/remote/response/api_response.dart';
 import 'package:provider/provider.dart';
-import 'lib/viewmodels/user_viewmodel.dart';
-import 'lib/models/user_model.dart';
+import '/viewmodels/user_viewmodel.dart';
+import '/models/user_model.dart';
 
-class LoginRegisterScreen extends StatelessWidget {
-  final TextEditingController nameController = TextEditingController();
+class RegisterScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final authViewModel = Provider.of<AuthViewModel>(context);
+    final userViewModel = Provider.of<UserViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -21,12 +22,12 @@ class LoginRegisterScreen extends StatelessWidget {
         child: Column(
           children: [
             TextField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: 'Name'),
-            ),
-            TextField(
               controller: emailController,
               decoration: InputDecoration(labelText: 'Email'),
+            ),
+            TextField(
+              controller: phoneController,
+              decoration: InputDecoration(labelText: 'Phone'),
             ),
             TextField(
               controller: passwordController,
@@ -37,17 +38,16 @@ class LoginRegisterScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 UserModel newUser = UserModel(
-                  id: '',
-                  name: nameController.text,
                   email: emailController.text,
+                  phone: phoneController.text,
                   password: passwordController.text,
                 );
-                await authViewModel.register(newUser);
-                if (authViewModel.user.status == Status.COMPLETED) {
+                await userViewModel.register(newUser);
+                if (userViewModel.userResponse.status == Status.COMPLETED) {
                   Navigator.pushNamed(context, '/login');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(authViewModel.user.message!)),
+                    SnackBar(content: Text(userViewModel.userResponse.message!)),
                   );
                 }
               },
