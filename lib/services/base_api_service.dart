@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-//import '../utils/constants.dart';
+import 'package:flutterprojects/utils/constants.dart';
+
 
 class BaseApiService {
 
-  final String _baseUrl = 'https://yourapiurl.com'; // API base URL
-
   Future<Map<String, dynamic>> get(String endpoint) async {
-    final response = await http.get(Uri.parse('$_baseUrl/$endpoint'));
+    final response = await http.get(Uri.parse('${Constants.apiBaseUrl}/$endpoint'));
     if (response.statusCode == 200) {
       return json.decode(response.body);
     } else {
@@ -17,7 +16,7 @@ class BaseApiService {
 
   Future<Map<String, dynamic>> post(String endpoint, Map<String, dynamic> body) async {
     final response = await http.post(
-      Uri.parse('$_baseUrl/$endpoint'),
+      Uri.parse('${Constants.apiBaseUrl}/$endpoint'),
       headers: {"Content-Type": "application/json"},
       body: json.encode(body),
     );
