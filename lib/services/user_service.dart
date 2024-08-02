@@ -18,9 +18,9 @@ class UserService extends BaseApiService {
 
       // Yanıtın içeriğini kontrol et
       if (response['statusCode'] == 200) {
-        // Kayıt başarılı
-        String token = response['token'];
-        await _storage.write(key: 'token', value: token);
+        // Giriş başarılı
+        //String token = response['token'];
+        //await _storage.write(key: 'token', value: token);
         return;
       } else {
         // Hata mesajını yanıt gövdesinden al

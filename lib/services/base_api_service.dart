@@ -26,7 +26,7 @@ class BaseApiService {
 
       print('Yanıt gövdesi: ${response.body}');
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         try {
           return json.decode(response.body);
         } catch (e) {
