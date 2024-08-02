@@ -63,6 +63,16 @@ class RegisterScreen extends StatelessWidget {
               },
               child: Text('Register'),
             ),
+            SizedBox(height : 20), // Boşluk bırakır ve butonu en alta yerleştirir
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/login'); // Login sayfasına yönlendirir
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Yeşil renk
+              ),
+              child: Text('Go to Login'),
+            ),
           ],
         ),
       ),

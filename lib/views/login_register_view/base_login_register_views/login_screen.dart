@@ -59,7 +59,20 @@ class LoginScreen extends StatelessWidget {
                   }
                 }
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.greenAccent, // Yeşil renk
+              ),
               child: Text('Login'),
+            ),
+            SizedBox(height : 20), // Boşluk bırakır ve butonu en alta yerleştirir
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/'); // Login sayfasına yönlendirir
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Yeşil renk
+              ),
+              child: Text('Go back to Register'),
             ),
           ],
         ),
