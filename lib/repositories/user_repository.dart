@@ -6,12 +6,23 @@ class UserRepository {
   final UserService _userService = UserService();
   final FlutterSecureStorage _storage = FlutterSecureStorage();
 
-  Future<void> login(String email, String password) async {
-    await _userService.login(email, password);
+
+  Future<void> login(String email , String password) async {
+    try {
+      await _userService.login(email, password);
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
   }
 
   Future<void> register(UserModel user) async {
-    await _userService.register(user.email, user.phone, user.password);
+    try {
+      await _userService.register(user.email, user.phone, user.password);
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
   }
 
   Future<void> logout() async {

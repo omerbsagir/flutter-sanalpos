@@ -42,14 +42,23 @@ class RegisterScreen extends StatelessWidget {
                   phone: phoneController.text,
                   password: passwordController.text,
                 );
+
+                // Register işlemini yap
                 await userViewModel.register(newUser);
-                if (userViewModel.userResponse.status == Status.COMPLETED) {
+
+                // `userResponse`'ın durumuna göre işlem yap
+                final response = userViewModel.userResponse;
+                if (response.status == Status.COMPLETED) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Kayıt başarılı')),
+                  );
                   Navigator.pushNamed(context, '/login');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(userViewModel.userResponse.status.toString())),
+                    SnackBar(content: Text(response.error ?? 'Kayıt başarısız')),
                   );
                 }
+
               },
               child: Text('Register'),
             ),

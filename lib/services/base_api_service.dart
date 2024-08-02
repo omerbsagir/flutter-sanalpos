@@ -18,20 +18,28 @@ class BaseApiService {
     try {
       final response = await http.post(
         Uri.parse('${Constants.apiBaseUrl}/$endpoint'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
         body: json.encode(body),
       );
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+
+      print('Yanıt gövdesi: ${response.body}');
 
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        try {
+          return json.decode(response.body);
+        } catch (e) {
+          throw Exception('Yanıt JSON formatında değil: ${response.body}');
+        }
       } else {
-        throw Exception('Failed to post data: ${response.statusCode} - ${response.reasonPhrase}');
+        throw Exception('Veri gönderme başarısız: ${response.statusCode} - ${response.reasonPhrase}');
       }
     } catch (e) {
-      print('Error: $e');
-      throw Exception('Failed to post data: $e');
+      print('Hata: $e');
+      throw Exception('Veri gönderme başarısız: $e');
     }
   }
+
 
 }

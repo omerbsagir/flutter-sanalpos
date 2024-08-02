@@ -9,29 +9,53 @@ class UserService extends BaseApiService {
 
   // User login
   Future<void> login(String email, String password) async {
-    final response = await post(
-      '/login',
-      {'email': email, 'password': password},
-    );
 
-    if (response['token'] == null) {
-      throw Exception('Login failed: No token found');
-    }
-    else{
-      String token = response['token'];
-      await _storage.write(key: 'token', value: token);
+    try {
+      final response = await post('/login', {
+        'email': email,
+        'password': password,
+      });
+
+      // Yanıtın içeriğini kontrol et
+      if (response['statusCode'] == 200) {
+        // Kayıt başarılı
+        String token = response['token'];
+        await _storage.write(key: 'token', value: token);
+        return;
+      } else {
+        // Hata mesajını yanıt gövdesinden al
+        throw Exception('Failed to login: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService login hata: $e');
+      throw Exception('Giriş başarısız: $e');
     }
 
   }
 
   // User registration
   Future<void> register(String email, String phone, String password) async {
-    final response = await post(
-      '/register',
-      {'email': email, 'phone': phone, 'password': password},
-    );
-    print('API Yanıtı: $response');
+    try {
+      final response = await post('/register', {
+        'email': email,
+        'phone': phone,
+        'password': password,
+      });
+
+      // Yanıtın içeriğini kontrol et
+      if (response['statusCode'] == 201) {
+        // Kayıt başarılı
+        return;
+      } else {
+        // Hata mesajını yanıt gövdesinden al
+        throw Exception('Failed to register: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService register hata: $e');
+      throw Exception('Kayıt başarısız: $e');
+    }
   }
+
 
   // Logout user
   Future<void> logout() async {

@@ -3,10 +3,8 @@ import 'package:flutterprojects/data/remote/response/api_response.dart';
 import 'package:provider/provider.dart';
 import '/viewmodels/user_viewmodel.dart';
 
-
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
@@ -33,15 +31,32 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                await userViewModel.login(emailController.text.toString(), passwordController.text.toString());
-                print(userViewModel.userResponse.status);
-                /*if (userViewModel.userResponse.status == Status.COMPLETED) {
-                  Navigator.pushNamed(context, '/home');
-                } else {
+                // Alanları kontrol et
+                if (emailController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(userViewModel.userResponse.message!)),
+                    SnackBar(content: Text("Email alanı boş bırakılamaz!")),
                   );
-                }*/
+                } else if (passwordController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Şifre alanı boş bırakılamaz!")),
+                  );
+                } else {
+                  // Giriş işlemini yap
+                  await userViewModel.login(
+                    emailController.text,
+                    passwordController.text,
+                  );
+
+                  // `userResponse`'ın durumunu kontrol et
+                  final response = userViewModel.userResponse;
+                  if (response.status == Status.COMPLETED) {
+                    Navigator.pushNamed(context, '/home');
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(response.error ?? 'Giriş başarısız')),
+                    );
+                  }
+                }
               },
               child: Text('Login'),
             ),
