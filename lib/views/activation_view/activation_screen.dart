@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/data/remote/response/api_response.dart';
 import 'package:provider/provider.dart';
-import '/viewmodels/user_viewmodel.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
-import '/models/user_model.dart';
+
 
 class ActivationScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();

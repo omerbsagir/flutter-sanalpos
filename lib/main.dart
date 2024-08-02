@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
+import 'package:flutterprojects/views/activation_view/activation_screen.dart';
 import 'package:flutterprojects/views/home_view/home_screen.dart';
 import 'package:flutterprojects/views/login_register_view/base_login_register_views/login_screen.dart';
 import 'package:flutterprojects/views/login_register_view/base_login_register_views/register_screen.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => RegisterScreen(),
           '/login': (context) => LoginScreen(),
-          '/home': (context) => HomeScreen()
+          '/home': (context) => HomeScreen(),
+          '/activation': (context) => ActivationScreen()
         },
       ),
     );

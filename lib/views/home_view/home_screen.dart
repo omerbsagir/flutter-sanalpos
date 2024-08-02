@@ -66,7 +66,7 @@ class HomeScreen extends StatelessWidget {
               leading: Icon(Icons.verified),
               title: Text('Activation'),
               onTap: () {
-                Navigator.pushNamed(context, '/about'); // Hakkında sayfasına git
+                Navigator.pushNamed(context, '/activation'); // Hakkında sayfasına git
               },
             ),
             ListTile(
