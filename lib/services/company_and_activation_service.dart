@@ -22,9 +22,7 @@ class CompanyAndActivationService extends BaseApiService {
 
       // Yanıtın içeriğini kontrol et
       if (response['statusCode'] == 202) {
-        // Giriş başarılı
-        //String token = response['token'];
-        //await _storage.write(key: 'token', value: token);
+
         return;
       } else {
         // Hata mesajını yanıt gövdesinden al
@@ -33,6 +31,34 @@ class CompanyAndActivationService extends BaseApiService {
     } catch (e) {
       print('UserService create company hata: $e');
       throw Exception('Create company başarısız: $e');
+    }
+
+  }
+
+  Future<void> createActivation(String ownerId ,String companyId,String tcNo ,String vergiNo) async {
+
+    // const string ownerId = returnOwnerId();
+    // const string companyId = returnCompanyId();
+
+    try {
+      final response = await post('/createActivation', {
+        'ownerId': ownerId,
+        'companyId': companyId,
+        'tcNo': tcNo,
+        'vergiNo': vergiNo
+      });
+
+      // Yanıtın içeriğini kontrol et
+      if (response['statusCode'] == 203) {
+
+        return;
+      } else {
+        // Hata mesajını yanıt gövdesinden al
+        throw Exception('Failed to create activation: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService create activation hata: $e');
+      throw Exception('Create activation başarısız: $e');
     }
 
   }
