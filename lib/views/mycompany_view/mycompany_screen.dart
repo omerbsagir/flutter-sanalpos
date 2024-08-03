@@ -4,11 +4,10 @@ import 'package:provider/provider.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
 
 
-class ActivationScreen extends StatelessWidget {
+class MyCompanyScreen extends StatelessWidget {
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController ownerIdController = TextEditingController(); // şimdilik
-  final TextEditingController companyIdController = TextEditingController(); // şimdilik
-  final TextEditingController tcNoController = TextEditingController();
-  final TextEditingController vergiNoController = TextEditingController();
+  final TextEditingController ibanController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class ActivationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text('Activation'),
+          title: Text('My Company'),
           automaticallyImplyLeading: true
       ),
       body: Padding(
@@ -24,40 +23,36 @@ class ActivationScreen extends StatelessWidget {
         child: Column(
           children: [
             TextField(
+              controller: nameController,
+              decoration: InputDecoration(labelText: 'Company Name'),
+            ),
+            TextField(
               controller: ownerIdController,
-              decoration: InputDecoration(labelText: 'owner ID ama değişecek!!!'),
+              decoration: InputDecoration(labelText: 'Owner ID ama değişecek!!!'),
             ),
             TextField(
-              controller: companyIdController,
-              decoration: InputDecoration(labelText: 'Company ID ama değişecek!!!'),
-            ),
-            TextField(
-              controller: tcNoController,
-              decoration: InputDecoration(labelText: 'TC No'),
-            ),
-            TextField(
-              controller: vergiNoController,
-              decoration: InputDecoration(labelText: 'Vergi No'),
+              controller: ibanController,
+              decoration: InputDecoration(labelText: 'IBAN'),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
 
-                await company_and_activationViewModel.createActivation(ownerIdController.text,companyIdController.text,tcNoController.text,vergiNoController.text);
+                await company_and_activationViewModel.createCompany(nameController.text,ownerIdController.text,ibanController.text);
 
                 final response = company_and_activationViewModel.company_and_activationResponse;
                 if (response.status == Status.COMPLETED) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Aktivasyon İsteği Başarılı')),
+                    SnackBar(content: Text('Şirket Kaydı başarılı')),
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(response.error ?? 'Aktivasyon İsteği Başarısız!')),
+                    SnackBar(content: Text(response.error ?? 'Şirket Kaydı başarısız!')),
                   );
                 }
 
               },
-              child: Text('Aktivasyon Oluştur'),
+              child: Text('Register the Company'),
             ),
           ],
         ),

@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
               leading: Icon(Icons.home_work),
               title: Text('My Company'),
               onTap: () {
-                Navigator.pushNamed(context, '/settings'); // Ayarlar sayfasına git
+                Navigator.pushNamed(context, '/mycompany'); // Ayarlar sayfasına git
               },
             ),
             ListTile(
