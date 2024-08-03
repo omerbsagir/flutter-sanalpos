@@ -6,6 +6,9 @@ import '../data/remote/response/api_response.dart';
 class CompanyAndActivationViewModel extends ChangeNotifier {
   final CompanyAndActivationRepository _companyAndActivationRepository = CompanyAndActivationRepository();
   ApiResponse<String> company_and_activationResponse = ApiResponse.loading();
+  dynamic checkActiveResponseValue;
+
+  dynamic get checkActiveResponseValueFonk => checkActiveResponseValue; //getter
 
   Future<dynamic> createCompany(String name, String ownerId, String iban) async {
     try {
@@ -44,10 +47,9 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       company_and_activationResponse = ApiResponse.loading();
       notifyListeners();
 
-      dynamic response = await _companyAndActivationRepository.checkActiveStatus(companyId);
+      checkActiveResponseValue = await _companyAndActivationRepository.checkActiveStatus(companyId);
 
       company_and_activationResponse = ApiResponse.completed('Login successful');
-      return response;
 
     } catch (e) {
       print('Hata yakalandı: $e');
@@ -57,5 +59,6 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
+
 
 }

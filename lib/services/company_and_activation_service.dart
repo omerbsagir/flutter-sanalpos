@@ -63,7 +63,7 @@ class CompanyAndActivationService extends BaseApiService {
 
   }
 
-  Future<String> checkActiveStatus(String companyId) async {
+  Future<dynamic> checkActiveStatus(String companyId) async {
 
     // const string companyId = returnCompanyId();
 
@@ -73,7 +73,7 @@ class CompanyAndActivationService extends BaseApiService {
       });
       // Yanıtın içeriğini kontrol et
       if (response['statusCode'] == 200) {
-        return response.toString();
+        return response;
       } else {
         // Hata mesajını yanıt gövdesinden al
         throw Exception('Failed to create activation: ${response['body']}');

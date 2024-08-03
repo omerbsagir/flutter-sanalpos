@@ -9,6 +9,7 @@ class ActivationScreen extends StatelessWidget {
   final TextEditingController companyIdController = TextEditingController(); // şimdilik
   final TextEditingController tcNoController = TextEditingController();
   final TextEditingController vergiNoController = TextEditingController();
+  final TextEditingController userIdController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,42 @@ class ActivationScreen extends StatelessWidget {
 
               },
               child: Text('Aktivasyon Oluştur'),
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: userIdController,
+              decoration: InputDecoration(labelText: 'User Id'), // şimdilik !!
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await company_and_activationViewModel.checkActiveStatus(userIdController.text);
+              },
+              child: Text('Check Active Status'),
+            ),
+            SizedBox(height: 20),
+            Consumer<CompanyAndActivationViewModel>(
+              builder: (context, viewModel, child) {
+                final isActive = viewModel.checkActiveResponseValueFonk;
+                if (isActive != false && isActive != true) {
+                  return CircularProgressIndicator();
+                } else if (isActive == false) {
+                  return Icon(
+                    Icons.cancel,
+                    color:Colors.red,
+                    size: 40,
+                  );
+
+                }else if (isActive == true) {
+                  return Icon(
+                    Icons.check_circle,
+                    color:Colors.green,
+                    size: 40,
+                  );
+                }
+                else {
+                  return Text('Status kontrolü sırasında bir hata oluştu');
+                }
+              },
             ),
           ],
         ),
