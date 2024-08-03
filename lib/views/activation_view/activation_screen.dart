@@ -16,7 +16,7 @@ class ActivationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           title: Text('Activation'),
-          automaticallyImplyLeading: false
+          automaticallyImplyLeading: true
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -33,13 +33,12 @@ class ActivationScreen extends StatelessWidget {
             TextField(
               controller: ibanController,
               decoration: InputDecoration(labelText: 'IBAN'),
-              obscureText: true,
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
 
-                await company_and_activationViewModel.createCompany("BKM","8066b334-af7c-48a0-87cf-fad57e5436ed","TR5990223442211231231123123");
+                await company_and_activationViewModel.createCompany(nameController.text,ownerIdController.text,ibanController.text);
 
                 final response = company_and_activationViewModel.company_and_activationResponse;
                 if (response.status == Status.COMPLETED) {
