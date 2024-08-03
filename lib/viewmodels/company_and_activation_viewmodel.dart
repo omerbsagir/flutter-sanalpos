@@ -23,5 +23,21 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
+  Future<dynamic> createActivation(String ownerId ,String companyId,String tcNo ,String vergiNo) async {
+    try {
+      company_and_activationResponse = ApiResponse.loading();
+      notifyListeners();
+
+      await _companyAndActivationRepository.createActivation(ownerId,companyId, tcNo,vergiNo);
+
+      company_and_activationResponse = ApiResponse.completed('Login successful');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      company_and_activationResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      return company_and_activationResponse;
+    }
+  }
 
 }
