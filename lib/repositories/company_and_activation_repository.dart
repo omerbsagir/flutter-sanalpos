@@ -21,5 +21,14 @@ class CompanyAndActivationRepository {
       throw e;
     }
   }
+  Future<String> checkActiveStatus(String companyId) async {
+    try {
+      final response = await _companyAndActivationService.checkActiveStatus(companyId);
+      return response;
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
 
 }

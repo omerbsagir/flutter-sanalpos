@@ -63,4 +63,27 @@ class CompanyAndActivationService extends BaseApiService {
 
   }
 
+  Future<String> checkActiveStatus(String companyId) async {
+
+    // const string companyId = returnCompanyId();
+
+    try {
+      final response = await post('/createActivation', {
+        'companyId': companyId
+      });
+      // Yanıtın içeriğini kontrol et
+      if (response['statusCode'] == 200) {
+        return response.toString();
+      } else {
+        // Hata mesajını yanıt gövdesinden al
+        throw Exception('Failed to create activation: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService create activation hata: $e');
+      throw Exception('Create activation başarısız: $e');
+    }
+
+  }
+
+
 }

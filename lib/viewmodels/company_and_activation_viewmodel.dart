@@ -39,5 +39,23 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
+  Future<dynamic> checkActiveStatus(String companyId) async {
+    try {
+      company_and_activationResponse = ApiResponse.loading();
+      notifyListeners();
+
+      dynamic response = await _companyAndActivationRepository.checkActiveStatus(companyId);
+
+      company_and_activationResponse = ApiResponse.completed('Login successful');
+      return response;
+
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      company_and_activationResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      return company_and_activationResponse;
+    }
+  }
 
 }
