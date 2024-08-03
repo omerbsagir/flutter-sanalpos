@@ -13,5 +13,13 @@ class CompanyAndActivationRepository {
       throw e;
     }
   }
+  Future<void> createActivation(String ownerId ,String companyId,String tcNo ,String vergiNo) async {
+    try {
+      await _companyAndActivationService.createActivation(ownerId,companyId, tcNo,vergiNo);
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
 
 }
