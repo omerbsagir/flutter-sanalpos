@@ -24,7 +24,7 @@ class CompanyAndActivationRepository {
   Future<dynamic> checkActiveStatus(String companyId) async {
     try {
       final response = await _companyAndActivationService.checkActiveStatus(companyId);
-      return response;
+      return response.containsKey('isActive');
     } catch (e) {
       print('Hata: $e');
       throw e;

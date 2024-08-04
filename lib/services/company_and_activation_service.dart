@@ -50,7 +50,6 @@ class CompanyAndActivationService extends BaseApiService {
 
       // Yanıtın içeriğini kontrol et
       if (response['statusCode'] == 203) {
-
         return;
       } else {
         // Hata mesajını yanıt gövdesinden al
@@ -68,22 +67,24 @@ class CompanyAndActivationService extends BaseApiService {
     // const string companyId = returnCompanyId();
 
     try {
-      final response = await post('/createActivation', {
+      final response = await post('/checkActiveStatus', {
         'companyId': companyId
       });
       // Yanıtın içeriğini kontrol et
-      if (response['statusCode'] == 200) {
+      if (response['statusCode'] == 204) {
         return response;
       } else {
         // Hata mesajını yanıt gövdesinden al
-        throw Exception('Failed to create activation: ${response['body']}');
+        throw Exception('Failed to check status: ${response['body']}');
       }
     } catch (e) {
-      print('UserService create activation hata: $e');
-      throw Exception('Create activation başarısız: $e');
+      print('UserService check status hata: $e');
+      throw Exception('Check status başarısız: $e');
     }
 
+
   }
+
 
 
 }
