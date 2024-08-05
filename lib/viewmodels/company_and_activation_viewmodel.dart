@@ -15,6 +15,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   dynamic? get checkActiveResponseValueFonk => checkActiveResponseValue; //getter
   dynamic? get companyDetailsFonk => companyDetails; //getter
 
+  bool isCompanyLoaded = false; // Yeni özellik
 
   Future<dynamic> createCompany(String name, String ownerId, String iban) async {
     try {
@@ -74,11 +75,19 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
 
       final response = await _companyAndActivationRepository.getCompany(ownerId);
       final decodedBody = json.decode(response) as List<dynamic>;
-      final firstItem = decodedBody[0] as Map<String, dynamic>;
 
-      companyDetails.add(firstItem["name"]);
-      companyDetails.add(firstItem["iban"]);
-      companyDetails.add(firstItem["activeStatus"]);
+      if (decodedBody.isNotEmpty) {
+        final firstItem = decodedBody[0] as Map<String, dynamic>;
+        companyDetails = [
+          firstItem['name'],
+          firstItem['iban'],
+          firstItem['activationStatus']
+        ];
+        isCompanyLoaded = true; // Şirket bilgileri yüklendi
+      } else {
+        companyDetails = [];
+        isCompanyLoaded = false; // Şirket bilgileri bulunamadı
+      }
 
       company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
     } catch (e) {
