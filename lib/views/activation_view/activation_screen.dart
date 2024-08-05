@@ -22,7 +22,7 @@ class ActivationScreen extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextField(
               controller: ownerIdController,
@@ -68,6 +68,7 @@ class ActivationScreen extends StatelessWidget {
               controller: userIdController,
               decoration: InputDecoration(labelText: 'User ID'),
             ),
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 await companyAndActivationViewModel.checkActiveStatus(
@@ -94,9 +95,35 @@ class ActivationScreen extends StatelessWidget {
 
     if (response.status == Status.COMPLETED) {
       if (isActive == true) {
-        return Icon(Icons.check, color: Colors.green);
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.check_circle, color: Colors.green),
+            SizedBox(width: 8), // İkon ile yazı arasına boşluk ekler
+            Text(
+              'Aktif',
+              style: TextStyle(
+                color: Colors.green,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        );
       } else {
-        return Icon(Icons.cancel, color: Colors.red);
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.cancel, color: Colors.red),
+            SizedBox(width: 8), // İkon ile yazı arasına boşluk ekler
+            Text(
+              'Pasif',
+               style: TextStyle(
+                 color: Colors.red,
+                 fontWeight: FontWeight.bold,
+               ),
+            ),
+          ],
+        );
       }
     } else if (response.status == Status.LOADING) {
       return Center(child: CircularProgressIndicator());
@@ -104,4 +131,5 @@ class ActivationScreen extends StatelessWidget {
       return Text('Durum kontrolü yapılmadı.');
     }
   }
+
 }
