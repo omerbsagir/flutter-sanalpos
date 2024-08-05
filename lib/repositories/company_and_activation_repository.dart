@@ -31,5 +31,14 @@ class CompanyAndActivationRepository {
       throw e;
     }
   }
+  Future<dynamic> getCompany(String ownerId) async {
+    try {
+      final response = await _companyAndActivationService.getCompany(ownerId);
+      return response;
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
 
 }

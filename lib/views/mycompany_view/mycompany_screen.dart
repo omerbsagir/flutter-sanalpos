@@ -9,6 +9,8 @@ class MyCompanyScreen extends StatelessWidget {
   final TextEditingController ownerIdController = TextEditingController(); // şimdilik
   final TextEditingController ibanController = TextEditingController();
 
+  final TextEditingController ownerId2Controller = TextEditingController(); // şimdilik
+
   @override
   Widget build(BuildContext context) {
     final company_and_activationViewModel = Provider.of<CompanyAndActivationViewModel>(context);
@@ -53,6 +55,36 @@ class MyCompanyScreen extends StatelessWidget {
 
               },
               child: Text('Register the Company'),
+            ),
+            TextField(
+              controller: ownerId2Controller,
+              decoration: InputDecoration(labelText: 'Owner ID ama değişecek!!!'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+
+                await company_and_activationViewModel.getCompany(ownerId2Controller.text);
+
+              },
+              child: Text('Şirketimi Göster'),
+            ),
+            Consumer<CompanyAndActivationViewModel>(
+              builder: (context, viewModel, child) {
+                if (viewModel.company_and_activationResponse.status == Status.LOADING) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (viewModel.company_and_activationResponse.status == Status.COMPLETED) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Name: ${viewModel.companyDetails.isNotEmpty ? viewModel.companyDetails[0] : 'N/A'}'),
+                      Text('IBAN: ${viewModel.companyDetails.isNotEmpty ? viewModel.companyDetails[1] : 'N/A'}'),
+                      Text('Activation Status: ${viewModel.companyDetails.isNotEmpty ? viewModel.companyDetails[2] : 'N/A'}'),
+                    ],
+                  );
+                } else {
+                  return Text('An error occurred.');
+                }
+              },
             ),
           ],
         ),

@@ -28,7 +28,6 @@ class BaseApiService {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         try {
-
           return json.decode(response.body);
         } catch (e) {
           throw Exception('Yanıt JSON formatında değil: ${response.body}');
