@@ -50,7 +50,7 @@ class ActivationScreen extends StatelessWidget {
                   vergiNoController.text,
                 );
 
-                final response = companyAndActivationViewModel.companyAndActivationResponse;
+                final response = companyAndActivationViewModel.company_and_activationResponse;
                 if (response.status == Status.COMPLETED) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text('Aktivasyon İsteği Başarılı')),
@@ -70,36 +70,38 @@ class ActivationScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                await companyAndActivationViewModel.checkActiveStatus(userIdController.text);
+                await companyAndActivationViewModel.checkActiveStatus(
+                    userIdController.text
+                );
               },
               child: Text('Check Active Status'),
             ),
             SizedBox(height: 20),
             Consumer<CompanyAndActivationViewModel>(
               builder: (context, viewModel, child) {
-                final isActive = viewModel.checkActiveResponseValueFonk;
-                if (viewModel.isLoading) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (isActive == false) {
-                  return Icon(
-                    Icons.cancel,
-                    color: Colors.red,
-                    size: 40,
-                  );
-                } else if (isActive == true) {
-                  return Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
-                    size: 40,
-                  );
-                } else {
-                  return Text('Status kontrolü sırasında bir hata oluştu');
-                }
+                return buildStatusIcon(viewModel);
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget buildStatusIcon(CompanyAndActivationViewModel viewModel) {
+    final isActive = viewModel.checkActiveResponseValueFonk;
+    final response = viewModel.company_and_activationResponse;
+
+    if (response.status == Status.COMPLETED) {
+      if (isActive == true) {
+        return Icon(Icons.check, color: Colors.green);
+      } else {
+        return Icon(Icons.cancel, color: Colors.red);
+      }
+    } else if (response.status == Status.LOADING) {
+      return Center(child: CircularProgressIndicator());
+    } else {
+      return Text('Durum kontrolü yapılmadı.');
+    }
   }
 }

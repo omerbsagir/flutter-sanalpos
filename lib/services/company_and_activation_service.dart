@@ -72,7 +72,7 @@ class CompanyAndActivationService extends BaseApiService {
       });
       // Yanıtın içeriğini kontrol et
       if (response['statusCode'] == 204) {
-        return response;
+        return response['body'];
       } else {
         // Hata mesajını yanıt gövdesinden al
         throw Exception('Failed to check status: ${response['body']}');

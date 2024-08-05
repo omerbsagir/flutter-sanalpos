@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../repositories/company_and_activation_repository.dart';
@@ -8,9 +10,9 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   ApiResponse<String> company_and_activationResponse = ApiResponse.loading();
 
 
-  bool? checkActiveResponseValue;
+  dynamic? checkActiveResponseValue;
 
-  bool? get checkActiveResponseValueFonk => checkActiveResponseValue; //getter
+  dynamic? get checkActiveResponseValueFonk => checkActiveResponseValue; //getter
 
   Future<dynamic> createCompany(String name, String ownerId, String iban) async {
     try {
@@ -50,8 +52,11 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       notifyListeners();
 
       final response = await _companyAndActivationRepository.checkActiveStatus(companyId);
-      checkActiveResponseValue = response;
 
+      print("asdasd{$response}");
+      final decodedBody = json.decode(response) as Map<String, dynamic>;
+      checkActiveResponseValue = decodedBody["isActive"];
+      print("asd{$checkActiveResponseValue}");
       company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
     } catch (e) {
       print('Hata yakalandı: $e');
