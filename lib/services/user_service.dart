@@ -56,6 +56,29 @@ class UserService extends BaseApiService {
     }
   }
 
+  Future<void> registerNewUser(String email, String phone, String password, String adminId) async {
+    try {
+      final response = await post('/registerNewUser', {
+        'email': email,
+        'phone': phone,
+        'password': password,
+        'adminId': adminId,
+      });
+
+      // Yanıtın içeriğini kontrol et
+      if (response['statusCode'] == 201) {
+        // Kayıt başarılı
+        return;
+      } else {
+        // Hata mesajını yanıt gövdesinden al
+        throw Exception('Failed to register: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService register hata: $e');
+      throw Exception('Kayıt başarısız: $e');
+    }
+  }
+
 
   // Logout user
   Future<void> logout() async {

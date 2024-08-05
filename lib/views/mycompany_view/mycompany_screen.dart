@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../data/remote/response/api_response.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
-import 'package:flutterprojects/views/widgets/custom_scaffold.dart'; // CustomScaffold'ı import edin
+import '/views/widgets/custom_scaffold.dart'; // CustomScaffold'ı import edin
 
 class MyCompanyScreen extends StatefulWidget {
   @override
@@ -15,6 +16,15 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   final TextEditingController ibanController = TextEditingController();
   final TextEditingController ownerId2Controller = TextEditingController();
 
+  final TextEditingController email2IdController = TextEditingController();
+  final TextEditingController phone2Id2Controller = TextEditingController();
+  final TextEditingController password2Id2Controller = TextEditingController();
+  final TextEditingController adminIdId2Controller = TextEditingController();
+
+  final UserViewModel userViewModel=UserViewModel();
+
+
+
   @override
   void initState() {
     super.initState();
@@ -24,8 +34,10 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   Future<void> _loadCompanyData() async {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
 
-    //await companyAndActivationViewModel.getCompany('8066b334-af7c-48a0-87cf-fad57e5436ed');
-    await companyAndActivationViewModel.getCompany('deneme');
+    await companyAndActivationViewModel.getCompany('8066b334-af7c-48a0-87cf-fad57e5436ed');
+    //await companyAndActivationViewModel.getCompany('deneme');
+
+    await companyAndActivationViewModel.getUsersAdmin('8066b334-af7c-48a0-87cf-fad57e5436ed');
   }
 
   @override
@@ -73,22 +85,58 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               Consumer<CompanyAndActivationViewModel>(
                 builder: (context, viewModel, child) {
                   if (viewModel.company_and_activationResponse.status == Status.LOADING) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+                          strokeWidth: 5.0,
+                        ),
+                      ),
+                    );
                   } else if (viewModel.company_and_activationResponse.status == Status.COMPLETED) {
                     final companyDetails = viewModel.companyDetails;
 
+                    final userDetails = viewModel.usersForAdmin;
+
                     return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         if (companyDetails.isNotEmpty) ...[
-                          _buildInfoCard('Name', companyDetails[0]),
-                          _buildInfoCard('IBAN', companyDetails[1]),
-                          _buildInfoCard('Activation Status', companyDetails[2].toString()),
+                          _buildInfoColumn('Name', companyDetails[0]),
+                          _buildInfoColumn('IBAN', companyDetails[1]),
+                          _buildActivationStatusColumn(companyDetails[2]),
                         ] else ...[
                           Text('No company details available.', style: TextStyle(color: Colors.grey)),
                         ],
+                        if (userDetails.isNotEmpty) ...[
+                          SizedBox(height: 20),
+                          Text(
+                            'Çalışanların',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          SizedBox(height: 20), // Liste ile başlık arasına boşluk ekleyin
+                          Container(
+                            height: 200, // Uygun bir yükseklik belirleyin
+                            //width: double.infinity, // Listeyi genişletin
+                            alignment: Alignment.center, // Listeyi ortalayın
+                            child: ListView.builder(
+                              itemCount: userDetails.length,
+                              itemBuilder: (context, index) {
+                                final user = userDetails[index];
+                                return ListTile(
+                                  title: Text(user),
+                                );
+                              },
+                            ),
+                          ),
+                        ] else ...[
+                          Text('No users available.', style: TextStyle(color: Colors.grey)),
+                        ],
                       ],
                     );
+
                   } else {
                     return Center(
                       child: Text(
@@ -99,30 +147,101 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                   }
                 },
               ),
+              Text("Çalışan Ekle"),
+              TextField(
+                controller: email2IdController,
+                decoration: InputDecoration(labelText: 'Email'),
+              ),
+              TextField(
+                controller: phone2Id2Controller,
+                decoration: InputDecoration(labelText: 'Phone'),
+              ),
+              TextField(
+                controller: password2Id2Controller,
+                decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
+              ),
+              TextField(
+                controller: adminIdId2Controller,
+                decoration: InputDecoration(labelText: 'Admin Id şimdilik'),
+
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  await userViewModel.registerNewUser(email2IdController.text,phone2Id2Controller.text,password2Id2Controller.text,adminIdId2Controller.text);
+
+                  final response = userViewModel.userResponse;
+                  if (response.status == Status.COMPLETED) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Çalışan Kaydı başarılı')),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(response.error ?? 'Çalışan Kaydı başarısız!')),
+                    );
+                  }
+                },
+                child: Text('Çalışan Ekle'),
+              ),
             ],
           ],
+
         ),
+
+
       ),
     );
   }
 
-  Widget _buildInfoCard(String title, String value) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      elevation: 4.0,
-      child: Container(
-        padding: EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(title, style: TextStyle(fontSize: 14)),
-              SizedBox(height: 8.0),
-              Text(value, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            ],
-          ),
+  Widget _buildInfoColumn(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            SizedBox(height: 4.0), // Başlık ve değer arasına boşluk ekleyin
+            Text(
+              value,
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
         ),
       ),
+
     );
   }
+
+  Widget _buildActivationStatusColumn(bool isActive) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Activation Status',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            SizedBox(height: 4.0), // Başlık ve ikon arasına boşluk ekleyin
+            Icon(
+              isActive ? Icons.check_circle : Icons.cancel,
+              color: isActive ? Colors.green : Colors.red,
+              size: 30,
+            ),
+          ],
+        ),
+
+      ),
+
+    );
+
+  }
+
+
 }

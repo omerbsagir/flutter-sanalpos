@@ -40,4 +40,21 @@ class UserViewModel extends ChangeNotifier {
       return userResponse;
     }
   }
+  Future<dynamic> registerNewUser(String email, String phone, String password, String adminId) async {
+    try {
+      userResponse = ApiResponse.loading();
+      notifyListeners();
+
+      await _userRepository.registerNewUser(email,phone,password,adminId);
+
+      userResponse = ApiResponse.completed('Registration successful');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      userResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      return userResponse;
+    }
+  }
+
 }

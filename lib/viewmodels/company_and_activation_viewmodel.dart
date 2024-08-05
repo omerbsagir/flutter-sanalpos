@@ -10,12 +10,14 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   ApiResponse<String> company_and_activationResponse = ApiResponse.loading();
 
   List<dynamic> companyDetails = [];
+  List<dynamic> usersForAdmin = [];
 
   dynamic? checkActiveResponseValue;
   dynamic? get checkActiveResponseValueFonk => checkActiveResponseValue; //getter
   dynamic? get companyDetailsFonk => companyDetails; //getter
 
-  bool isCompanyLoaded = false; // Yeni özellik
+  bool isCompanyLoaded = false;
+  bool isUsersLoaded = false;
 
   Future<dynamic> createCompany(String name, String ownerId, String iban) async {
     try {
@@ -87,6 +89,34 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       } else {
         companyDetails = [];
         isCompanyLoaded = false; // Şirket bilgileri bulunamadı
+      }
+
+      company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      company_and_activationResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      return company_and_activationResponse;
+    }
+  }
+  Future<dynamic> getUsersAdmin(String adminId) async {
+    try {
+      company_and_activationResponse = ApiResponse.loading();
+      notifyListeners();
+
+      final response = await _companyAndActivationRepository.getUsersAdmin(adminId);
+      final decodedBody = json.decode(response) as List<dynamic>;
+
+      if (decodedBody.isNotEmpty) {
+        for(int i=0;i<decodedBody.length;i++){
+          final listItem = decodedBody[i] as Map<String, dynamic>;
+          usersForAdmin.add(listItem['email']);
+        }
+        isUsersLoaded = true; // Şirket bilgileri yüklendi
+      } else {
+        usersForAdmin = [];
+        isUsersLoaded = false; // Şirket bilgileri bulunamadı
       }
 
       company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');

@@ -107,4 +107,26 @@ class CompanyAndActivationService extends BaseApiService {
 
   }
 
+  Future<dynamic> getUsersAdmin(String adminId) async {
+
+    // const string adminId = returnAdminId();
+
+    try {
+      final response = await post('/getUsersAdmin', {
+        'adminId': adminId
+      });
+      // Yanıtın içeriğini kontrol et
+      if (response['statusCode'] == 200) {
+        return response['body'];
+      } else {
+        // Hata mesajını yanıt gövdesinden al
+        throw Exception('Failed to get company: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService get company hata: $e');
+      throw Exception('Get company başarısız: $e');
+    }
+
+  }
+
 }

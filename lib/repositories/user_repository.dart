@@ -24,6 +24,14 @@ class UserRepository {
       throw e;
     }
   }
+  Future<void> registerNewUser(String email, String phone, String password, String adminId) async {
+    try {
+      await _userService.registerNewUser(email, phone, password,adminId);
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
 
   Future<void> logout() async {
     await _userService.logout();

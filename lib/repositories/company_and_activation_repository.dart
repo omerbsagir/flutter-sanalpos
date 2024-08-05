@@ -40,5 +40,14 @@ class CompanyAndActivationRepository {
       throw e;
     }
   }
+  Future<dynamic> getUsersAdmin(String adminId) async {
+    try {
+      final response = await _companyAndActivationService.getUsersAdmin(adminId);
+      return response;
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
 
 }
