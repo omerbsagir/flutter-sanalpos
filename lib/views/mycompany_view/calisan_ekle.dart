@@ -16,7 +16,7 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
   final TextEditingController email2IdController = TextEditingController();
   final TextEditingController phone2Id2Controller = TextEditingController();
   final TextEditingController password2Id2Controller = TextEditingController();
-  final TextEditingController adminIdId2Controller = TextEditingController();
+
 
   final UserViewModel userViewModel=UserViewModel();
   final CompanyAndActivationViewModel companyAndActivationViewModel = CompanyAndActivationViewModel();
@@ -53,15 +53,11 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
             decoration: InputDecoration(labelText: 'Password'),
             obscureText: true,
           ),
-          TextField(
-            controller: adminIdId2Controller,
-            decoration: InputDecoration(labelText: 'Admin Id şimdilik'),
 
-          ),
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
-              await userViewModel.registerNewUser(email2IdController.text,phone2Id2Controller.text,password2Id2Controller.text,adminIdId2Controller.text);
+              await userViewModel.registerNewUser(email2IdController.text,phone2Id2Controller.text,password2Id2Controller.text);
 
               final response = userViewModel.userResponse;
               if (response.status == Status.COMPLETED) {

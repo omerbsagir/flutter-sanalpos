@@ -24,7 +24,14 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   bool isCompanyLoaded = false;
   bool isUsersLoaded = false;
 
-  Future<dynamic> createCompany(String name, String ownerId, String iban) async {
+  Future<dynamic> createCompany(String name, String iban) async {
+    String ownerId = '';
+    try{
+      ownerId = await _userViewModel.getUserIdFromToken();
+    }catch(e){
+      print(e);
+    }
+
     try {
       company_and_activationResponse = ApiResponse.loading();
       notifyListeners();
@@ -40,7 +47,22 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
-  Future<dynamic> createActivation(String ownerId ,String companyId,String tcNo ,String vergiNo) async {
+  Future<dynamic> createActivation(String tcNo ,String vergiNo) async {
+
+    String ownerId = '';
+    try{
+      ownerId = await _userViewModel.getUserIdFromToken();
+    }catch(e){
+      print(e);
+    }
+
+    String companyId = '';
+    try{
+      companyId = await getCompanyId();
+    }catch(e){
+      print(e);
+    }
+
     try {
       company_and_activationResponse = ApiResponse.loading();
       notifyListeners();
@@ -56,7 +78,14 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
-  Future<dynamic> checkActiveStatus(String companyId) async {
+  Future<dynamic> checkActiveStatus() async {
+
+    String companyId = '';
+    try{
+      companyId = await getCompanyId();
+    }catch(e){
+      print(e);
+    }
     try {
       company_and_activationResponse = ApiResponse.loading();
       notifyListeners();
@@ -75,7 +104,14 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
-  Future<dynamic> getCompany(String ownerId) async {
+  Future<dynamic> getCompany() async {
+    String ownerId = '';
+    try{
+      ownerId = await _userViewModel.getUserIdFromToken();
+    }catch(e){
+      print(e);
+    }
+
     try {
       company_and_activationResponse = ApiResponse.loading();
       notifyListeners();
@@ -106,7 +142,15 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
-  Future<dynamic> getUsersAdmin(String adminId) async {
+  Future<dynamic> getUsersAdmin() async {
+
+    String adminId = '';
+    try{
+      adminId = await _userViewModel.getUserIdFromToken();
+    }catch(e){
+      print(e);
+    }
+
     try {
       company_and_activationResponse = ApiResponse.loading();
       notifyListeners();
@@ -145,7 +189,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       print('Error accessing protected endpoint: $e');
     }
 
-    await getCompany(userId);
+    await getCompany();
 
     return companyId;
   }

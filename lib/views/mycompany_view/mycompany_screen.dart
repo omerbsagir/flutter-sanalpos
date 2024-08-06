@@ -45,10 +45,9 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
     companyAndActivationViewModel.usersForAdmin.clear();
 
-    await companyAndActivationViewModel.getCompany('8066b334-af7c-48a0-87cf-fad57e5436ed');
-    //await companyAndActivationViewModel.getCompany('deneme');
+    await companyAndActivationViewModel.getCompany();
 
-    await companyAndActivationViewModel.getUsersAdmin('8066b334-af7c-48a0-87cf-fad57e5436ed');
+    await companyAndActivationViewModel.getUsersAdmin();
 
   }
 
@@ -78,7 +77,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  await companyAndActivationViewModel.createCompany(nameController.text, ownerIdController.text, ibanController.text);
+                  await companyAndActivationViewModel.createCompany(nameController.text,ibanController.text);
 
                   final response = companyAndActivationViewModel.company_and_activationResponse;
                   if (response.status == Status.COMPLETED) {

@@ -5,11 +5,10 @@ import '../widgets/custom_scaffold.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
 
 class ActivationScreen extends StatelessWidget {
-  final TextEditingController ownerIdController = TextEditingController();
-  final TextEditingController companyIdController = TextEditingController();
+
   final TextEditingController tcNoController = TextEditingController();
   final TextEditingController vergiNoController = TextEditingController();
-  final TextEditingController userIdController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +21,7 @@ class ActivationScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(
-              controller: ownerIdController,
-              decoration: InputDecoration(labelText: 'Owner ID'),
-            ),
-            TextField(
-              controller: companyIdController,
-              decoration: InputDecoration(labelText: 'Company ID'),
-            ),
+
             TextField(
               controller: tcNoController,
               decoration: InputDecoration(labelText: 'TC No'),
@@ -42,8 +34,6 @@ class ActivationScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 await companyAndActivationViewModel.createActivation(
-                  ownerIdController.text,
-                  companyIdController.text,
                   tcNoController.text,
                   vergiNoController.text,
                 );
@@ -62,16 +52,9 @@ class ActivationScreen extends StatelessWidget {
               child: Text('Aktivasyon Oluştur'),
             ),
             SizedBox(height: 20),
-            TextField(
-              controller: userIdController,
-              decoration: InputDecoration(labelText: 'User ID'),
-            ),
-            SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                await companyAndActivationViewModel.checkActiveStatus(
-                    userIdController.text
-                );
+                await companyAndActivationViewModel.checkActiveStatus();
               },
               child: Text('Check Active Status'),
             ),
