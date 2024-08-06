@@ -56,6 +56,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context);
 
     return CustomScaffold(
+
       title: 'My Company',
       body: Padding(
         padding: EdgeInsets.all(16.0),

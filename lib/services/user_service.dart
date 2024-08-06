@@ -103,8 +103,6 @@ class UserService extends BaseApiService {
     }
   }*/
 
-
-
   // Logout user
   Future<void> logout() async {
     await TokenService.deleteToken();

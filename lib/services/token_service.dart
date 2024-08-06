@@ -5,6 +5,13 @@ import 'package:crypto/crypto.dart';
 class TokenService {
   static final FlutterSecureStorage _storage = FlutterSecureStorage();
 
+
+  Future<bool> checkToken() async {
+    final token = await _storage.read(key: 'token');
+    // Optionally validate the token with your backend here
+    return token != null;
+  }
+
   // Save token
   static Future<void> saveToken(String token) async {
     await _storage.write(key: 'token', value: token);
