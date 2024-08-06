@@ -74,4 +74,32 @@ class UserViewModel extends ChangeNotifier {
     return userId;
   }
 
+  Future<bool> checkRoleFromToken() async {
+    final token = await TokenService.getToken();
+    final tokenMap = await TokenService.parseJwt(token.toString());
+
+    String role = tokenMap['role'];
+
+    if(role=='admin'){
+      print('Access Granted');
+      return true;
+    }else if(role=='user'){
+      print('Access Denied !!');
+      return false;
+    }else{
+      print('Error!');
+      return false;
+    }
+  }
+  Future<String> getRoleFromToken() async {
+    final token = await TokenService.getToken();
+    final tokenMap = await TokenService.parseJwt(token.toString());
+
+    String role = tokenMap['role'];
+
+    return role;
+  }
+
+
+
 }
