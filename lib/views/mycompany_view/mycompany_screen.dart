@@ -50,8 +50,6 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
     await companyAndActivationViewModel.getUsersAdmin('8066b334-af7c-48a0-87cf-fad57e5436ed');
 
-
-
   }
 
   @override
