@@ -7,7 +7,6 @@ import '../services/token_service.dart';
 class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
   ApiResponse<String> userResponse = ApiResponse.loading();
-  UserViewModel _userViewModel = UserViewModel();
 
   Future<dynamic> login(String email , String password) async {
     try {
@@ -45,7 +44,7 @@ class UserViewModel extends ChangeNotifier {
   Future<dynamic> registerNewUser(String email, String phone, String password) async {
     String adminId = '';
     try{
-      adminId = await _userViewModel.getUserIdFromToken();
+      adminId = await getUserIdFromToken();
     }catch(e){
       print(e);
     }
