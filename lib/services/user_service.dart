@@ -32,7 +32,6 @@ class UserService extends BaseApiService {
   }
 
 
-
   // User registration
   Future<void> register(String email, String phone, String password) async {
     try {
