@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
+import 'package:flutterprojects/views/mycompany_view/calisan_ekle.dart';
 import 'package:flutterprojects/views/mycompany_view/mycompany_screen.dart';
 import 'package:flutterprojects/views/activation_view/activation_screen.dart';
 import 'package:flutterprojects/views/home_view/home_screen.dart';
@@ -30,7 +31,8 @@ class MyApp extends StatelessWidget {
           '/login': (context) => LoginScreen(),
           '/home': (context) => HomeScreen(),
           '/mycompany': (context) => MyCompanyScreen(),
-          '/activation': (context) => ActivationScreen()
+          '/activation': (context) => ActivationScreen(),
+          '/calisanekle' : (context) => CalisanEkleScreen(),
         },
       ),
     );

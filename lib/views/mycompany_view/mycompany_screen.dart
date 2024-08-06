@@ -38,6 +38,8 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
     //await companyAndActivationViewModel.getCompany('deneme');
 
     await companyAndActivationViewModel.getUsersAdmin('8066b334-af7c-48a0-87cf-fad57e5436ed');
+
+
   }
 
   @override
@@ -110,27 +112,22 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                         ] else ...[
                           Text('No company details available.', style: TextStyle(color: Colors.grey)),
                         ],
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () async {
+                            Navigator.pushNamed(context, '/calisanekle');
+                          },
+                          child: Text('Register New Users'),
+                        ),
                         if (userDetails.isNotEmpty) ...[
                           SizedBox(height: 20),
                           Text(
                             'Çalışanların',
                             style: TextStyle(fontSize: 18),
                           ),
-                          SizedBox(height: 20), // Liste ile başlık arasına boşluk ekleyin
-                          Container(
-                            height: 200, // Uygun bir yükseklik belirleyin
-                            //width: double.infinity, // Listeyi genişletin
-                            alignment: Alignment.center, // Listeyi ortalayın
-                            child: ListView.builder(
-                              itemCount: userDetails.length,
-                              itemBuilder: (context, index) {
-                                final user = userDetails[index];
-                                return ListTile(
-                                  title: Text(user),
-                                );
-                              },
-                            ),
-                          ),
+                          for(int i=0;i<userDetails.length;i++)
+                            _buildInfoColumn2(userDetails[i]),
+
                         ] else ...[
                           Text('No users available.', style: TextStyle(color: Colors.grey)),
                         ],
@@ -146,43 +143,6 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                     );
                   }
                 },
-              ),
-              Text("Çalışan Ekle"),
-              TextField(
-                controller: email2IdController,
-                decoration: InputDecoration(labelText: 'Email'),
-              ),
-              TextField(
-                controller: phone2Id2Controller,
-                decoration: InputDecoration(labelText: 'Phone'),
-              ),
-              TextField(
-                controller: password2Id2Controller,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-              TextField(
-                controller: adminIdId2Controller,
-                decoration: InputDecoration(labelText: 'Admin Id şimdilik'),
-
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () async {
-                  await userViewModel.registerNewUser(email2IdController.text,phone2Id2Controller.text,password2Id2Controller.text,adminIdId2Controller.text);
-
-                  final response = userViewModel.userResponse;
-                  if (response.status == Status.COMPLETED) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Çalışan Kaydı başarılı')),
-                    );
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(response.error ?? 'Çalışan Kaydı başarısız!')),
-                    );
-                  }
-                },
-                child: Text('Çalışan Ekle'),
               ),
             ],
           ],
@@ -216,6 +176,26 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
     );
   }
+  Widget _buildInfoColumn2(String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              value,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            SizedBox(height: 4.0), // Başlık ve değer arasına boşluk ekleyin
+
+          ],
+        ),
+      ),
+
+    );
+  }
+
 
   Widget _buildActivationStatusColumn(bool isActive) {
     return Padding(
