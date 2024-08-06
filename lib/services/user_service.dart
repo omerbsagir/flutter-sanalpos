@@ -1,37 +1,37 @@
 import 'dart:convert';
-
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'base_api_service.dart';
+import 'token_service.dart';
 
 class UserService extends BaseApiService {
 
-  final FlutterSecureStorage _storage = FlutterSecureStorage();
-
   // User login
   Future<void> login(String email, String password) async {
-
     try {
       final response = await post('/login', {
         'email': email,
         'password': password,
       });
 
-      // Yanıtın içeriğini kontrol et
-      if (response['statusCode'] == 200) {
-        // Giriş başarılı
-        //String token = response['token'];
-        //await _storage.write(key: 'token', value: token);
-        return;
+      // Check the entire response
+      print('Login response: $response');
+
+      // Extract the body from the response
+      final responseBody = json.decode(response['body']) as Map<String, dynamic>;
+
+      // Check if the response body contains a token
+      if (responseBody.containsKey('token')) {
+        String token = responseBody['token'];
+        await TokenService.saveToken(token);
       } else {
-        // Hata mesajını yanıt gövdesinden al
-        throw Exception('Failed to login: ${response['body']}');
+        throw Exception('Login response did not contain a token.');
       }
     } catch (e) {
-      print('UserService login hata: $e');
-      throw Exception('Giriş başarısız: $e');
+      print('UserService login error: $e');
+      throw Exception('Login failed: $e');
     }
-
   }
+
+
 
   // User registration
   Future<void> register(String email, String phone, String password) async {
@@ -82,6 +82,6 @@ class UserService extends BaseApiService {
 
   // Logout user
   Future<void> logout() async {
-    await _storage.delete(key: 'token');
+    await TokenService.deleteToken();
   }
 }

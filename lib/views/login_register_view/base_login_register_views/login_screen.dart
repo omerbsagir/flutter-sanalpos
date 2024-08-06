@@ -51,6 +51,7 @@ class LoginScreen extends StatelessWidget {
                   // `userResponse`'ın durumunu kontrol et
                   final response = userViewModel.userResponse;
                   if (response.status == Status.COMPLETED) {
+
                     Navigator.pushNamed(context, '/home');
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
