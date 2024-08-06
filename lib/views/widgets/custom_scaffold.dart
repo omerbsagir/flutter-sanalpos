@@ -1,5 +1,6 @@
 // lib/widgets/custom_scaffold.dart
 import 'package:flutter/material.dart';
+import 'package:flutterprojects/repositories/user_repository.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 
 class CustomScaffold extends StatelessWidget {
@@ -10,6 +11,7 @@ class CustomScaffold extends StatelessWidget {
   CustomScaffold({required this.body,required this.title});
 
   final UserViewModel _userViewModel = UserViewModel();
+  final UserRepository _userRepository = UserRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +111,8 @@ class CustomScaffold extends StatelessWidget {
               title: Text('Logout'),
               onTap: () {
                 // Logout logic
-                Navigator.pop(context); // Close the drawer
+                _userRepository.logout();
+                Navigator.pushNamed(context, '/'); // Close the drawer
               },
             ),
           ],

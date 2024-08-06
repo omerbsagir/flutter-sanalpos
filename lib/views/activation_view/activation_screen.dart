@@ -4,11 +4,31 @@ import 'package:provider/provider.dart';
 import '../widgets/custom_scaffold.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
 
-class ActivationScreen extends StatelessWidget {
+
+
+class ActivationScreen extends StatefulWidget {
+  @override
+  _ActivationScreenState createState() => _ActivationScreenState();
+}
+
+class _ActivationScreenState extends State<ActivationScreen> {
 
   final TextEditingController tcNoController = TextEditingController();
   final TextEditingController vergiNoController = TextEditingController();
 
+
+  @override
+  void initState() {
+    super.initState();
+    _loadActiveStatus();
+  }
+
+  Future<void> _loadActiveStatus() async {
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+
+    await companyAndActivationViewModel.checkActiveStatus();
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +70,6 @@ class ActivationScreen extends StatelessWidget {
                 }
               },
               child: Text('Aktivasyon Oluştur'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                await companyAndActivationViewModel.checkActiveStatus();
-              },
-              child: Text('Check Active Status'),
             ),
             SizedBox(height: 20),
             Consumer<CompanyAndActivationViewModel>(
