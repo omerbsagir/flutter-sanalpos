@@ -78,7 +78,7 @@ class UserService extends BaseApiService {
     }
   }
 
-  Future<void> protected(String token) async {
+  /*Future<void> protected(String token) async {
     try {
       final response = await post2('/protected', {
         'Content-Type': 'application/json',
@@ -101,7 +101,8 @@ class UserService extends BaseApiService {
       print('UserService access hata: $e');
       throw Exception('Access başarısız: $e');
     }
-  }
+  }*/
+
 
 
   // Logout user

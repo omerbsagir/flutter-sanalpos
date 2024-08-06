@@ -40,7 +40,7 @@ class BaseApiService {
       throw Exception('Veri gönderme başarısız: $e');
     }
   }
-  Future<Map<String, dynamic>> post2(String endpoint, Map<String, String> header) async {
+  /*Future<Map<String, dynamic>> post2(String endpoint, Map<String, String> header) async {
     try {
       final response = await http.post(
         Uri.parse('${Constants.apiBaseUrl}/$endpoint'),
@@ -61,7 +61,7 @@ class BaseApiService {
       print('Hata: $e');
       throw Exception('Veri gönderme başarısız: $e');
     }
-  }
+  }*/
 
 
 

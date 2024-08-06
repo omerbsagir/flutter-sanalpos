@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../repositories/user_repository.dart';
 import '../data/remote/response/api_response.dart';
+import '../services/token_service.dart';
 
 class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
@@ -55,6 +56,15 @@ class UserViewModel extends ChangeNotifier {
       notifyListeners(); // UI'yi son durumu göstermek için güncelle
       return userResponse;
     }
+  }
+
+  Future<String> getUserIdFromToken() async {
+    final token = await TokenService.getToken();
+    final tokenMap = await TokenService.parseJwt(token.toString());
+
+    String userId = tokenMap['userId'];
+
+    return userId;
   }
 
 }

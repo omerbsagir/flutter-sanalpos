@@ -1,14 +1,19 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutterprojects/services/token_service.dart';
 import '../models/company_model.dart';
 import '../repositories/company_and_activation_repository.dart';
 import '../data/remote/response/api_response.dart';
+import '../viewmodels/user_viewmodel.dart';
 
 class CompanyAndActivationViewModel extends ChangeNotifier {
+
   final CompanyAndActivationRepository _companyAndActivationRepository = CompanyAndActivationRepository();
   ApiResponse<String> company_and_activationResponse = ApiResponse.loading();
+  UserViewModel _userViewModel = UserViewModel();
 
+  String companyId='';
   List<dynamic> companyDetails = [];
   List<dynamic> usersForAdmin = [];
 
@@ -85,6 +90,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
           firstItem['iban'],
           firstItem['activationStatus']
         ];
+        companyId = firstItem['companyId'];
         isCompanyLoaded = true; // Şirket bilgileri yüklendi
       } else {
         companyDetails = [];
@@ -128,6 +134,15 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
+
+  Future<String> getCompanyId() async {
+
+    String userId = _userViewModel.getUserIdFromToken().toString();
+    await getCompany(userId);
+
+    return companyId;
+  }
+
 
 
 
