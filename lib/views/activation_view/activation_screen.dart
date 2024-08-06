@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/data/remote/response/api_response.dart';
 import 'package:provider/provider.dart';
+import '../widgets/custom_scaffold.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
 
 class ActivationScreen extends StatelessWidget {
@@ -14,11 +15,8 @@ class ActivationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Activation'),
-        automaticallyImplyLeading: true,
-      ),
+    return CustomScaffold(
+      title:'Aktivasyon',
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

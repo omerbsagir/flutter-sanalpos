@@ -23,7 +23,9 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
   final UserViewModel userViewModel=UserViewModel();
 
-
+  List<dynamic> lastUsersForAdmin = [];
+  int lastUsersForAdminsLenght = 0;
+  bool isFirstLoad = true;
 
   @override
   void initState() {
@@ -34,10 +36,20 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   Future<void> _loadCompanyData() async {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
 
+    if (isFirstLoad) {
+      lastUsersForAdminsLenght = 0;
+      isFirstLoad = false;
+    }else{
+      lastUsersForAdminsLenght = companyAndActivationViewModel.usersForAdmin.length;
+    }
+
+    companyAndActivationViewModel.usersForAdmin.clear();
+
     await companyAndActivationViewModel.getCompany('8066b334-af7c-48a0-87cf-fad57e5436ed');
     //await companyAndActivationViewModel.getCompany('deneme');
 
     await companyAndActivationViewModel.getUsersAdmin('8066b334-af7c-48a0-87cf-fad57e5436ed');
+
 
 
   }
@@ -125,9 +137,17 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                             'Çalışanların',
                             style: TextStyle(fontSize: 18),
                           ),
-                          for(int i=0;i<userDetails.length;i++)
-                            _buildInfoColumn2(userDetails[i]),
+                          if(lastUsersForAdminsLenght != 0 && !isFirstLoad) ...[   //3  0 1 2
 
+                            if(userDetails[lastUsersForAdminsLenght] != null)...[
+
+                              for(int i=lastUsersForAdminsLenght;i<userDetails.length;i++)
+                                _buildInfoColumn2(userDetails[i]),
+                            ],
+                          ]else if(lastUsersForAdminsLenght == 0)...[
+                            for(int i=0;i<userDetails.length;i++)
+                              _buildInfoColumn2(userDetails[i]),
+                          ],
                         ] else ...[
                           Text('No users available.', style: TextStyle(color: Colors.grey)),
                         ],
