@@ -126,7 +126,7 @@ class HomeScreen extends StatelessWidget {
               onPressed: () async {
                 try {
                   String response = await _companyAndActivationViewModel.getCompanyId();
-                  print(response);
+                  print('butondan {$response}');
                 } catch (e) {
                   print('Error accessing protected endpoint: $e');
                 }
@@ -134,7 +134,7 @@ class HomeScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue, // Button color
               ),
-              child: Text('Protected Control'),
+              child: Text('Get Company Id'),
             ),
           ],
         ),

@@ -137,7 +137,14 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
 
   Future<String> getCompanyId() async {
 
-    String userId = _userViewModel.getUserIdFromToken().toString();
+    String userId='';
+    try {
+      userId = await _userViewModel.getUserIdFromToken();
+
+    } catch (e) {
+      print('Error accessing protected endpoint: $e');
+    }
+
     await getCompany(userId);
 
     return companyId;
