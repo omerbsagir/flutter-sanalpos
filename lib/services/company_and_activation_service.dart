@@ -6,7 +6,7 @@ import 'base_api_service.dart';
 
 class CompanyAndActivationService extends BaseApiService {
 
-  final UserRepository _userRepository = new UserRepository();
+  //final UserRepository _userRepository = new UserRepository();
 
   // User login
   Future<void> createCompany(String name, String ownerId, String iban) async {

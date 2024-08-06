@@ -40,6 +40,28 @@ class BaseApiService {
       throw Exception('Veri gönderme başarısız: $e');
     }
   }
+  Future<Map<String, dynamic>> post2(String endpoint, Map<String, String> header) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${Constants.apiBaseUrl}/$endpoint'),
+        headers: header,
+      );
+      print('Yanıt gövdesi: ${response.body}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        try {
+          return json.decode(response.body) as Map<String, dynamic>;
+        } catch (e) {
+          throw Exception('Yanıt JSON formatında değil: ${response.body}');
+        }
+      } else {
+        throw Exception('Veri gönderme başarısız: ${response.statusCode} - ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      print('Hata: $e');
+      throw Exception('Veri gönderme başarısız: $e');
+    }
+  }
 
 
 

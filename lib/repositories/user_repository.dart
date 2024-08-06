@@ -32,12 +32,14 @@ class UserRepository {
       throw e;
     }
   }
-
-  Future<void> logout() async {
-    await _userService.logout();
+  Future<void> protected(String token) async {
+    try {
+      await _userService.protected(token);
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
   }
 
-  Future<String?> getToken() async {
-    return await _storage.read(key: 'token');
-  }
+
 }

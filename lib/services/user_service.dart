@@ -78,6 +78,31 @@ class UserService extends BaseApiService {
     }
   }
 
+  Future<void> protected(String token) async {
+    try {
+      final response = await post2('/protected', {
+        'Content-Type': 'application/json',
+        'Authorization':token,
+      });
+
+      // Yanıtın içeriğini kontrol et
+      if (response['statusCode'] == 200) {
+        // Access granted
+        return;
+      }else if (response['statusCode'] == 403) {
+        // Access denied
+        return;
+      }
+      else {
+        // Hata mesajını yanıt gövdesinden al
+        throw Exception('Failed to access: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService access hata: $e');
+      throw Exception('Access başarısız: $e');
+    }
+  }
+
 
   // Logout user
   Future<void> logout() async {
