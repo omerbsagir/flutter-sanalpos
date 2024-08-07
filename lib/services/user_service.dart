@@ -107,4 +107,30 @@ class UserService extends BaseApiService {
   Future<void> logout() async {
     await TokenService.deleteToken();
   }
+
+
+  Future<bool> validateToken(String token) async {
+    String token = TokenService.getToken().toString();
+
+    try{
+      final response = await post('/validateToken', {
+        'token' : token,
+      });
+      if(response['statusCode'] == 200){
+        print('Token is invalid');
+        return true;
+      }else if(response['statusCode'] == 401){
+        print('Token is valid');
+        return false;
+      }else{
+        throw Exception('Token required!');
+      }
+
+    }catch(e){
+      print('UserService token validation hata: $e');
+      throw Exception('Error token validation: $e');
+    }
+
+  }
+
 }
