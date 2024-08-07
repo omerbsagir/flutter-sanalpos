@@ -4,34 +4,6 @@ import 'token_service.dart';
 
 class WalletService extends BaseApiService {
 
-  // User login
-  Future<void> login(String email, String password) async {
-    try {
-      final response = await post('/login', {
-        'email': email,
-        'password': password,
-      });
-
-      // Check the entire response
-      print('Login response: $response');
-
-      // Extract the body from the response
-      final responseBody = json.decode(response['body']) as Map<String, dynamic>;
-
-      // Check if the response body contains a token
-      if (responseBody.containsKey('token')) {
-        String token = responseBody['token'];
-        await TokenService.saveToken(token);
-      } else {
-        throw Exception('Login response did not contain a token.');
-      }
-    } catch (e) {
-      print('UserService login error: $e');
-      throw Exception('Login failed: $e');
-    }
-  }
-
-
   // User registration
   Future<void> createWallet(String ownerId , String companyId , String iban) async {
     try {
@@ -50,7 +22,7 @@ class WalletService extends BaseApiService {
         throw Exception('Failed to create wallet: ${response['body']}');
       }
     } catch (e) {
-      print('UserService create wallet hata: $e');
+      print('WalletService create wallet hata: $e');
       throw Exception('Create Wallet başarısız: $e');
     }
   }
@@ -70,8 +42,27 @@ class WalletService extends BaseApiService {
         throw Exception('Failed to update wallet: ${response['body']}');
       }
     } catch (e) {
-      print('UserService update wallet hata: $e');
+      print('WalletService update wallet hata: $e');
       throw Exception('Update Wallet başarısız: $e');
+    }
+  }
+
+  Future<dynamic> getWallet(String ownerId) async {
+    try {
+      final response = await post('/getWallet', {
+        'ownerId': ownerId
+      });
+
+      // Yanıtın içeriğini kontrol et
+      if (response['statusCode'] == 200) {
+        return response['body'];
+      } else {
+        // Hata mesajını yanıt gövdesinden al
+        throw Exception('Failed to get wallet: ${response['body']}');
+      }
+    } catch (e) {
+      print('WalletService get wallet hata: $e');
+      throw Exception('Get Wallet başarısız: $e');
     }
   }
 

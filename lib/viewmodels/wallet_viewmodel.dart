@@ -8,7 +8,7 @@ import '../data/remote/response/api_response.dart';
 import '../viewmodels/user_viewmodel.dart';
 import '../viewmodels/company_and_activation_viewmodel.dart';
 
-class CompanyAndActivationViewModel extends ChangeNotifier {
+class WalletViewModel extends ChangeNotifier {
 
   final WalletRepository _walletRepository = WalletRepository();
 
@@ -16,6 +16,8 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   UserViewModel _userViewModel = UserViewModel();
   CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
 
+  String walletId='';
+  bool isWalletLoaded = false;
 
   Future<dynamic> createWallet() async {
     String ownerId = '';
@@ -32,7 +34,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
     }
     String iban = '';
     try{
-      iban = await _companyAndActivationViewModel.g();
+      iban = await _companyAndActivationViewModel.getIban();
     }catch(e){
       print(e);
     }
@@ -53,7 +55,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
     }
   }
 
-  Future<dynamic> updateWallet(String tcNo ,String vergiNo) async {
+  Future<dynamic> updateWallet(String walletId) async {
 
     String ownerId = '';
     try{
@@ -62,42 +64,54 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       print(e);
     }
 
-    String companyId = '';
+    try {
+      _walletResponse = ApiResponse.loading();
+      notifyListeners();
+
+      await _walletRepository.updateWallet(ownerId);
+
+      _walletResponse = ApiResponse.completed('Update Successful');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      _walletResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      return _walletResponse;
+    }
+  }
+
+  Future<dynamic> getWallet() async {
+    String ownerId = '';
     try{
-      companyId = await getCompanyId();
+      ownerId = await _userViewModel.getUserIdFromToken();
     }catch(e){
       print(e);
     }
 
     try {
-      company_and_activationResponse = ApiResponse.loading();
+      _walletResponse = ApiResponse.loading();
       notifyListeners();
 
-      await _companyAndActivationRepository.createActivation(ownerId,companyId, tcNo,vergiNo);
+      final response = await _walletRepository.getWallet(ownerId);
+      final decodedBody = json.decode(response) as String;
 
-      company_and_activationResponse = ApiResponse.completed('Login successful');
+      if (decodedBody.isNotEmpty) {
+        final firstItem = decodedBody as Map<String,dynamic>;
+        walletId = firstItem['walletId'];
+        isWalletLoaded = true; // Şirket bilgileri yüklendi
+      } else {
+        walletId = '';
+        isWalletLoaded = false; // Şirket bilgileri bulunamadı
+      }
+
+      _walletResponse = ApiResponse.completed('Durum kontrolü başarılı');
     } catch (e) {
       print('Hata yakalandı: $e');
-      company_and_activationResponse = ApiResponse.error(e.toString());
+      _walletResponse = ApiResponse.error(e.toString());
     } finally {
       notifyListeners(); // UI'yi son durumu göstermek için güncelle
-      return company_and_activationResponse;
+      return _walletResponse;
     }
-  }
-
-  Future<String> getCompanyId() async {
-
-    String userId='';
-    try {
-      userId = await _userViewModel.getUserIdFromToken();
-
-    } catch (e) {
-      print('Error accessing protected endpoint: $e');
-    }
-
-    await getCompany();
-
-    return companyId;
   }
 
 

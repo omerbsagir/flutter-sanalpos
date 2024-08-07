@@ -22,7 +22,17 @@ class WalletRepository {
       throw e;
     }
   }
-  
+
+  Future<dynamic> getWallet(String ownerId) async {
+    try {
+      final response = await _walletService.getWallet(ownerId);
+      return response;
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
+
 
 
 
