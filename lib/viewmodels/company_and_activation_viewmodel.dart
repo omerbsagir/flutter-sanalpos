@@ -14,6 +14,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   UserViewModel _userViewModel = UserViewModel();
 
   String companyId='';
+  String iban='';
   List<dynamic> companyDetails = [];
   List<dynamic> usersForAdmin = [];
 
@@ -127,6 +128,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
           firstItem['activationStatus']
         ];
         companyId = firstItem['companyId'];
+        iban = firstItem['iban'];
         isCompanyLoaded = true; // Şirket bilgileri yüklendi
       } else {
         companyDetails = [];
@@ -192,6 +194,20 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
     await getCompany();
 
     return companyId;
+  }
+  Future<String> getIban() async {
+
+    String userId='';
+    try {
+      userId = await _userViewModel.getUserIdFromToken();
+
+    } catch (e) {
+      print('Error accessing protected endpoint: $e');
+    }
+
+    await getCompany();
+
+    return iban;
   }
 
 
