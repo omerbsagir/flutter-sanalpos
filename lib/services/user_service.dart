@@ -110,7 +110,6 @@ class UserService extends BaseApiService {
 
 
   Future<bool> validateToken(String token) async {
-    String token = TokenService.getToken().toString();
 
     try{
       final response = await post('/validateToken', {
