@@ -15,13 +15,13 @@ class WalletViewModel extends ChangeNotifier {
   ApiResponse<String> _walletResponse = ApiResponse.loading();
   UserViewModel _userViewModel = UserViewModel();
   CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
+  ApiResponse get walletResponse => _walletResponse;
 
   List<dynamic> walletDetails = [];
   String walletId='';
   bool isWalletLoaded = false;
 
   dynamic? checkActiveResponseValue;
-  dynamic? get checkActiveResponseValueFonk => _walletResponse; //getter
   dynamic? get walletDetailsFonk => walletDetails; //getter
 
   Future<dynamic> createWallet() async {
@@ -101,7 +101,7 @@ class WalletViewModel extends ChangeNotifier {
       final decodedBody = json.decode(response) as List<dynamic>;
 
       if (decodedBody.isNotEmpty) {
-        final firstItem = decodedBody as Map<String,dynamic>;
+        final firstItem = decodedBody[0] as Map<String,dynamic>;
         walletDetails = [
           firstItem['iban'],
           firstItem['amount']

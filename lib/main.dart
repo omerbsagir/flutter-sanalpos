@@ -5,10 +5,12 @@ import 'package:flutterprojects/views/mycompany_view/mycompany_screen.dart';
 import 'package:flutterprojects/views/splash_view/splash_screen.dart';
 import 'package:flutterprojects/views/activation_view/activation_screen.dart';
 import 'package:flutterprojects/views/home_view/home_screen.dart';
+import 'package:flutterprojects/views/mywallet_view/mywallet_screen.dart';
 import 'package:flutterprojects/views/login_register_view/base_login_register_views/login_screen.dart';
 import 'package:flutterprojects/views/login_register_view/base_login_register_views/register_screen.dart';
 import 'package:provider/provider.dart';
 import 'viewmodels/user_viewmodel.dart';
+import 'viewmodels/wallet_viewmodel.dart';
 
 
 void main() {
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UserViewModel()),
         ChangeNotifierProvider(create: (_) => CompanyAndActivationViewModel()),
+        ChangeNotifierProvider(create: (_) => WalletViewModel()),
         // Diğer ViewModel'leri burada ekleyin
       ],
       child: MaterialApp(
@@ -35,6 +38,8 @@ class MyApp extends StatelessWidget {
           '/mycompany': (context) => MyCompanyScreen(),
           '/activation': (context) => ActivationScreen(),
           '/calisanekle' : (context) => CalisanEkleScreen(),
+          '/mywallet' : (context) => MyWalletScreen(),
+
         },
       ),
     );

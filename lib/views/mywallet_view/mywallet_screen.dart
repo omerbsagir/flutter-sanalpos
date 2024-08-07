@@ -50,7 +50,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
             ] else ...[
               Consumer<WalletViewModel>(
                 builder: (context, viewModel, child) {
-                  if (viewModel.checkActiveResponseValueFonk.status == Status.LOADING) {
+                  if (viewModel.walletResponse.status == Status.LOADING) {
                     return Center(
                       child: SizedBox(
                         width: 20,
@@ -61,7 +61,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                         ),
                       ),
                     );
-                  } else if (viewModel.checkActiveResponseValueFonk.status == Status.COMPLETED) {
+                  } else if (viewModel.walletResponse.status == Status.COMPLETED) {
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

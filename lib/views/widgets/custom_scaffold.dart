@@ -73,7 +73,7 @@ class CustomScaffold extends StatelessWidget {
                         leading: Icon(Icons.account_balance_wallet),
                         title: Text('My Wallet'),
                         onTap: () {
-                          Navigator.pushNamed(context, '/settings'); // Go to settings page
+                          Navigator.pushNamed(context, '/mywallet'); // Go to settings page
                         },
                       ),
                       ListTile(
