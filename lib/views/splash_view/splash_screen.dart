@@ -10,7 +10,7 @@ import '/views/widgets/custom_scaffold.dart'; // CustomScaffold'ı import edin
 
 class SplashScreen extends StatelessWidget {
 
-  UserService _userService = UserService();
+  final UserService _userService = UserService();
 
   @override
   Widget build(BuildContext context) {

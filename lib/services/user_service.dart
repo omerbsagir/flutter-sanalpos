@@ -116,10 +116,10 @@ class UserService extends BaseApiService {
         'token' : token,
       });
       if(response['statusCode'] == 200){
-        print('Token is invalid');
+        print('Token is valid');
         return true;
       }else if(response['statusCode'] == 401){
-        print('Token is valid');
+        print('Token is invalid');
         return false;
       }else{
         throw Exception('Token required!');
