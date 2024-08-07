@@ -62,9 +62,8 @@ class WalletViewModel extends ChangeNotifier {
 
   Future<dynamic> updateWallet() async {
 
-    String walletId = '';
     try{
-      walletId = await getWallet();
+      await getWallet();
     }catch(e){
       print(e);
     }
@@ -104,7 +103,7 @@ class WalletViewModel extends ChangeNotifier {
         final firstItem = decodedBody[0] as Map<String,dynamic>;
         walletDetails = [
           firstItem['iban'],
-          firstItem['amount']
+          firstItem['amount'].toString()
         ];
         walletId = firstItem['walletId'];
         isWalletLoaded = true; // Şirket bilgileri yüklendi

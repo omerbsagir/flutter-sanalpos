@@ -29,7 +29,7 @@ class WalletService extends BaseApiService {
 
   Future<void> updateWallet(String walletId) async {
     try {
-      final response = await post('/createWallet', {
+      final response = await post('/updateWallet', {
         'walletId': walletId
       });
 
