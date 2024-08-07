@@ -18,7 +18,7 @@ class CustomScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.blue, // AppBar color
+        backgroundColor: Colors.deepPurpleAccent, // AppBar color
       ),
       drawer: Drawer(
         child: ListView(
@@ -26,7 +26,7 @@ class CustomScaffold extends StatelessWidget {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue, // Drawer header color
+                color: Colors.deepPurpleAccent, // Drawer header color
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
