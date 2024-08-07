@@ -16,8 +16,13 @@ class WalletViewModel extends ChangeNotifier {
   UserViewModel _userViewModel = UserViewModel();
   CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
 
+  List<dynamic> walletDetails = [];
   String walletId='';
   bool isWalletLoaded = false;
+
+  dynamic? checkActiveResponseValue;
+  dynamic? get checkActiveResponseValueFonk => _walletResponse; //getter
+  dynamic? get walletDetailsFonk => walletDetails; //getter
 
   Future<dynamic> createWallet() async {
     String ownerId = '';
@@ -55,11 +60,11 @@ class WalletViewModel extends ChangeNotifier {
     }
   }
 
-  Future<dynamic> updateWallet(String walletId) async {
+  Future<dynamic> updateWallet() async {
 
-    String ownerId = '';
+    String walletId = '';
     try{
-      ownerId = await _userViewModel.getUserIdFromToken();
+      walletId = await getWallet();
     }catch(e){
       print(e);
     }
@@ -68,7 +73,7 @@ class WalletViewModel extends ChangeNotifier {
       _walletResponse = ApiResponse.loading();
       notifyListeners();
 
-      await _walletRepository.updateWallet(ownerId);
+      await _walletRepository.updateWallet(walletId);
 
       _walletResponse = ApiResponse.completed('Update Successful');
     } catch (e) {
@@ -93,10 +98,14 @@ class WalletViewModel extends ChangeNotifier {
       notifyListeners();
 
       final response = await _walletRepository.getWallet(ownerId);
-      final decodedBody = json.decode(response) as String;
+      final decodedBody = json.decode(response) as List<dynamic>;
 
       if (decodedBody.isNotEmpty) {
         final firstItem = decodedBody as Map<String,dynamic>;
+        walletDetails = [
+          firstItem['iban'],
+          firstItem['amount']
+        ];
         walletId = firstItem['walletId'];
         isWalletLoaded = true; // Şirket bilgileri yüklendi
       } else {

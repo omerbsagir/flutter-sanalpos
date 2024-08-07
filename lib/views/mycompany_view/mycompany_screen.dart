@@ -65,7 +65,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             if (!companyAndActivationViewModel.isCompanyLoaded) ...[
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Company Name'),
+                decoration: InputDecoration(labelText: 'Wallet '),
               ),
               TextField(
                 controller: ownerIdController,
