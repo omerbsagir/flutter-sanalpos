@@ -1,10 +1,10 @@
-import 'dart:convert';
+
 import 'base_api_service.dart';
-import 'token_service.dart';
+
 
 class WalletService extends BaseApiService {
 
-  // User registration
+
   Future<void> createWallet(String ownerId , String companyId , String iban) async {
     try {
       final response = await post('/createWallet', {
@@ -13,12 +13,12 @@ class WalletService extends BaseApiService {
         'iban': iban,
       });
 
-      // Yanıtın içeriğini kontrol et
+
       if (response['statusCode'] == 201) {
-        // Kayıt başarılı
+
         return;
       } else {
-        // Hata mesajını yanıt gövdesinden al
+
         throw Exception('Failed to create wallet: ${response['body']}');
       }
     } catch (e) {
@@ -33,12 +33,12 @@ class WalletService extends BaseApiService {
         'walletId': walletId
       });
 
-      // Yanıtın içeriğini kontrol et
+
       if (response['statusCode'] == 200) {
-        // Kayıt başarılı
+
         return;
       } else {
-        // Hata mesajını yanıt gövdesinden al
+
         throw Exception('Failed to update wallet: ${response['body']}');
       }
     } catch (e) {
@@ -53,11 +53,11 @@ class WalletService extends BaseApiService {
         'ownerId': ownerId
       });
 
-      // Yanıtın içeriğini kontrol et
+
       if (response['statusCode'] == 200) {
         return response['body'];
       } else {
-        // Hata mesajını yanıt gövdesinden al
+
         throw Exception('Failed to get wallet: ${response['body']}');
       }
     } catch (e) {
