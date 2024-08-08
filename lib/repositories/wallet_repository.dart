@@ -1,5 +1,3 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutterprojects/models/user_model.dart';
 import '/services/wallet_service.dart';
 
 class WalletRepository {

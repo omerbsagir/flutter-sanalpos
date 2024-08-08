@@ -1,5 +1,4 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutterprojects/models/user_model.dart';
+
 import '/services/company_and_activation_service.dart';
 
 class CompanyAndActivationRepository {
