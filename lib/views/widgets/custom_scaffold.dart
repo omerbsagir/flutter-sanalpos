@@ -34,7 +34,7 @@ class CustomScaffold extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 40,
-                    backgroundImage: AssetImage('assets/profile.jpg'),
+                    backgroundImage: AssetImage('assets/pp.jpg'),
                   ),
                   SizedBox(height: 10),
                   FutureBuilder<dynamic>(
@@ -66,12 +66,31 @@ class CustomScaffold extends StatelessWidget {
                     },
                   ),
 
-                  Text(
-                    'role',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                    ),
+                  FutureBuilder<dynamic>(
+                    future: _userViewModel.getRoleFromToken(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasData) {
+                        return Text(
+                          snapshot.data,
+                          style: TextStyle(
+                            color: Colors.yellow,
+                            fontSize: 10,
+                          ),
+                        );
+                      } else if (snapshot.hasData && snapshot.data == false) {
+                        return Text(
+                          '',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                          ),
+                        );
+                      } else {
+                        return Text('Error gettin user role');
+                      }
+                    },
                   ),
                 ],
               ),

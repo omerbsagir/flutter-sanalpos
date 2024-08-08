@@ -8,6 +8,8 @@ class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
   ApiResponse<String> userResponse = ApiResponse.loading();
 
+
+
   Future<dynamic> login(String email , String password) async {
     try {
       userResponse = ApiResponse.loading();
@@ -99,6 +101,7 @@ class UserViewModel extends ChangeNotifier {
 
     return role;
   }
+
 
 
 
