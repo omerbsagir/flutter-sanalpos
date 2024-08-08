@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/repositories/user_repository.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
+import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
 
 class CustomScaffold extends StatelessWidget {
   final String title;
@@ -10,6 +11,7 @@ class CustomScaffold extends StatelessWidget {
   CustomScaffold({required this.body,required this.title});
 
   final UserViewModel _userViewModel = UserViewModel();
+  final CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
   final UserRepository _userRepository = UserRepository();
 
   @override
@@ -35,14 +37,35 @@ class CustomScaffold extends StatelessWidget {
                     backgroundImage: AssetImage('assets/profile.jpg'),
                   ),
                   SizedBox(height: 10),
-                  Text(
-                    'Your Name',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  FutureBuilder<dynamic>(
+                    future: _companyAndActivationViewModel.getCompany(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasData) {
+                        return Text(
+                          _companyAndActivationViewModel.companyDetails[0],
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      } else if (snapshot.hasData && snapshot.data == false) {
+                        return Text(
+                          'Your Name',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      } else {
+                        return Text('Error gettin company name');
+                      }
+                    },
                   ),
+
                   Text(
                     'role',
                     style: TextStyle(
