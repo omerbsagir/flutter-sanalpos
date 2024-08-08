@@ -1,8 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/services/token_service.dart';
-import '../models/company_model.dart';
 import '../repositories/company_and_activation_repository.dart';
 import '../data/remote/response/api_response.dart';
 import '../viewmodels/user_viewmodel.dart';
@@ -44,7 +41,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       company_and_activationResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return company_and_activationResponse;
     }
   }
@@ -75,7 +72,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       company_and_activationResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return company_and_activationResponse;
     }
   }
@@ -101,7 +98,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       company_and_activationResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return company_and_activationResponse;
     }
   }
@@ -129,10 +126,10 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
         ];
         companyId = firstItem['companyId'];
         iban = firstItem['iban'];
-        isCompanyLoaded = true; // Şirket bilgileri yüklendi
+        isCompanyLoaded = true;
       } else {
         companyDetails = [];
-        isCompanyLoaded = false; // Şirket bilgileri bulunamadı
+        isCompanyLoaded = false;
       }
 
       company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
@@ -140,7 +137,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       company_and_activationResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return company_and_activationResponse;
     }
   }
@@ -165,10 +162,10 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
           final listItem = decodedBody[i] as Map<String, dynamic>;
           usersForAdmin.add(listItem['email']);
         }
-        isUsersLoaded = true; // Şirket bilgileri yüklendi
+        isUsersLoaded = true;
       } else {
         usersForAdmin = [];
-        isUsersLoaded = false; // Şirket bilgileri bulunamadı
+        isUsersLoaded = false;
       }
 
       company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
@@ -176,7 +173,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       company_and_activationResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return company_and_activationResponse;
     }
   }

@@ -20,7 +20,7 @@ class UserViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       userResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return userResponse;
     }
   }
@@ -37,7 +37,7 @@ class UserViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       userResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return userResponse;
     }
   }
@@ -60,7 +60,7 @@ class UserViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       userResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return userResponse;
     }
   }

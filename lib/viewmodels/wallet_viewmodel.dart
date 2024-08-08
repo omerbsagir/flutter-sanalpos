@@ -1,8 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/services/token_service.dart';
-import '../models/company_model.dart';
 import '../repositories/wallet_repository.dart';
 import '../data/remote/response/api_response.dart';
 import '../viewmodels/user_viewmodel.dart';
@@ -21,8 +18,6 @@ class WalletViewModel extends ChangeNotifier {
   String walletId='';
   bool isWalletLoaded = false;
 
-  dynamic? checkActiveResponseValue;
-  dynamic? get walletDetailsFonk => walletDetails; //getter
 
   Future<dynamic> createWallet() async {
     String ownerId = '';
@@ -55,7 +50,7 @@ class WalletViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       _walletResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return _walletResponse;
     }
   }
@@ -79,7 +74,7 @@ class WalletViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       _walletResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return _walletResponse;
     }
   }
@@ -106,10 +101,10 @@ class WalletViewModel extends ChangeNotifier {
           firstItem['amount'].toString()
         ];
         walletId = firstItem['walletId'];
-        isWalletLoaded = true; // Şirket bilgileri yüklendi
+        isWalletLoaded = true;
       } else {
         walletId = '';
-        isWalletLoaded = false; // Şirket bilgileri bulunamadı
+        isWalletLoaded = false;
       }
 
       _walletResponse = ApiResponse.completed('Durum kontrolü başarılı');
@@ -117,7 +112,7 @@ class WalletViewModel extends ChangeNotifier {
       print('Hata yakalandı: $e');
       _walletResponse = ApiResponse.error(e.toString());
     } finally {
-      notifyListeners(); // UI'yi son durumu göstermek için güncelle
+      notifyListeners();
       return _walletResponse;
     }
   }
