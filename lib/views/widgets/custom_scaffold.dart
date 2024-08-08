@@ -37,7 +37,7 @@ class CustomScaffold extends StatelessWidget {
                     backgroundImage: AssetImage('assets/pp.jpg'),
                   ),
                   SizedBox(height: 10),
-                  FutureBuilder<dynamic>(
+                  /*FutureBuilder<dynamic>(
                     future: _companyAndActivationViewModel.getCompany(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -64,8 +64,15 @@ class CustomScaffold extends StatelessWidget {
                         return Text('Error gettin company name');
                       }
                     },
+                  ),*/
+                  Text(
+                    'Your Name',
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-
+                  ),
                   FutureBuilder<dynamic>(
                     future: _userViewModel.getRoleFromToken(),
                     builder: (context, snapshot) {

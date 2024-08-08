@@ -40,11 +40,27 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(_cardNumber),
-            SizedBox(height: 20),
+            Text(
+              _cardNumber,
+              style : TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: _scanNFC,
-              child: Text('Scan NFC Card'),
+              style : ElevatedButton.styleFrom(
+                backgroundColor : Colors.deepPurpleAccent,
+              ),
+              child: Text(
+                "Scan NFC Card",
+                style : TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                ),
+              ),
             ),
           ],
         ),
