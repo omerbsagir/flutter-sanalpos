@@ -2,59 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
 import '../widgets/custom_scaffold.dart';
+import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 
-class HomeScreen extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-  final UserViewModel _userViewModel = UserViewModel();
-  final CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
+class _HomeScreenState extends State<HomeScreen> {
+  String _cardNumber = 'Tap your card to scan';
 
+  Future<void> _scanNFC() async {
+    try {
+      final nfctag = await FlutterNfcKit.poll();
+      if (nfctag.ndefAvailable != null && nfctag.ndefAvailable!) {
+        final ndefRecords = await FlutterNfcKit.readNDEFRecords();
+        setState(() {
+          _cardNumber = ndefRecords.map((r) => r.payload).join(', ');
+        });
+      } else {
+        setState(() {
+          _cardNumber = 'NDEF not available';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _cardNumber = 'Error: $e';
+      });
+    } finally {
+      await FlutterNfcKit.finish();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      title:'Home',
+      title: "Home / NFC",
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Welcome to Home Screen!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20), // Adds some spacing between the text and the button
+            Text(_cardNumber),
+            SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () async {
-                try {
-                  String response = await _userViewModel.getUserIdFromToken();
-                  print(response);
-                } catch (e) {
-                  print('Error accessing protected endpoint: $e');
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Button color
-              ),
-              child: Text('Get User Id'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  String response = await _companyAndActivationViewModel.getCompanyId();
-                  print('butondan {$response}');
-                } catch (e) {
-                  print('Error accessing protected endpoint: $e');
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Button color
-              ),
-              child: Text('Get Company Id'),
+              onPressed: _scanNFC,
+              child: Text('Scan NFC Card'),
             ),
           ],
         ),
@@ -62,3 +54,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
