@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                // Alanları kontrol et
+
                 if (emailController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Email alanı boş bırakılamaz!")),
@@ -42,13 +42,12 @@ class LoginScreen extends StatelessWidget {
                     SnackBar(content: Text("Şifre alanı boş bırakılamaz!")),
                   );
                 } else {
-                  // Giriş işlemini yap
+
                   await userViewModel.login(
                     emailController.text,
                     passwordController.text,
                   );
 
-                  // `userResponse`'ın durumunu kontrol et
                   final response = userViewModel.userResponse;
                   if (response.status == Status.COMPLETED) {
 
@@ -65,13 +64,13 @@ class LoginScreen extends StatelessWidget {
               ),
               child: Text('Login'),
             ),
-            SizedBox(height : 20), // Boşluk bırakır ve butonu en alta yerleştirir
+            SizedBox(height : 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/'); // Login sayfasına yönlendirir
+                Navigator.pushNamed(context, '/');
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Yeşil renk
+                backgroundColor: Colors.blue,
               ),
               child: Text('Go back to Register'),
             ),

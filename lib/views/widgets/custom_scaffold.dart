@@ -1,4 +1,3 @@
-// lib/widgets/custom_scaffold.dart
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/repositories/user_repository.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
@@ -18,7 +17,7 @@ class CustomScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        backgroundColor: Colors.deepPurpleAccent, // AppBar color
+        backgroundColor: Colors.deepPurpleAccent,
       ),
       drawer: Drawer(
         child: ListView(
@@ -26,14 +25,14 @@ class CustomScaffold extends StatelessWidget {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.deepPurpleAccent, // Drawer header color
+                color: Colors.deepPurpleAccent,
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   CircleAvatar(
                     radius: 40,
-                    backgroundImage: AssetImage('assets/profile.jpg'), // Profile image
+                    backgroundImage: AssetImage('assets/profile.jpg'),
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -73,27 +72,27 @@ class CustomScaffold extends StatelessWidget {
                         leading: Icon(Icons.account_balance_wallet),
                         title: Text('My Wallet'),
                         onTap: () {
-                          Navigator.pushNamed(context, '/mywallet'); // Go to settings page
+                          Navigator.pushNamed(context, '/mywallet');
                         },
                       ),
                       ListTile(
                         leading: Icon(Icons.home_work),
                         title: Text('My Company'),
                         onTap: () {
-                          Navigator.pushNamed(context, '/mycompany'); // Go to company page
+                          Navigator.pushNamed(context, '/mycompany');
                         },
                       ),
                       ListTile(
                         leading: Icon(Icons.verified),
                         title: Text('Activation'),
                         onTap: () {
-                          Navigator.pushNamed(context, '/activation'); // Go to activation page
+                          Navigator.pushNamed(context, '/activation');
                         },
                       ),
                     ],
                   );
                 } else if (snapshot.hasData && snapshot.data == false) {
-                  return Container(); // Return an empty container if access is denied
+                  return Container();
                 } else {
                   return Text('Error checking role');
                 }
@@ -103,7 +102,7 @@ class CustomScaffold extends StatelessWidget {
               leading: Icon(Icons.settings),
               title: Text('Settings'),
               onTap: () {
-                Navigator.pushNamed(context, '/settings'); // Go to about page
+                Navigator.pushNamed(context, '/settings');
               },
             ),
             ListTile(
@@ -112,7 +111,7 @@ class CustomScaffold extends StatelessWidget {
               onTap: () {
                 // Logout logic
                 _userRepository.logout();
-                Navigator.pushNamed(context, '/'); // Close the drawer
+                Navigator.pushNamed(context, '/');
               },
             ),
           ],

@@ -93,7 +93,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.check_circle, color: Colors.green),
-            SizedBox(width: 8), // İkon ile yazı arasına boşluk ekler
+            SizedBox(width: 8),
             Text(
               'Aktif',
               style: TextStyle(
@@ -108,7 +108,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.cancel, color: Colors.red),
-            SizedBox(width: 8), // İkon ile yazı arasına boşluk ekler
+            SizedBox(width: 8),
             Text(
               'Pasif',
                style: TextStyle(

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserViewModel()),
         ChangeNotifierProvider(create: (_) => CompanyAndActivationViewModel()),
         ChangeNotifierProvider(create: (_) => WalletViewModel()),
-        // Diğer ViewModel'leri burada ekleyin
+
       ],
       child: MaterialApp(
         title: 'Sanal Pos',

@@ -3,7 +3,7 @@ import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../data/remote/response/api_response.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
-import '/views/widgets/custom_scaffold.dart'; // CustomScaffold'ı import edin
+import '/views/widgets/custom_scaffold.dart';
 
 class MyCompanyScreen extends StatefulWidget {
   @override
@@ -183,7 +183,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               title,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            SizedBox(height: 4.0), // Başlık ve değer arasına boşluk ekleyin
+            SizedBox(height: 4.0),
             Text(
               value,
               style: TextStyle(fontSize: 16),
@@ -205,7 +205,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               value,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            SizedBox(height: 4.0), // Başlık ve değer arasına boşluk ekleyin
+            SizedBox(height: 4.0),
 
           ],
         ),
@@ -226,7 +226,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               'Activation Status',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            SizedBox(height: 4.0), // Başlık ve ikon arasına boşluk ekleyin
+            SizedBox(height: 4.0),
             Icon(
               isActive ? Icons.check_circle : Icons.cancel,
               color: isActive ? Colors.green : Colors.red,

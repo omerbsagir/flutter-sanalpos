@@ -44,10 +44,10 @@ class RegisterScreen extends StatelessWidget {
                   password: passwordController.text,
                 );
 
-                // Register işlemini yap
+
                 await userViewModel.register(newUser);
 
-                // `userResponse`'ın durumuna göre işlem yap
+
                 final response = userViewModel.userResponse;
                 if (response.status == Status.COMPLETED) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -63,13 +63,13 @@ class RegisterScreen extends StatelessWidget {
               },
               child: Text('Register'),
             ),
-            SizedBox(height : 20), // Boşluk bırakır ve butonu en alta yerleştirir
+            SizedBox(height : 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login'); // Login sayfasına yönlendirir
+                Navigator.pushNamed(context, '/login');
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Yeşil renk
+                backgroundColor: Colors.blue,
               ),
               child: Text('Go to Login'),
             ),

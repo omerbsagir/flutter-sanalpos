@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
-import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
 import '../widgets/custom_scaffold.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 

@@ -3,7 +3,6 @@ import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../data/remote/response/api_response.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
-import '/views/widgets/custom_scaffold.dart'; // CustomScaffold'ı import edin
 
 class CalisanEkleScreen extends StatefulWidget {
   @override
@@ -23,7 +22,6 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
