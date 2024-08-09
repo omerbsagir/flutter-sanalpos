@@ -113,8 +113,8 @@ class CompanyAndActivationService extends BaseApiService {
         throw Exception('Failed to get company: ${response['body']}');
       }
     } catch (e) {
-      print('UserService get company hata: $e');
-      throw Exception('Get company başarısız: $e');
+      print('UserService get activation hata: $e');
+      throw Exception('Get activation başarısız: $e');
     }
 
   }

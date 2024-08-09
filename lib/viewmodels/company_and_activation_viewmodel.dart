@@ -260,7 +260,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
         activationDetails = [];
         isActivationLoaded = false;
       }
-
+      print(isActivationLoaded.toString());
       company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
     } catch (e) {
       print('Hata yakalandı: $e');
