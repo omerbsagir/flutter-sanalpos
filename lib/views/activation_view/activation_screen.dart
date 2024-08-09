@@ -65,12 +65,39 @@ class _ActivationScreenState extends State<ActivationScreen> {
                       .company_and_activationResponse;
                   if (response.status == Status.COMPLETED) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Aktivasyon İsteği Başarılı')),
+                      SnackBar(
+                        content: Center(
+                          child: Text(
+                            'Aktivasyon İsteği Başarılı',
+                            style: TextStyle(color: Colors.white), // Yazı rengi
+                            textAlign: TextAlign.center, // Yazıyı ortalar
+                          ),
+                        ),
+                        backgroundColor: Colors.green, // Arka plan rengi
+                        behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ), // Yuvarlak köşe
+                        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
+                      ),
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(
-                          response.error ?? 'Aktivasyon İsteği Başarısız!')),
+                      SnackBar(
+                        content: Center(
+                          child: Text(
+                            'Aktivasyon İsteği Başarısız',
+                            style: TextStyle(color: Colors.white), // Yazı rengi
+                            textAlign: TextAlign.center, // Yazıyı ortalar
+                          ),
+                        ),
+                        backgroundColor: Colors.red, // Arka plan rengi
+                        behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ), // Yuvarlak köşe
+                        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
+                      ),
                     );
                   }
                 },

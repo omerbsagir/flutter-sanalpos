@@ -51,12 +51,40 @@ class RegisterScreen extends StatelessWidget {
                 final response = userViewModel.userResponse;
                 if (response.status == Status.COMPLETED) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Kayıt başarılı')),
+                    SnackBar(
+                      content: Center(
+                        child: Text(
+                          'Kayıt Başarılı',
+                          style: TextStyle(color: Colors.white), // Yazı rengi
+                          textAlign: TextAlign.center, // Yazıyı ortalar
+                        ),
+                      ),
+                      backgroundColor: Colors.green, // Arka plan rengi
+                      behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ), // Yuvarlak köşe
+                      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
+                    ),
                   );
                   Navigator.pushNamed(context, '/login');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(response.error ?? 'Kayıt başarısız')),
+                    SnackBar(
+                      content: Center(
+                        child: Text(
+                          'Kayıt Başarısız',
+                          style: TextStyle(color: Colors.white), // Yazı rengi
+                          textAlign: TextAlign.center, // Yazıyı ortalar
+                        ),
+                      ),
+                      backgroundColor: Colors.red, // Arka plan rengi
+                      behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ), // Yuvarlak köşe
+                      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
+                    ),
                   );
                 }
 
