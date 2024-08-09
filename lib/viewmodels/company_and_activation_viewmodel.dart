@@ -14,6 +14,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   String iban='';
   String companyName='None';
   List<dynamic> companyDetails = [];
+  List<dynamic> activationDetails = [];
   List<dynamic> usersForAdmin = [];
 
   dynamic? checkActiveResponseValue;
@@ -22,6 +23,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
 
   bool isCompanyLoaded = false;
   bool isUsersLoaded = false;
+  bool isActivationLoaded = false;
 
   Future<dynamic> createCompany(String name, String iban) async {
     String ownerId = '';
@@ -230,7 +232,44 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
+  Future<dynamic> getActivation() async {
 
+    try{
+      await getCompany();
+    }catch(e){
+      print(e);
+    }
+
+    try {
+      company_and_activationResponse = ApiResponse.loading();
+      notifyListeners();
+
+      final response = await _companyAndActivationRepository.getActivation(companyId);
+      final decodedBody = json.decode(response) as List<dynamic>;
+
+      if (decodedBody.isNotEmpty) {
+        final firstItem = decodedBody[0] as Map<String, dynamic>;
+        activationDetails = [
+          firstItem['tcNo'],
+          firstItem['vergiNo'],
+          firstItem['isActive']
+        ];
+
+        isActivationLoaded = true;
+      } else {
+        activationDetails = [];
+        isActivationLoaded = false;
+      }
+
+      company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      company_and_activationResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return company_and_activationResponse;
+    }
+  }
   Future<String> getCompanyId() async {
 
     String userId='';

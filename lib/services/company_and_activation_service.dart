@@ -97,6 +97,28 @@ class CompanyAndActivationService extends BaseApiService {
 
   }
 
+  Future<dynamic> getActivation(String companyId) async {
+
+
+
+    try {
+      final response = await post('/getActivation', {
+        'companyId': companyId
+      });
+
+      if (response['statusCode'] == 200) {
+        return response['body'];
+      } else {
+
+        throw Exception('Failed to get company: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService get company hata: $e');
+      throw Exception('Get company başarısız: $e');
+    }
+
+  }
+
   Future<dynamic> getUsersAdmin(String adminId) async {
 
 

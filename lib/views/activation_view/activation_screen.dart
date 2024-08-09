@@ -24,106 +24,180 @@ class _ActivationScreenState extends State<ActivationScreen> {
   }
 
   Future<void> _loadActiveStatus() async {
-    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+    final companyAndActivationViewModel = Provider.of<
+        CompanyAndActivationViewModel>(context, listen: false);
+
+    await companyAndActivationViewModel.getActivation();
 
     await companyAndActivationViewModel.checkActiveStatus();
-
   }
 
   @override
   Widget build(BuildContext context) {
-    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context);
+    final companyAndActivationViewModel = Provider.of<
+        CompanyAndActivationViewModel>(context);
 
     return CustomScaffold(
-      title:'Aktivasyon',
+      title: 'Aktivasyon',
       body: Padding(
         padding: EdgeInsets.all(16.0),
+
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
-            TextField(
-              controller: tcNoController,
-              decoration: InputDecoration(labelText: 'TC No'),
-            ),
-            TextField(
-              controller: vergiNoController,
-              decoration: InputDecoration(labelText: 'Vergi No'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                await companyAndActivationViewModel.createActivation(
-                  tcNoController.text,
-                  vergiNoController.text,
-                );
-
-                final response = companyAndActivationViewModel.company_and_activationResponse;
-                if (response.status == Status.COMPLETED) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Aktivasyon İsteği Başarılı')),
+            if (!companyAndActivationViewModel.isActivationLoaded) ...[
+              TextField(
+                controller: tcNoController,
+                decoration: InputDecoration(labelText: 'TC No'),
+              ),
+              TextField(
+                controller: vergiNoController,
+                decoration: InputDecoration(labelText: 'Vergi No'),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  await companyAndActivationViewModel.createActivation(
+                    tcNoController.text,
+                    vergiNoController.text,
                   );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(response.error ?? 'Aktivasyon İsteği Başarısız!')),
-                  );
-                }
-              },
-              child: Text('Aktivasyon Oluştur'),
-            ),
-            SizedBox(height: 20),
-            Consumer<CompanyAndActivationViewModel>(
-              builder: (context, viewModel, child) {
-                return buildStatusIcon(viewModel);
-              },
-            ),
+
+                  final response = companyAndActivationViewModel
+                      .company_and_activationResponse;
+                  if (response.status == Status.COMPLETED) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Aktivasyon İsteği Başarılı')),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(
+                          response.error ?? 'Aktivasyon İsteği Başarısız!')),
+                    );
+                  }
+                },
+                child: Text('Aktivasyon Oluştur'),
+              ),
+            ] else
+              ...[
+                Consumer<CompanyAndActivationViewModel>(
+                  builder: (context, viewModel, child) {
+                    if (viewModel.company_and_activationResponse.status ==
+                        Status.LOADING) {
+                      return Center(
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.grey),
+                            strokeWidth: 5.0,
+                          ),
+                        ),
+                      );
+                    } else
+                    if (viewModel.company_and_activationResponse.status ==
+                        Status.COMPLETED) {
+                      final activationDetails = viewModel.activationDetails;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (activationDetails.isNotEmpty) ...[
+                            _buildInfoColumn('TC NO', activationDetails[0]),
+                            _buildInfoColumn('VERGİ NO', activationDetails[1]),
+                            _buildActivationStatusColumn(activationDetails[2]),
+                          ] else
+                            ...[
+                              Text('No activation details available.',
+                                  style: TextStyle(color: Colors.grey)),
+                            ],
+                        ],
+                      );
+                    } else {
+                      return Center(
+                        child: Text(
+                          'An error occurred.',
+                          style: TextStyle(color: Colors.red,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
           ],
+
         ),
       ),
     );
   }
 
-  Widget buildStatusIcon(CompanyAndActivationViewModel viewModel) {
-    final isActive = viewModel.checkActiveResponseValueFonk;
-    final response = viewModel.company_and_activationResponse;
+  Widget _buildInfoColumn(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            SizedBox(height: 4.0),
+            Text(
+              value,
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
 
-    if (response.status == Status.COMPLETED) {
-      if (isActive == true) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.check_circle, color: Colors.green),
-            SizedBox(width: 8),
-            Text(
-              'Aktif',
-              style: TextStyle(
-                color: Colors.green,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        );
-      } else {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.cancel, color: Colors.red),
-            SizedBox(width: 8),
-            Text(
-              'Pasif',
-               style: TextStyle(
-                 color: Colors.red,
-                 fontWeight: FontWeight.bold,
-               ),
-            ),
-          ],
-        );
-      }
-    } else if (response.status == Status.LOADING) {
-      return Center(child: CircularProgressIndicator());
-    } else {
-      return Text('Durum kontrolü yapılmadı.');
-    }
+    );
   }
 
+  Widget _buildInfoColumn2(String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              value,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            SizedBox(height: 4.0),
+
+          ],
+        ),
+      ),
+
+    );
+  }
+
+
+  Widget _buildActivationStatusColumn(bool isActive) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Activation Status',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            SizedBox(height: 4.0),
+            Icon(
+              isActive ? Icons.check_circle : Icons.cancel,
+              color: isActive ? Colors.green : Colors.red,
+              size: 30,
+            ),
+          ],
+        ),
+
+      ),
+
+    );
+  }
 }
+
