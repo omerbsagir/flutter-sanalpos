@@ -37,13 +37,24 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
     return CustomScaffold(
 
       title: 'My Wallet',
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
           children: [
             if (!walletViewModel.isWalletLoaded) ...[
-              TextField(
-                decoration: InputDecoration(labelText: 'Your Company Does Not Have Wallet'),
+              SizedBox(height: 25),
+              Text(
+                'Your Company Does Not Have Wallet',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15
+                ),
+              ),
+              Text(
+                '!!!',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25
+                ),
               ),
 
             ] else ...[
