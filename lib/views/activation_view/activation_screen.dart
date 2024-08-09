@@ -107,7 +107,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
               ...[
                 Consumer<CompanyAndActivationViewModel>(
                   builder: (context, viewModel, child) {
-                    if (viewModel.company_and_activationResponse.status ==
+                    if (viewModel.company_and_activationResponseAct.status ==
                         Status.LOADING) {
                       return Center(
                         child: SizedBox(
@@ -121,7 +121,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
                         ),
                       );
                     } else
-                    if (viewModel.company_and_activationResponse.status ==
+                    if (viewModel.company_and_activationResponseAct.status ==
                         Status.COMPLETED) {
                       final activationDetails = viewModel.activationDetails;
 

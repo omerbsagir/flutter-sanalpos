@@ -8,6 +8,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
 
   final CompanyAndActivationRepository _companyAndActivationRepository = CompanyAndActivationRepository();
   ApiResponse<String> company_and_activationResponse = ApiResponse.loading();
+  ApiResponse<String> company_and_activationResponseAct = ApiResponse.loading();
   UserViewModel _userViewModel = UserViewModel();
 
   String companyId='';
@@ -241,7 +242,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
     }
 
     try {
-      company_and_activationResponse = ApiResponse.loading();
+      company_and_activationResponseAct = ApiResponse.loading();
       notifyListeners();
 
       final response = await _companyAndActivationRepository.getActivation(companyId);
@@ -261,13 +262,13 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
         isActivationLoaded = false;
       }
       print(isActivationLoaded.toString());
-      company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
+      company_and_activationResponseAct = ApiResponse.completed('Durum kontrolü başarılı');
     } catch (e) {
       print('Hata yakalandı: $e');
-      company_and_activationResponse = ApiResponse.error(e.toString());
+      company_and_activationResponseAct = ApiResponse.error(e.toString());
     } finally {
       notifyListeners();
-      return company_and_activationResponse;
+      return company_and_activationResponseAct;
     }
   }
   Future<String> getCompanyId() async {
