@@ -12,6 +12,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
 
   String companyId='';
   String iban='';
+  String companyName='';
   List<dynamic> companyDetails = [];
   List<dynamic> usersForAdmin = [];
 
@@ -129,6 +130,58 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
         isCompanyLoaded = true;
       } else {
         companyDetails = [];
+        isCompanyLoaded = false;
+      }
+
+      company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      company_and_activationResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return company_and_activationResponse;
+    }
+  }
+  Future<dynamic> getCompanyForNavBar() async {
+
+    String role = '';
+    try{
+      role = await _userViewModel.getRoleFromToken();
+    }catch(e){
+      print(e);
+    }
+
+    String adminId = '';
+    if(role == 'user') {
+      try{
+        await _userViewModel.getUsersForUserRole();
+        adminId = _userViewModel.adminId;
+      }catch(e){
+        print(e);
+      }
+    }else if(role == 'admin'){
+      try{
+        adminId = await _userViewModel.getUserIdFromToken();
+      }catch(e){
+        print(e);
+      }
+    }
+
+
+    try {
+      company_and_activationResponse = ApiResponse.loading();
+      notifyListeners();
+
+      final response = await _companyAndActivationRepository.getCompany(adminId);
+      final decodedBody = json.decode(response) as List<dynamic>;
+
+      if (decodedBody.isNotEmpty) {
+        final firstItem = decodedBody[0] as Map<String, dynamic>;
+        companyName = firstItem['name'];
+
+        isCompanyLoaded = true;
+      } else {
+        companyName = '';
         isCompanyLoaded = false;
       }
 

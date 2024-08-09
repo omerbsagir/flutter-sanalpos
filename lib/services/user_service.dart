@@ -101,4 +101,26 @@ class UserService extends BaseApiService {
 
   }
 
+  Future<dynamic> getUsersForUserRole(String userId) async {
+
+
+
+    try {
+      final response = await post('/getUser', {
+        'userId': userId
+      });
+
+      if (response['statusCode'] == 200) {
+        return response['body'];
+      } else {
+
+        throw Exception('Failed to get user: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService get user hata: $e');
+      throw Exception('Get user başarısız: $e');
+    }
+
+  }
+
 }

@@ -7,8 +7,7 @@ class CustomScaffold extends StatelessWidget {
   final String title;
   final Widget body;
 
-
-  CustomScaffold({required this.body,required this.title});
+  CustomScaffold({required this.body, required this.title});
 
   final UserViewModel _userViewModel = UserViewModel();
   final CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
@@ -29,77 +28,78 @@ class CustomScaffold extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.deepPurpleAccent,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage('assets/pp.jpg'),
-                  ),
-                  SizedBox(height: 10),
-                  /*FutureBuilder<dynamic>(
-                    future: _companyAndActivationViewModel.getCompany(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasData) {
-                        return Text(
-                          _companyAndActivationViewModel.companyDetails[0],
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      } else if (snapshot.hasData && snapshot.data == false) {
-                        return Text(
-                          'Your Name',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        );
-                      } else {
-                        return Text('Error gettin company name');
-                      }
-                    },
-                  ),*/
-                  Text(
-                    'Your Name',
-                    style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  ),
-                  FutureBuilder<dynamic>(
-                    future: _userViewModel.getRoleFromToken(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasData) {
-                        return Text(
-                          snapshot.data,
-                          style: TextStyle(
-                            color: Colors.yellow,
-                            fontSize: 10,
-                          ),
-                        );
-                      } else if (snapshot.hasData && snapshot.data == false) {
-                        return Text(
-                          '',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                          ),
-                        );
-                      } else {
-                        return Text('Error gettin user role');
-                      }
-                    },
-                  ),
-                ],
+              child: SingleChildScrollView( // Make content scrollable if needed
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircleAvatar(
+                      radius: 40,
+                      // backgroundImage: , // Add the image provider here
+                    ),
+                    SizedBox(height: 10),
+                    FutureBuilder<dynamic>(
+                      future: _companyAndActivationViewModel.getCompanyForNavBar(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasData) {
+                          return Text(
+                            _companyAndActivationViewModel.companyName,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        } else if (snapshot.hasData && snapshot.data == false) {
+                          return Text(
+                            'Your Name',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        } else {
+                          return Text(
+                            'Error',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                    FutureBuilder<dynamic>(
+                      future: _userViewModel.getRoleFromToken(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data,
+                            style: TextStyle(
+                              color: Colors.yellow,
+                              fontSize: 10,
+                            ),
+                          );
+                        } else if (snapshot.hasData && snapshot.data == false) {
+                          return SizedBox.shrink(); // To avoid empty space
+                        } else {
+                          return Text(
+                            'Error getting user role',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 10,
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             ListTile(
@@ -141,7 +141,7 @@ class CustomScaffold extends StatelessWidget {
                     ],
                   );
                 } else if (snapshot.hasData && snapshot.data == false) {
-                  return Container();
+                  return SizedBox.shrink();
                 } else {
                   return Text('Error checking role');
                 }
@@ -158,7 +158,6 @@ class CustomScaffold extends StatelessWidget {
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
               onTap: () {
-                // Logout logic
                 _userRepository.logout();
                 Navigator.pushNamed(context, '/');
               },

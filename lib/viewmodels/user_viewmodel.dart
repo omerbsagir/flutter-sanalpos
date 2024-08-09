@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 import '../repositories/user_repository.dart';
@@ -8,6 +10,7 @@ class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
   ApiResponse<String> userResponse = ApiResponse.loading();
 
+  String adminId = '';
 
 
   Future<dynamic> login(String email , String password) async {
@@ -102,7 +105,40 @@ class UserViewModel extends ChangeNotifier {
     return role;
   }
 
+  Future<dynamic> getUsersForUserRole() async {
 
+    String userId = '';
+    try{
+      userId = await getUserIdFromToken();
+    }catch(e){
+      print(e);
+    }
+
+    try {
+      userResponse = ApiResponse.loading();
+      notifyListeners();
+
+      final response = await _userRepository.getUsersForUserRole(userId);
+      final decodedBody = json.decode(response) as List<dynamic>;
+
+      if (decodedBody.isNotEmpty) {
+
+        final item = decodedBody as Map<String, dynamic>;
+        adminId = item['adminId'];
+      } else {
+        adminId = '';
+        print('hata');
+      }
+
+      userResponse = ApiResponse.completed('Durum kontrolü başarılı');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      userResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return userResponse;
+    }
+  }
 
 
 }
