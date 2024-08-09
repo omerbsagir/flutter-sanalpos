@@ -123,7 +123,7 @@ class UserViewModel extends ChangeNotifier {
 
       if (decodedBody.isNotEmpty) {
 
-        final item = decodedBody as Map<String, dynamic>;
+        final item = decodedBody[0] as Map<String, dynamic>;
         adminId = item['adminId'];
       } else {
         adminId = '';
