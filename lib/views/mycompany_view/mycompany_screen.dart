@@ -3,6 +3,7 @@ import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../data/remote/response/api_response.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
+import '/viewmodels/wallet_viewmodel.dart';
 import '/views/widgets/custom_scaffold.dart';
 
 class MyCompanyScreen extends StatefulWidget {
@@ -22,6 +23,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   final TextEditingController adminIdId2Controller = TextEditingController();
 
   final UserViewModel userViewModel=UserViewModel();
+  final WalletViewModel walletViewModel = WalletViewModel();
 
   List<dynamic> lastUsersForAdmin = [];
   int lastUsersForAdminsLenght = 0;
@@ -65,12 +67,9 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             if (!companyAndActivationViewModel.isCompanyLoaded) ...[
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Wallet '),
+                decoration: InputDecoration(labelText: 'Company Name '),
               ),
-              TextField(
-                controller: ownerIdController,
-                decoration: InputDecoration(labelText: 'Owner ID ama değişecek!!!'),
-              ),
+
               TextField(
                 controller: ibanController,
                 decoration: InputDecoration(labelText: 'IBAN'),
@@ -88,6 +87,16 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text(response.error ?? 'Şirket Kaydı başarısız!')),
+                    );
+                  }
+                  final resp = await walletViewModel.createWallet();
+                  if (resp.status == Status.COMPLETED) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Cüzdan Kaydı başarılı')),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(response.error ?? 'Cüzdan Kaydı başarısız!')),
                     );
                   }
                 },

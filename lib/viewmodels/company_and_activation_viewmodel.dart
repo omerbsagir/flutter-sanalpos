@@ -12,7 +12,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
 
   String companyId='';
   String iban='';
-  String companyName='';
+  String companyName='None';
   List<dynamic> companyDetails = [];
   List<dynamic> usersForAdmin = [];
 
