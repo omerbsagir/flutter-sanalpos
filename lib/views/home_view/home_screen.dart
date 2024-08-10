@@ -9,6 +9,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _cardNumber = 'Tap your card to scan';
+  TextEditingController _numberController = TextEditingController();
+  bool _showNFCScan = false;
 
   Future<void> _scanNFC() async {
     try {
@@ -40,32 +42,74 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              _cardNumber,
-              style : TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w300,
+            if (!_showNFCScan)
+              Column(
+                children: [
+                  TextField(
+                    controller: _numberController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Enter a number',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_numberController.text.isNotEmpty) {
+                        setState(() {
+                          _showNFCScan = true;
+                        });
+                      } else {
+                        // Show an alert or a message if the input is empty
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Please enter a number')),
+                        );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurpleAccent,
+                    ),
+                    child: Text(
+                      "Proceed to NFC Scan",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            else
+              Column(
+                children: [
+                  Text(
+                    _cardNumber,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _scanNFC,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepPurpleAccent,
+                    ),
+                    child: Text(
+                      "Scan NFC Card",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: _scanNFC,
-              style : ElevatedButton.styleFrom(
-                backgroundColor : Colors.deepPurpleAccent,
-              ),
-              child: Text(
-                "Scan NFC Card",
-                style : TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                ),
-              ),
-            ),
           ],
         ),
       ),
     );
   }
 }
-
