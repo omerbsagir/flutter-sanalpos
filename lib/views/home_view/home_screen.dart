@@ -9,17 +9,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String _input = '';
+  String tlText = '';
   bool _showNFCScan = false;
 
   void _onButtonPressed(String value) {
     setState(() {
       _input += value;
+      tlText= ' TL';
     });
   }
 
   void _onClearPressed() {
     setState(() {
       _input = '';
+      tlText= '';
     });
   }
 
@@ -45,8 +48,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         );
         _input = '';
+        tlText = '';
+
       } else {
         setState(() {
+          _input = '';
+          tlText = '';
           _showNFCScan = false;
         });
         ScaffoldMessenger.of(context).showSnackBar(
@@ -69,6 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } catch (e) {
       setState(() {
+        _input = '';
+        tlText = '';
         _showNFCScan = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
@@ -118,12 +127,12 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               flex: 2,
               child: Container(
-                alignment: Alignment.centerRight,
+                alignment: Alignment.center,
                 padding: EdgeInsets.all(20.0),
                 child: Text(
-                  _input,
+                  _input + tlText,
                   style: TextStyle(
-                    fontSize: 40,
+                    fontSize: 60,
                     color: Colors.black,
                     fontWeight: FontWeight.w300,
                   ),
@@ -146,14 +155,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     return ElevatedButton(
                       onPressed: _onClearPressed,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
+                        backgroundColor: Colors.red,
                       ),
-                      child: Text(
-                        'Clear',
-                        style: TextStyle(fontSize: 24),
-                      ),
+                      child: SizedBox.shrink(),
                     );
-                  } else if (index == 10) {
+                  } else if (index == 11) {
                     return ElevatedButton(
                       onPressed: () {
                         if (_input.isNotEmpty) {
@@ -182,14 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurpleAccent,
+                        backgroundColor: Colors.greenAccent,
                       ),
-                      child: Text(
-                        'Proceed',
-                        style: TextStyle(fontSize: 24),
-                      ),
+                      child: SizedBox.shrink(),
                     );
-                  } else if (index == 11) {
+                  } else if (index == 10) {
                     return ElevatedButton(
                       onPressed: () => _onButtonPressed('0'),
                       style: ElevatedButton.styleFrom(
