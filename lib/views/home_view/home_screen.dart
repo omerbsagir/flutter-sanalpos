@@ -8,8 +8,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController _numberController = TextEditingController();
+  String _input = '';
   bool _showNFCScan = false;
+
+  void _onButtonPressed(String value) {
+    setState(() {
+      _input += value;
+    });
+  }
+
+  void _onClearPressed() {
+    setState(() {
+      _input = '';
+    });
+  }
 
   Future<void> _scanNFC() async {
     try {
@@ -32,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
             margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           ),
         );
-        _numberController.clear();
+        _input = '';
       } else {
         setState(() {
           _showNFCScan = false;
@@ -86,74 +98,123 @@ class _HomeScreenState extends State<HomeScreen> {
     return CustomScaffold(
       title: "Home / NFC",
       body: Center(
-        child: Column(
+        child: _showNFCScan
+            ? ElevatedButton(
+          onPressed: _scanNFC,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.deepPurpleAccent,
+          ),
+          child: Text(
+            "Scan NFC Card",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+            ),
+          ),
+        )
+            : Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (!_showNFCScan)
-              Column(
-                children: [
-                  TextField(
-                    controller: _numberController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Enter a number',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_numberController.text.isNotEmpty) {
-                        setState(() {
-                          _showNFCScan = true;
-                        });
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Center(
-                              child: Text(
-                                'Lütfen Geçerli Bir Sayı Girin!',
-                                style: TextStyle(color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            backgroundColor: Colors.orange,
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                          ),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurpleAccent,
-                    ),
-                    child: Text(
-                      "Proceed to NFC Scan",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            else
-              ElevatedButton(
-                onPressed: _scanNFC,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurpleAccent,
-                ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.all(20.0),
                 child: Text(
-                  "Scan NFC Card",
+                  _input,
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 40,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w300,
                   ),
                 ),
               ),
+            ),
+            Expanded(
+              flex: 5,
+              child: GridView.builder(
+                padding: EdgeInsets.all(10.0),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1.5,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 10.0,
+                ),
+                itemCount: 12,
+                itemBuilder: (context, index) {
+                  if (index == 9) {
+                    return ElevatedButton(
+                      onPressed: _onClearPressed,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                      ),
+                      child: Text(
+                        'Clear',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    );
+                  } else if (index == 10) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        if (_input.isNotEmpty) {
+                          setState(() {
+                            _showNFCScan = true;
+                          });
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Center(
+                                child: Text(
+                                  'Lütfen Geçerli Bir Sayı Girin!',
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              backgroundColor: Colors.orange,
+                              behavior: SnackBarBehavior.floating,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 10.0),
+                            ),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurpleAccent,
+                      ),
+                      child: Text(
+                        'Proceed',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    );
+                  } else if (index == 11) {
+                    return ElevatedButton(
+                      onPressed: () => _onButtonPressed('0'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[200],
+                      ),
+                      child: Text(
+                        '0',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    );
+                  } else {
+                    return ElevatedButton(
+                      onPressed: () => _onButtonPressed('${index + 1}'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[200],
+                      ),
+                      child: Text(
+                        '${index + 1}',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
