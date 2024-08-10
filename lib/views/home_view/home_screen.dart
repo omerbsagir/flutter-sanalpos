@@ -15,75 +15,67 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final nfctag = await FlutterNfcKit.poll();
       if (nfctag.ndefAvailable != null && nfctag.ndefAvailable!) {
-        final ndefRecords = await FlutterNfcKit.readNDEFRecords();
-        setState(() {
-          _cardNumber = ndefRecords.map((r) => r.payload).join(', ');
-        });
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Center(
               child: Text(
                 'NFC Tarama İşlemi Başarılı',
-                style: TextStyle(color: Colors.white), // Yazı rengi
-                textAlign: TextAlign.center, // Yazıyı ortalar
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
               ),
             ),
-            backgroundColor: Colors.green, // Arka plan rengi
-            behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
-            ), // Yuvarlak köşe
-            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           ),
         );
         _numberController.clear();
       } else {
         setState(() {
-          _cardNumber = 'NDEF not available';
-          _numberController.clear();
           _showNFCScan = false;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Center(
-                child: Text(
-                  'NFC Tarama İşlemi Başarısız',
-                  style: TextStyle(color: Colors.white), // Yazı rengi
-                  textAlign: TextAlign.center, // Yazıyı ortalar
-                ),
-              ),
-              backgroundColor: Colors.red, // Arka plan rengi
-              behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ), // Yuvarlak köşe
-              margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
-            ),
-          );
         });
-
-      }
-    } catch (e) {
-      setState(() {
-        _numberController.clear();
-        _showNFCScan = false;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Center(
               child: Text(
                 'NFC Tarama İşlemi Başarısız',
-                style: TextStyle(color: Colors.white), // Yazı rengi
-                textAlign: TextAlign.center, // Yazıyı ortalar
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
               ),
             ),
-            backgroundColor: Colors.red, // Arka plan rengi
-            behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
-            ), // Yuvarlak köşe
-            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           ),
         );
+      }
+    } catch (e) {
+      setState(() {
+        _showNFCScan = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Center(
+            child: Text(
+              'NFC Tarama İşlemi Başarısız',
+              style: TextStyle(color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        ),
+      );
     } finally {
       await FlutterNfcKit.finish();
     }
@@ -116,22 +108,21 @@ class _HomeScreenState extends State<HomeScreen> {
                           _showNFCScan = true;
                         });
                       } else {
-                        // Show an alert or a message if the input is empty
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Center(
                               child: Text(
-                                'Lütfen Geçerli Bir Sayı Girin !',
-                                style: TextStyle(color: Colors.white), // Yazı rengi
-                                textAlign: TextAlign.center, // Yazıyı ortalar
+                                'Lütfen Geçerli Bir Sayı Girin!',
+                                style: TextStyle(color: Colors.white),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                            backgroundColor: Colors.orange, // Arka plan rengi
-                            behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
+                            backgroundColor: Colors.orange,
+                            behavior: SnackBarBehavior.floating,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                            ), // Yuvarlak köşe
-                            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
+                            ),
+                            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                           ),
                         );
                       }
@@ -150,31 +141,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               )
             else
-              Column(
-                children: [
-                  Text(
-                    _cardNumber,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                    ),
+              ElevatedButton(
+                onPressed: _scanNFC,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.deepPurpleAccent,
+                ),
+                child: Text(
+                  "Scan NFC Card",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
                   ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _scanNFC,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepPurpleAccent,
-                    ),
-                    child: Text(
-                      "Scan NFC Card",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
           ],
         ),
