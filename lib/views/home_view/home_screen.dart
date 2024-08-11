@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_scaffold.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
+import 'package:vibration/vibration.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -73,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
             margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
           ),
         );
+        Vibration.vibrate(duration: 500);
       }
     } catch (e) {
       setState(() {
@@ -97,6 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
           margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         ),
       );
+      Vibration.vibrate(duration: 500);
     } finally {
       await FlutterNfcKit.finish();
     }
@@ -185,6 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   horizontal: 20.0, vertical: 10.0),
                             ),
                           );
+                          Vibration.vibrate(duration: 500);
                         }
                       },
                       style: ElevatedButton.styleFrom(
