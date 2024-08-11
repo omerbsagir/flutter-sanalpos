@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/data/remote/response/api_response.dart';
 import 'package:provider/provider.dart';
+import '../../widgets/custom_snackbar.dart';
 import '/viewmodels/user_viewmodel.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -34,41 +35,9 @@ class LoginScreen extends StatelessWidget {
               onPressed: () async {
 
                 if (emailController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Center(
-                        child: Text(
-                          'Email alanı boş bırakılamaz',
-                          style: TextStyle(color: Colors.white), // Yazı rengi
-                          textAlign: TextAlign.center, // Yazıyı ortalar
-                        ),
-                      ),
-                      backgroundColor: Colors.blueGrey, // Arka plan rengi
-                      behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ), // Yuvarlak köşe
-                      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
-                    ),
-                  );
+                  CustomSnackbar.show(context,'Email Alanı Boş Bırakılamaz',Colors.orange);
                 } else if (passwordController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Center(
-                        child: Text(
-                          'Şifre alanı boş bırakılamaz',
-                          style: TextStyle(color: Colors.white), // Yazı rengi
-                          textAlign: TextAlign.center, // Yazıyı ortalar
-                        ),
-                      ),
-                      backgroundColor: Colors.blueGrey, // Arka plan rengi
-                      behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ), // Yuvarlak köşe
-                      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
-                    ),
-                  );
+                  CustomSnackbar.show(context,'Şifre Alanı Boş Bırakılamaz',Colors.orange);
                 } else {
 
                   await userViewModel.login(
@@ -78,26 +47,9 @@ class LoginScreen extends StatelessWidget {
 
                   final response = userViewModel.userResponse;
                   if (response.status == Status.COMPLETED) {
-
                     Navigator.pushNamed(context, '/home');
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Center(
-                          child: Text(
-                            'Giriş Başarısız',
-                            style: TextStyle(color: Colors.white), // Yazı rengi
-                            textAlign: TextAlign.center, // Yazıyı ortalar
-                          ),
-                        ),
-                        backgroundColor: Colors.red, // Arka plan rengi
-                        behavior: SnackBarBehavior.floating, // Snackbar'ın ekranın biraz yukarısında görüntülenmesi için
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ), // Yuvarlak köşe
-                        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0), // Kenarlardan uzaklık
-                      ),
-                    );
+                    CustomSnackbar.show(context,'Giriş Başarısız',Colors.red);
                   }
                 }
               },

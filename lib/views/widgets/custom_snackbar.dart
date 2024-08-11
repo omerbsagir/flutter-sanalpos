@@ -24,7 +24,7 @@ class CustomSnackbar {
     scaffold.removeCurrentSnackBar();
     scaffold.showSnackBar(snackBar);
 
-    if(backgroundColor == Colors.red) {
+    if(backgroundColor == Colors.red || backgroundColor == Colors.orange ) {
       Vibration.vibrate(duration: 500);
     }
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_scaffold.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 import 'package:vibration/vibration.dart';
+import '../widgets/custom_snackbar.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -31,23 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final nfctag = await FlutterNfcKit.poll();
       if (nfctag.ndefAvailable != null && nfctag.ndefAvailable!) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Center(
-              child: Text(
-                'NFC Tarama İşlemi Başarılı',
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          ),
-        );
+        CustomSnackbar.show(context,'NFC Tarama İşlemi Başarılı',Colors.green);
         _input = '';
         tlText = '';
 
@@ -57,24 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           tlText = '';
           _showNFCScan = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Center(
-              child: Text(
-                'NFC Tarama İşlemi Başarısız',
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          ),
-        );
-        Vibration.vibrate(duration: 500);
+        CustomSnackbar.show(context,'NFC Tarama İşlemi Başarısız',Colors.red);
       }
     } catch (e) {
       setState(() {
@@ -82,24 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         tlText = '';
         _showNFCScan = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Center(
-            child: Text(
-              'NFC Tarama İşlemi Başarısız',
-              style: TextStyle(color: Colors.white),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          backgroundColor: Colors.red,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        ),
-      );
-      Vibration.vibrate(duration: 500);
+      CustomSnackbar.show(context,'NFC Tarama İşlemi Başarısız',Colors.red);
     } finally {
       await FlutterNfcKit.finish();
     }
@@ -170,25 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             _showNFCScan = true;
                           });
                         } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Center(
-                                child: Text(
-                                  'Lütfen Geçerli Bir Sayı Girin!',
-                                  style: TextStyle(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              backgroundColor: Colors.orange,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 10.0),
-                            ),
-                          );
-                          Vibration.vibrate(duration: 500);
+                          CustomSnackbar.show(context,'Lütfen Geçerli Bir Sayı Girin',Colors.orange);
                         }
                       },
                       style: ElevatedButton.styleFrom(
