@@ -26,17 +26,24 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
   void initState() {
     super.initState();
     _loadTransactionsData();
+    _loadWalletData();
   }
 
   Future<void> _loadTransactionsData() async {
     final paymentViewModel = Provider.of<PaymentViewModel>(context, listen: false);
 
-
     paymentViewModel.TransactionDetails.clear();
 
     await paymentViewModel.getTransactions();
 
+  }
+  Future<void> _loadWalletData() async {
+    final walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
 
+    walletViewModel.walletDetails.clear();
+
+    await walletViewModel.updateWallet();
+    await walletViewModel.getWallet();
 
   }
 
