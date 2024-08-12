@@ -46,7 +46,7 @@ class UserViewModel extends ChangeNotifier {
       return userResponse;
     }
   }
-  Future<dynamic> registerNewUser(String email, String phone, String password) async {
+  Future<dynamic> registerNewUser(UserModel newUser) async {
     String adminId = '';
     try{
       adminId = await getUserIdFromToken();
@@ -58,7 +58,7 @@ class UserViewModel extends ChangeNotifier {
       userResponse = ApiResponse.loading();
       notifyListeners();
 
-      await _userRepository.registerNewUser(email,phone,password,adminId);
+      await _userRepository.registerNewUser(newUser,adminId);
 
       userResponse = ApiResponse.completed('Registration successful');
     } catch (e) {

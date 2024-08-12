@@ -65,18 +65,28 @@ class _ActivationScreenState extends State<ActivationScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  await companyAndActivationViewModel.createActivation(
-                    tcNoController.text,
-                    vergiNoController.text,
-                  );
 
-                  final response = companyAndActivationViewModel
-                      .company_and_activationResponse;
-                  if (response.status == Status.COMPLETED) {
-                    CustomSnackbar.show(context,'Aktivasyon İsteği Başarılı',Colors.green);
+                  if (tcNoController.text.isEmpty || vergiNoController.text.isEmpty) {
+                    CustomSnackbar.show(context,'Hiçbir alan Boş Bırakılamaz',Colors.orange);
+                  } else if (tcNoController.text.length != 11) {
+                    CustomSnackbar.show(context,'Lütfen Geçerli Bir TC Numarası Girin',Colors.orange);
+                  }else if (vergiNoController.text.length != 10) {
+                    CustomSnackbar.show(context,'Lütfen Geçerli Bir Vergi Numarası Girin',Colors.orange);
                   } else {
-                    CustomSnackbar.show(context,'Aktivasyon İsteği Başarısız',Colors.red);
+                    await companyAndActivationViewModel.createActivation(
+                      tcNoController.text,
+                      vergiNoController.text,
+                    );
+
+                    final response = companyAndActivationViewModel
+                        .company_and_activationResponse;
+                    if (response.status == Status.COMPLETED) {
+                      CustomSnackbar.show(context,'Aktivasyon İsteği Başarılı',Colors.green);
+                    } else {
+                      CustomSnackbar.show(context,'Aktivasyon İsteği Başarısız',Colors.red);
+                    }
                   }
+
                 },
                 child: Text('Aktivasyon Oluştur'),
               ),

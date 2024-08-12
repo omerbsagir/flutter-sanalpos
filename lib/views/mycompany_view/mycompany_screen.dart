@@ -82,21 +82,32 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  await companyAndActivationViewModel.createCompany(
-                      nameController.text, ibanController.text);
 
-                  final response = companyAndActivationViewModel.company_and_activationResponse;
-                  if (response.status == Status.COMPLETED) {
-                    CustomSnackbar.show(context, 'Şirket Kaydı Başarılı', Colors.green);
+                  if (nameController.text.isEmpty || ibanController.text.isEmpty ) {
+                    CustomSnackbar.show(context,'Hiçbir alan Boş Bırakılamaz',Colors.orange);
+                  } else if (nameController.text.length > 3 && nameController.text.length < 8) {
+                    CustomSnackbar.show(context,'Şirket İsmi 3 ile 8 Karakter Arası Olmalıdır!',Colors.orange);
+                  }else if (!ibanController.text.startsWith('TR') || ibanController.text.length != 26) {
+                    CustomSnackbar.show(context,'Lütfen Geçerli Bir IBAN Girin!',Colors.orange);
                   } else {
-                    CustomSnackbar.show(context, 'Şirket Kaydı Başarısız', Colors.red);
+                    await companyAndActivationViewModel.createCompany(
+                        nameController.text, ibanController.text);
+
+                    final response = companyAndActivationViewModel.company_and_activationResponse;
+                    if (response.status == Status.COMPLETED) {
+                      CustomSnackbar.show(context, 'Şirket Kaydı Başarılı', Colors.green);
+                    } else {
+                      CustomSnackbar.show(context, 'Şirket Kaydı Başarısız', Colors.red);
+                    }
+                    final resp = await walletViewModel.createWallet();
+                    if (resp.status == Status.COMPLETED) {
+                      CustomSnackbar.show(context, 'Cüzdan Kaydı Başarılı', Colors.green);
+                    } else {
+                      CustomSnackbar.show(context, 'Cüzdan Kaydı Başarısız', Colors.red);
+                    }
+
                   }
-                  final resp = await walletViewModel.createWallet();
-                  if (resp.status == Status.COMPLETED) {
-                    CustomSnackbar.show(context, 'Cüzdan Kaydı Başarılı', Colors.green);
-                  } else {
-                    CustomSnackbar.show(context, 'Cüzdan Kaydı Başarısız', Colors.red);
-                  }
+
                 },
                 child: Text('Register the Company'),
               ),
