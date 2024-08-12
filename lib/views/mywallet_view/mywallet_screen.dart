@@ -31,24 +31,12 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
   Future<void> _loadTransactionsData() async {
     final paymentViewModel = Provider.of<PaymentViewModel>(context, listen: false);
 
-    if (isFirstLoad) {
-      lastTransactionDetailsLenght = 0;
 
-      isFirstLoad = false;
-    }else{
-
-      lastTransactionDetailsLenght = paymentViewModel.TransactionDetails.length;
-
-    }
     paymentViewModel.TransactionDetails.clear();
 
     await paymentViewModel.getTransactions();
 
-    if (paymentViewModel.TransactionDetails.isNotEmpty) {
-      print("Transactions loaded successfully: ${paymentViewModel.TransactionDetails}");
-    } else {
-      print("No transactions loaded.");
-    }
+
 
   }
 
@@ -134,29 +122,16 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                       ),
                     );
                   } else if (viewModel.paymentResponse.status == Status.COMPLETED) {
-                    final transactionDetails = paymentViewModel.TransactionDetails;
-                    return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (transactionDetails.isNotEmpty) ...[
-                            SizedBox(height: 20),
-                            Text(
-                              'Transactions',
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            if (lastTransactionDetailsLenght != 0 && !isFirstLoad) ...[
-                              if (transactionDetails[lastTransactionDetailsLenght] != null) ...[
-                                for (int i = lastTransactionDetailsLenght; i < transactionDetails.length; i++)
-                                  _buildInfoColumn2(transactionDetails[i]),
-                              ],
-                            ] else if (lastTransactionDetailsLenght == 0) ...[
-                              for (int i = 0; i < transactionDetails.length; i++)
-                                _buildInfoColumn2(transactionDetails[i]),
-                            ],
-                          ] else ...[
-                            Text('No transactions available.', style: TextStyle(color: Colors.grey)),
-                          ],
-                        ]
+                    final transactionDetails = viewModel.TransactionDetails;
+                    return ExpansionTile(
+                      title: Text('Transactions'),
+                      children: transactionDetails.isNotEmpty
+                          ? transactionDetails.map<Widget>((transaction) {
+                        return ListTile(
+                          title: Text('${transaction.date} : ${transaction.amount}'),
+                        );
+                      }).toList()
+                          : [Text('No transactions available.', style: TextStyle(color: Colors.grey))],
                     );
 
                   } else {

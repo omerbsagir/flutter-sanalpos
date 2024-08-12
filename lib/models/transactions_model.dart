@@ -1,7 +1,7 @@
 class TransactionModel {
   final String transactionId;
   final String date;
-  final double amount;
+  final String amount;
 
   TransactionModel({
     required this.transactionId,

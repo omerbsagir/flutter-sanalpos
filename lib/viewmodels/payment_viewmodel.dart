@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutterprojects/models/transactions_model.dart';
 import '../repositories/payment_repository.dart';
 import '../data/remote/response/api_response.dart';
 import '../viewmodels/user_viewmodel.dart';
@@ -16,8 +17,7 @@ class PaymentViewModel extends ChangeNotifier {
   CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
   ApiResponse get paymentResponse => _paymentResponse;
 
-  List<dynamic> TransactionDetails = [];
-  String transactionId='';
+  List<TransactionModel> TransactionDetails = [];
   bool isTransactionsLoaded = false;
 
 
@@ -40,19 +40,9 @@ class PaymentViewModel extends ChangeNotifier {
       final response = await _paymentRepository.getTransactions(walletId);
       final decodedBody = json.decode(response) as List<dynamic>;
 
-      if (decodedBody.isNotEmpty) {
-        final firstItem = decodedBody[0] as Map<String,dynamic>;
-        TransactionDetails = [
-          firstItem['transactionId'],
-          firstItem['date'],
-          firstItem['amount']
-        ];
-        transactionId = firstItem['transactionId'];
-        isTransactionsLoaded = true;
-      } else {
-        transactionId = '';
-        isTransactionsLoaded = false;
-      }
+      TransactionDetails = decodedBody.map((json) => TransactionModel.fromJson(json)).toList();
+      isTransactionsLoaded = TransactionDetails.isNotEmpty;
+
 
       _paymentResponse = ApiResponse.completed('Durum kontrolü başarılı');
     } catch (e) {
