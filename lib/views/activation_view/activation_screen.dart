@@ -40,6 +40,14 @@ class _ActivationScreenState extends State<ActivationScreen> {
 
     return CustomScaffold(
       title: 'Aktivasyon',
+      actions: [
+        IconButton(
+          icon: Icon(Icons.refresh_rounded),
+          onPressed: () {
+            companyAndActivationViewModel.getActivation();
+          },
+        ),
+      ],
       body: Padding(
         padding: EdgeInsets.all(16.0),
 

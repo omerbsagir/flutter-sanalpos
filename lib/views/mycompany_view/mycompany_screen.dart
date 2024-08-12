@@ -33,25 +33,22 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCompanyData();
+    if (isFirstLoad) {
+      _loadCompanyData();
+    }
   }
 
   Future<void> _loadCompanyData() async {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
 
-    if (isFirstLoad) {
-      lastUsersForAdminsLenght = 0;
-      isFirstLoad = false;
-    }else{
-      lastUsersForAdminsLenght = companyAndActivationViewModel.usersForAdmin.length;
-    }
-
-    companyAndActivationViewModel.usersForAdmin.clear();
+    lastUsersForAdminsLenght = 0;
 
     await companyAndActivationViewModel.getCompany();
-
     await companyAndActivationViewModel.getUsersAdmin();
 
+    setState(() {
+      isFirstLoad = false; // İlk yüklemenin yapıldığını belirtiyoruz.
+    });
   }
 
   @override
@@ -59,8 +56,16 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context);
 
     return CustomScaffold(
-
       title: 'My Company',
+      actions: [
+        IconButton(
+          icon: Icon(Icons.refresh_rounded),
+          onPressed: () {
+            // Sadece kullanıcı manuel olarak yenilerse getCompany'i çağır
+            companyAndActivationViewModel.getCompany();
+          },
+        ),
+      ],
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -70,7 +75,6 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                 controller: nameController,
                 decoration: InputDecoration(labelText: 'Company Name '),
               ),
-
               TextField(
                 controller: ibanController,
                 decoration: InputDecoration(labelText: 'IBAN'),
@@ -78,19 +82,20 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  await companyAndActivationViewModel.createCompany(nameController.text,ibanController.text);
+                  await companyAndActivationViewModel.createCompany(
+                      nameController.text, ibanController.text);
 
                   final response = companyAndActivationViewModel.company_and_activationResponse;
                   if (response.status == Status.COMPLETED) {
-                    CustomSnackbar.show(context,'Şirket Kaydı Başarılı',Colors.green);
+                    CustomSnackbar.show(context, 'Şirket Kaydı Başarılı', Colors.green);
                   } else {
-                    CustomSnackbar.show(context,'Şirket Kaydı Başarısız',Colors.red);
+                    CustomSnackbar.show(context, 'Şirket Kaydı Başarısız', Colors.red);
                   }
                   final resp = await walletViewModel.createWallet();
                   if (resp.status == Status.COMPLETED) {
-                    CustomSnackbar.show(context,'Cüzdan Kaydı Başarılı',Colors.green);
+                    CustomSnackbar.show(context, 'Cüzdan Kaydı Başarılı', Colors.green);
                   } else {
-                    CustomSnackbar.show(context,'Cüzdan Kaydı Başarısız',Colors.red);
+                    CustomSnackbar.show(context, 'Cüzdan Kaydı Başarısız', Colors.red);
                   }
                 },
                 child: Text('Register the Company'),
@@ -111,7 +116,6 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                     );
                   } else if (viewModel.company_and_activationResponse.status == Status.COMPLETED) {
                     final companyDetails = viewModel.companyDetails;
-
                     final userDetails = viewModel.usersForAdmin;
 
                     return Column(
@@ -137,15 +141,13 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                             'Çalışanların',
                             style: TextStyle(fontSize: 18),
                           ),
-                          if(lastUsersForAdminsLenght != 0 && !isFirstLoad) ...[   //3  0 1 2
-
-                            if(userDetails[lastUsersForAdminsLenght] != null)...[
-
-                              for(int i=lastUsersForAdminsLenght;i<userDetails.length;i++)
+                          if (lastUsersForAdminsLenght != 0 && !isFirstLoad) ...[
+                            if (userDetails[lastUsersForAdminsLenght] != null) ...[
+                              for (int i = lastUsersForAdminsLenght; i < userDetails.length; i++)
                                 _buildInfoColumn2(userDetails[i]),
                             ],
-                          ]else if(lastUsersForAdminsLenght == 0)...[
-                            for(int i=0;i<userDetails.length;i++)
+                          ] else if (lastUsersForAdminsLenght == 0) ...[
+                            for (int i = 0; i < userDetails.length; i++)
                               _buildInfoColumn2(userDetails[i]),
                           ],
                         ] else ...[
@@ -153,7 +155,6 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                         ],
                       ],
                     );
-
                   } else {
                     return Center(
                       child: Text(
@@ -166,10 +167,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               ),
             ],
           ],
-
         ),
-
-
       ),
     );
   }
@@ -193,9 +191,9 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
           ],
         ),
       ),
-
     );
   }
+
   Widget _buildInfoColumn2(String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -208,14 +206,11 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             SizedBox(height: 4.0),
-
           ],
         ),
       ),
-
     );
   }
-
 
   Widget _buildActivationStatusColumn(bool isActive) {
     return Padding(
@@ -236,12 +231,8 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             ),
           ],
         ),
-
       ),
-
     );
-
   }
-
-
 }
+

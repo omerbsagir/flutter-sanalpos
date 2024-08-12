@@ -6,8 +6,9 @@ import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart
 class CustomScaffold extends StatelessWidget {
   final String title;
   final Widget body;
+  final List<IconButton>? actions; // Make actions optional
 
-  CustomScaffold({required this.body, required this.title});
+  CustomScaffold({required this.body, required this.title, this.actions});
 
   final UserViewModel _userViewModel = UserViewModel();
   final CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
@@ -19,6 +20,7 @@ class CustomScaffold extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
         backgroundColor: Colors.deepPurpleAccent,
+        actions: actions,
       ),
       drawer: Drawer(
         child: ListView(

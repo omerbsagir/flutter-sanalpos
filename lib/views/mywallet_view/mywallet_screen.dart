@@ -37,6 +37,15 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
     return CustomScaffold(
 
       title: 'My Wallet',
+      actions: [
+        IconButton(
+          icon: Icon(Icons.refresh_rounded),
+          onPressed: () {
+            walletViewModel.getWallet();
+          },
+        ),
+      ],
+
       body: Center(
         child: Column(
           children: [
