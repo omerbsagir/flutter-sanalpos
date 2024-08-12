@@ -119,6 +119,28 @@ class CompanyAndActivationService extends BaseApiService {
 
   }
 
+  Future<dynamic> deleteActivation(String ownerId) async {
+
+
+
+    try {
+      final response = await post('/deleteActivation', {
+        'ownerId': ownerId
+      });
+
+      if (response['statusCode'] == 200) {
+        return response['body'];
+      } else {
+
+        throw Exception('Failed to delete company: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService delete activation hata: $e');
+      throw Exception('Delete activation başarısız: $e');
+    }
+
+  }
+
   Future<dynamic> getUsersAdmin(String adminId) async {
 
 

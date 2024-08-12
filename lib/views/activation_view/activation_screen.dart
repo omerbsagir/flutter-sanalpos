@@ -5,18 +5,14 @@ import '../widgets/custom_scaffold.dart';
 import '../widgets/custom_snackbar.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
 
-
-
 class ActivationScreen extends StatefulWidget {
   @override
   _ActivationScreenState createState() => _ActivationScreenState();
 }
 
 class _ActivationScreenState extends State<ActivationScreen> {
-
   final TextEditingController tcNoController = TextEditingController();
   final TextEditingController vergiNoController = TextEditingController();
-
 
   @override
   void initState() {
@@ -25,18 +21,45 @@ class _ActivationScreenState extends State<ActivationScreen> {
   }
 
   Future<void> _loadActiveStatus() async {
-    final companyAndActivationViewModel = Provider.of<
-        CompanyAndActivationViewModel>(context, listen: false);
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
 
     await companyAndActivationViewModel.getActivation();
-
     await companyAndActivationViewModel.checkActiveStatus();
+  }
+
+  Future<void> _confirmDeleteActivation() async {
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+
+    final bool? shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete this activation?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldDelete == true) {
+      await companyAndActivationViewModel.deleteActivation();
+      CustomSnackbar.show(context, 'Activation deleted successfully', Colors.green);
+      await _loadActiveStatus(); // Reload data after deletion
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final companyAndActivationViewModel = Provider.of<
-        CompanyAndActivationViewModel>(context);
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context);
 
     return CustomScaffold(
       title: 'Aktivasyon',
@@ -50,7 +73,6 @@ class _ActivationScreenState extends State<ActivationScreen> {
       ],
       body: Padding(
         padding: EdgeInsets.all(16.0),
-
         child: Column(
           children: [
             if (!companyAndActivationViewModel.isActivationLoaded) ...[
@@ -65,84 +87,81 @@ class _ActivationScreenState extends State<ActivationScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-
                   if (tcNoController.text.isEmpty || vergiNoController.text.isEmpty) {
-                    CustomSnackbar.show(context,'Hiçbir alan Boş Bırakılamaz',Colors.orange);
+                    CustomSnackbar.show(context, 'Hiçbir alan Boş Bırakılamaz', Colors.orange);
                   } else if (tcNoController.text.length != 11) {
-                    CustomSnackbar.show(context,'Lütfen Geçerli Bir TC Numarası Girin',Colors.orange);
-                  }else if (vergiNoController.text.length != 10) {
-                    CustomSnackbar.show(context,'Lütfen Geçerli Bir Vergi Numarası Girin',Colors.orange);
+                    CustomSnackbar.show(context, 'Lütfen Geçerli Bir TC Numarası Girin', Colors.orange);
+                  } else if (vergiNoController.text.length != 10) {
+                    CustomSnackbar.show(context, 'Lütfen Geçerli Bir Vergi Numarası Girin', Colors.orange);
                   } else {
                     await companyAndActivationViewModel.createActivation(
                       tcNoController.text,
                       vergiNoController.text,
                     );
 
-                    final response = companyAndActivationViewModel
-                        .company_and_activationResponse;
+                    final response = companyAndActivationViewModel.company_and_activationResponse;
                     if (response.status == Status.COMPLETED) {
-                      CustomSnackbar.show(context,'Aktivasyon İsteği Başarılı',Colors.green);
+                      CustomSnackbar.show(context, 'Aktivasyon İsteği Başarılı', Colors.green);
                       Navigator.pushNamed(context, '/activation');
                     } else {
-                      CustomSnackbar.show(context,'Aktivasyon İsteği Başarısız',Colors.red);
+                      CustomSnackbar.show(context, 'Aktivasyon İsteği Başarısız', Colors.red);
                     }
                     tcNoController.clear();
                     vergiNoController.clear();
                   }
-
                 },
                 child: Text('Aktivasyon Oluştur'),
               ),
-            ] else
-              ...[
-                Consumer<CompanyAndActivationViewModel>(
-                  builder: (context, viewModel, child) {
-                    if (viewModel.company_and_activationResponseAct.status ==
-                        Status.LOADING) {
-                      return Center(
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.grey),
-                            strokeWidth: 5.0,
+            ] else ...[
+              Consumer<CompanyAndActivationViewModel>(
+                builder: (context, viewModel, child) {
+                  if (viewModel.company_and_activationResponseAct.status == Status.LOADING) {
+                    return Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+                          strokeWidth: 5.0,
+                        ),
+                      ),
+                    );
+                  } else if (viewModel.company_and_activationResponseAct.status == Status.COMPLETED) {
+                    final activationDetails = viewModel.activationDetails;
+
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (activationDetails.isNotEmpty) ...[
+                          _buildInfoColumn('TC NO', activationDetails[0]),
+                          _buildInfoColumn('VERGİ NO', activationDetails[1]),
+                          _buildActivationStatusColumn(activationDetails[2]),
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            onPressed: _confirmDeleteActivation,
+                            child: Text(
+                                'Delete Activation',
+                                style: TextStyle(color: Colors.white),
+                            ),
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                           ),
-                        ),
-                      );
-                    } else
-                    if (viewModel.company_and_activationResponseAct.status ==
-                        Status.COMPLETED) {
-                      final activationDetails = viewModel.activationDetails;
-
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          if (activationDetails.isNotEmpty) ...[
-                            _buildInfoColumn('TC NO', activationDetails[0]),
-                            _buildInfoColumn('VERGİ NO', activationDetails[1]),
-                            _buildActivationStatusColumn(activationDetails[2]),
-                          ] else
-                            ...[
-                              Text('No activation details available.',
-                                  style: TextStyle(color: Colors.grey)),
-                            ],
+                        ] else ...[
+                          Text('No activation details available.', style: TextStyle(color: Colors.white)),
                         ],
-                      );
-                    } else {
-                      return Center(
-                        child: Text(
-                          'An error occurred.',
-                          style: TextStyle(color: Colors.red,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
+                      ],
+                    );
+                  } else {
+                    return Center(
+                      child: Text(
+                        'An error occurred.',
+                        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
           ],
-
         ),
       ),
     );
@@ -167,30 +186,8 @@ class _ActivationScreenState extends State<ActivationScreen> {
           ],
         ),
       ),
-
     );
   }
-
-  Widget _buildInfoColumn2(String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              value,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            SizedBox(height: 4.0),
-
-          ],
-        ),
-      ),
-
-    );
-  }
-
 
   Widget _buildActivationStatusColumn(bool isActive) {
     return Padding(
@@ -211,10 +208,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
             ),
           ],
         ),
-
       ),
-
     );
   }
 }
-
