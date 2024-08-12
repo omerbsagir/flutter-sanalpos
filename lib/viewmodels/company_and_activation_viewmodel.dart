@@ -132,7 +132,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
         iban = firstItem['iban'];
         isCompanyLoaded = true;
       } else {
-        companyDetails = [];
+        companyDetails = ['none'];
         isCompanyLoaded = false;
       }
 
@@ -184,7 +184,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
 
         isCompanyLoaded = true;
       } else {
-        companyName = '';
+        companyName = 'None';
         isCompanyLoaded = false;
       }
 
