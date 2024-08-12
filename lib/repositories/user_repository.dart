@@ -49,5 +49,14 @@ class UserRepository {
       throw e;
     }
   }
+  Future<dynamic> deleteUser(String email) async {
+    try {
+      final response = await _userService.deleteUser(email);
+      return response;
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
 
 }

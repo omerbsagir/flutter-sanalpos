@@ -123,4 +123,21 @@ class UserService extends BaseApiService {
 
   }
 
+  Future<dynamic> deleteUser(String email) async {
+    try {
+      final response = await post('/deleteUser', {
+        'email': email
+      });
+
+      if (response['statusCode'] == 200) {
+        return response['body'];
+      } else {
+
+        throw Exception('Failed to delete user: ${response['body']}');
+      }
+    } catch (e) {
+      print('WalletService delete user hata: $e');
+      throw Exception('Delete User başarısız: $e');
+    }
+  }
 }

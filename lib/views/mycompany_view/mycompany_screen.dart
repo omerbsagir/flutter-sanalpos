@@ -57,9 +57,40 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
     await companyAndActivationViewModel.getUsersAdmin();
 
 
-
-
   }
+
+  Future<void> _confirmDeleteCompany() async {
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+
+    final bool? shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete your company?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldDelete == true) {
+      await companyAndActivationViewModel.deleteCompany();
+      CustomSnackbar.show(context, 'Company deleted successfully', Colors.green);
+      await _loadCompanyData(); // Reload data after deletion
+    }
+  }
+  //SETTINGSE TAŞI
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -153,6 +184,15 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                         ] else ...[
                           Text('No company details available.', style: TextStyle(color: Colors.grey)),
                         ],
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: _confirmDeleteCompany,
+                          child: Text(
+                            'Delete Company',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                        ),
                         SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () async {

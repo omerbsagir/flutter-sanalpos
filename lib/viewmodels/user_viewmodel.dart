@@ -139,6 +139,21 @@ class UserViewModel extends ChangeNotifier {
       return userResponse;
     }
   }
+  Future<dynamic> deleteUser(String email) async {
+    try {
+      userResponse = ApiResponse.loading();
+      notifyListeners();
 
+      await _userRepository.deleteUser(email);
+
+      userResponse = ApiResponse.completed('Delete successfull');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      userResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return userResponse;
+    }
+  }
 
 }
