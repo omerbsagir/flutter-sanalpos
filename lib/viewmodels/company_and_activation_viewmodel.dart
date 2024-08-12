@@ -295,6 +295,30 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       return company_and_activationResponse;
     }
   }
+  Future<dynamic> deleteCompany() async {
+
+    String ownerId = '';
+    try{
+      ownerId = await _userViewModel.getUserIdFromToken();
+    }catch(e){
+      print(e);
+    }
+
+    try {
+      company_and_activationResponse = ApiResponse.loading();
+      notifyListeners();
+
+      await _companyAndActivationRepository.deleteCompany(ownerId);
+
+      company_and_activationResponse = ApiResponse.completed('Delete successful');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      company_and_activationResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return company_and_activationResponse;
+    }
+  }
   Future<String> getCompanyId() async {
 
     String userId='';

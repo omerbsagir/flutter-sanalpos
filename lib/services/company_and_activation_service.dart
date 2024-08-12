@@ -132,11 +132,32 @@ class CompanyAndActivationService extends BaseApiService {
         return response['body'];
       } else {
 
-        throw Exception('Failed to delete company: ${response['body']}');
+        throw Exception('Failed to delete activation: ${response['body']}');
       }
     } catch (e) {
       print('UserService delete activation hata: $e');
       throw Exception('Delete activation başarısız: $e');
+    }
+
+  }
+  Future<dynamic> deleteCompany(String ownerId) async {
+
+
+
+    try {
+      final response = await post('/deleteCompany', {
+        'ownerId': ownerId
+      });
+
+      if (response['statusCode'] == 200) {
+        return response['body'];
+      } else {
+
+        throw Exception('Failed to delete company: ${response['body']}');
+      }
+    } catch (e) {
+      print('UserService delete company hata: $e');
+      throw Exception('Delete company başarısız: $e');
     }
 
   }

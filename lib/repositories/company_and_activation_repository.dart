@@ -57,6 +57,15 @@ class CompanyAndActivationRepository {
       throw e;
     }
   }
+  Future<dynamic> deleteCompany(String ownerId) async {
+    try {
+      final response = await _companyAndActivationService.deleteCompany(ownerId);
+      return response;
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
   Future<dynamic> getUsersAdmin(String adminId) async {
     try {
       final response = await _companyAndActivationService.getUsersAdmin(adminId);
