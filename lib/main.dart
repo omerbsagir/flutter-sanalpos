@@ -11,9 +11,11 @@ import 'package:flutterprojects/views/login_register_view/base_login_register_vi
 import 'package:provider/provider.dart';
 import 'viewmodels/user_viewmodel.dart';
 import 'viewmodels/wallet_viewmodel.dart';
+import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 
 
-void main() {
+void main() async {
+  await init();
   runApp(MyApp());
 }
 

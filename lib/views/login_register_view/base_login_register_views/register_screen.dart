@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../widgets/custom_snackbar.dart';
 import '/viewmodels/user_viewmodel.dart';
 import '/models/user_model.dart';
+import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 
 class RegisterScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -31,6 +32,7 @@ class RegisterScreen extends StatelessWidget {
               controller: phoneController,
               decoration: InputDecoration(labelText: 'Phone'),
             ),
+
             TextField(
               controller: passwordController,
               decoration: InputDecoration(labelText: 'Password'),
@@ -45,6 +47,11 @@ class RegisterScreen extends StatelessWidget {
                   password: passwordController.text,
                 );
 
+                if (emailController.text.isEmpty || phoneController.text.isEmpty || passwordController.text.isEmpty ) {
+                  CustomSnackbar.show(context,'Hiçbir Boş Bırakılamaz',Colors.orange);
+                } else if (passwordController.text.isEmpty) {
+                  CustomSnackbar.show(context,'Şifre Alanı Boş Bırakılamaz',Colors.orange);
+                } else {}
 
                 await userViewModel.register(newUser);
 
