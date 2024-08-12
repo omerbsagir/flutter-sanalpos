@@ -30,6 +30,15 @@ class WalletRepository {
       throw e;
     }
   }
+  Future<dynamic> deleteWallet(String ownerId) async {
+    try {
+      final response = await _walletService.deleteWallet(ownerId);
+      return response;
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
 
 
 

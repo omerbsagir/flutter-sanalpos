@@ -66,5 +66,24 @@ class WalletService extends BaseApiService {
     }
   }
 
+  Future<dynamic> deleteWallet(String ownerId) async {
+    try {
+      final response = await post('/deleteWallet', {
+        'ownerId': ownerId
+      });
+
+
+      if (response['statusCode'] == 200) {
+        return response['body'];
+      } else {
+
+        throw Exception('Failed to delete wallet: ${response['body']}');
+      }
+    } catch (e) {
+      print('WalletService delete wallet hata: $e');
+      throw Exception('Delete Wallet başarısız: $e');
+    }
+  }
+
 
 }

@@ -117,7 +117,30 @@ class WalletViewModel extends ChangeNotifier {
     }
   }
 
+  Future<dynamic> deleteWallet() async {
+    String ownerId = '';
+    try{
+      ownerId = await _userViewModel.getUserIdFromToken();
+    }catch(e){
+      print(e);
+    }
 
+
+    try {
+      _walletResponse = ApiResponse.loading();
+      notifyListeners();
+
+      await _walletRepository.deleteWallet(ownerId);
+
+      _walletResponse = ApiResponse.completed('Delete successfull');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      _walletResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return _walletResponse;
+    }
+  }
 
 
 
