@@ -58,13 +58,6 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                   fontSize: 15
                 ),
               ),
-              Text(
-                '!!!',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25
-                ),
-              ),
 
             ] else ...[
               Consumer<WalletViewModel>(

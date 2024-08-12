@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../viewmodels/company_and_activation_viewmodel.dart';
 import '../widgets/custom_scaffold.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 import 'package:vibration/vibration.dart';
@@ -14,6 +16,8 @@ class _HomeScreenState extends State<HomeScreen> {
   String _input = '';
   String tlText = '';
   bool _showNFCScan = false;
+  bool activationStatus = false;
+
 
   void _onButtonPressed(String value) {
     setState(() {
@@ -56,6 +60,20 @@ class _HomeScreenState extends State<HomeScreen> {
       await FlutterNfcKit.finish();
     }
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadActivationStatus();
+  }
+  Future<void> _loadActivationStatus() async {
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+
+    await companyAndActivationViewModel.checkActiveStatus();
+    activationStatus = companyAndActivationViewModel.checkActiveResponseValueFonk();
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -117,12 +135,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else if (index == 11) {
                     return ElevatedButton(
                       onPressed: () {
-                        if (_input.isNotEmpty) {
+                        if (_input.isNotEmpty && activationStatus != false) {
                           setState(() {
                             _showNFCScan = true;
                           });
                         } else {
-                          CustomSnackbar.show(context,'Lütfen Geçerli Bir Sayı Girin',Colors.orange);
+                          if(activationStatus == true){
+                            CustomSnackbar.show(context,'Lütfen Geçerli Bir Sayı Girin',Colors.orange);
+                          }else{
+                            CustomSnackbar.show(context,'Şirketiniz Aktif Durumda Değil',Colors.orange);
+                          }
+
                         }
                       },
                       style: ElevatedButton.styleFrom(
