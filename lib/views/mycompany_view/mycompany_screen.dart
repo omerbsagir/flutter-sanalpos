@@ -33,22 +33,32 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   @override
   void initState() {
     super.initState();
-    if (isFirstLoad) {
-      _loadCompanyData();
-    }
+    _loadCompanyData();
   }
 
   Future<void> _loadCompanyData() async {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
 
-    lastUsersForAdminsLenght = 0;
+
+    if (isFirstLoad) {
+      lastUsersForAdminsLenght = 0;
+
+      isFirstLoad = false;
+    }else{
+
+      lastUsersForAdminsLenght = companyAndActivationViewModel.usersForAdmin.length;
+
+    }
+    companyAndActivationViewModel.usersForAdmin.clear();
+
 
     await companyAndActivationViewModel.getCompany();
+
     await companyAndActivationViewModel.getUsersAdmin();
 
-    setState(() {
-      isFirstLoad = false; // İlk yüklemenin yapıldığını belirtiyoruz.
-    });
+
+
+
   }
 
   @override

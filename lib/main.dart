@@ -11,6 +11,7 @@ import 'package:flutterprojects/views/login_register_view/base_login_register_vi
 import 'package:provider/provider.dart';
 import 'viewmodels/user_viewmodel.dart';
 import 'viewmodels/wallet_viewmodel.dart';
+import 'viewmodels/payment_viewmodel.dart';
 
 
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserViewModel()),
         ChangeNotifierProvider(create: (_) => CompanyAndActivationViewModel()),
         ChangeNotifierProvider(create: (_) => WalletViewModel()),
+        ChangeNotifierProvider(create: (_) => PaymentViewModel()),
 
       ],
       child: MaterialApp(
