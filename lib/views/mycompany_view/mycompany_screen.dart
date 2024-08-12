@@ -85,7 +85,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
                   if (nameController.text.isEmpty || ibanController.text.isEmpty ) {
                     CustomSnackbar.show(context,'Hiçbir alan Boş Bırakılamaz',Colors.orange);
-                  } else if (nameController.text.length > 3 && nameController.text.length < 8) {
+                  } else if (!(nameController.text.length > 2 && nameController.text.length < 8)) {
                     CustomSnackbar.show(context,'Şirket İsmi 3 ile 8 Karakter Arası Olmalıdır!',Colors.orange);
                   }else if (!ibanController.text.startsWith('TR') || ibanController.text.length != 26) {
                     CustomSnackbar.show(context,'Lütfen Geçerli Bir IBAN Girin!',Colors.orange);
@@ -102,9 +102,13 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                     final resp = await walletViewModel.createWallet();
                     if (resp.status == Status.COMPLETED) {
                       CustomSnackbar.show(context, 'Cüzdan Kaydı Başarılı', Colors.green);
+                      Navigator.pushNamed(context, '/mycompany');
                     } else {
                       CustomSnackbar.show(context, 'Cüzdan Kaydı Başarısız', Colors.red);
+
                     }
+                    nameController.clear();
+                    ibanController.clear();
 
                   }
 

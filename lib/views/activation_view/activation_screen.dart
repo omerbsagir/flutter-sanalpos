@@ -82,9 +82,12 @@ class _ActivationScreenState extends State<ActivationScreen> {
                         .company_and_activationResponse;
                     if (response.status == Status.COMPLETED) {
                       CustomSnackbar.show(context,'Aktivasyon İsteği Başarılı',Colors.green);
+                      Navigator.pushNamed(context, '/activation');
                     } else {
                       CustomSnackbar.show(context,'Aktivasyon İsteği Başarısız',Colors.red);
                     }
+                    tcNoController.clear();
+                    vergiNoController.clear();
                   }
 
                 },

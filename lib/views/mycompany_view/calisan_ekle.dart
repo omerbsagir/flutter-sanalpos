@@ -85,6 +85,9 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
                     CustomSnackbar.show(context,'Çalışan Kaydı Başarısız',Colors.red);
                   }
                 }
+                emailController.clear();
+                fullPhoneNumber = '';
+                passwordController.clear();
 
               },
             child: Text('Çalışan Ekle'),
