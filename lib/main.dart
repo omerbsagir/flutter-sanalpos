@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
 import 'package:flutterprojects/views/mycompany_view/calisan_ekle.dart';
 import 'package:flutterprojects/views/mycompany_view/mycompany_screen.dart';
+import 'package:flutterprojects/views/settings_view/settings_screen.dart';
 import 'package:flutterprojects/views/splash_view/splash_screen.dart';
 import 'package:flutterprojects/views/activation_view/activation_screen.dart';
 import 'package:flutterprojects/views/home_view/home_screen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           '/activation': (context) => ActivationScreen(),
           '/calisanekle' : (context) => CalisanEkleScreen(),
           '/mywallet' : (context) => MyWalletScreen(),
+          '/settings' : (context) => SettingsScreen(),
 
         },
       ),
