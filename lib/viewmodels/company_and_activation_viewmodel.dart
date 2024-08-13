@@ -18,8 +18,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   List<dynamic> activationDetails = [];
   List<dynamic> usersForAdmin = [];
 
-  dynamic? checkActiveResponseValue;
-  dynamic? get checkActiveResponseValueFonk => checkActiveResponseValue; //getter
+  bool isActive = false;
   dynamic? get companyDetailsFonk => companyDetails; //getter
 
   bool isCompanyLoaded = false;
@@ -95,7 +94,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       final response = await _companyAndActivationRepository.checkActiveStatus(companyId);
 
       final decodedBody = json.decode(response) as Map<String, dynamic>;
-      checkActiveResponseValue = decodedBody["isActive"];
+      isActive = decodedBody["isActive"];
 
       company_and_activationResponse = ApiResponse.completed('Durum kontrolü başarılı');
     } catch (e) {

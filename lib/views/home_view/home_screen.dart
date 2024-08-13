@@ -70,9 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
 
     await companyAndActivationViewModel.checkActiveStatus();
-    activationStatus = companyAndActivationViewModel.checkActiveResponseValueFonk();
+    activationStatus = companyAndActivationViewModel.isActive;
 
-    print(activationStatus);
   }
 
 
