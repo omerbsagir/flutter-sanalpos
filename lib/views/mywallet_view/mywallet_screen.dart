@@ -159,7 +159,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                                             children: [
                                               Center(
                                                 child: Text(
-                                                  '${formatNumberWithDots(transaction.amount)} TL',
+                                                  '${formatNumberWithDots(transaction.amount)},00 TL',
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
@@ -260,7 +260,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
           ),
           SizedBox(height: 8),
           Text(
-            '${formatNumberWithDots(balance)} TL',
+            '${formatNumberWithDots(balance)},00 TL',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
