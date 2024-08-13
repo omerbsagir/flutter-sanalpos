@@ -28,7 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _confirmDeleteCompany() async {
      final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
      final walletViewModel = Provider.of<WalletViewModel>(context,listen: false);
-
+     final userViewModel = Provider.of<UserViewModel>(context,listen: false);
 
      final bool? shouldDelete = await showDialog<bool>(
        context: context,
@@ -51,8 +51,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
      );
 
      if (shouldDelete == true) {
+       List<dynamic> usersForAdmin = [];
+       try{
+         await companyAndActivationViewModel.getUsersAdmin();
+         usersForAdmin = companyAndActivationViewModel.usersForAdmin;
+       }catch(e){
+         print(e);
+       }
        try {
          await walletViewModel.deleteWallet();
+         await userViewModel.deleteWorkers(usersForAdmin);
          await companyAndActivationViewModel.deleteCompany();
          CustomSnackbar.show(context, 'Company deleted successfully', Colors.green);
        } catch (e) {
@@ -91,9 +99,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
         await userViewModel.getUser();
         if (userViewModel.userDetails.isNotEmpty) {
           String email = userViewModel.userDetails[0];
+
+          List<dynamic> usersForAdmin = [];
+          try{
+            await companyAndActivationViewModel.getUsersAdmin();
+            usersForAdmin = companyAndActivationViewModel.usersForAdmin;
+          }catch(e){
+            print(e);
+          }
+
           await walletViewModel.deleteWallet();
           await companyAndActivationViewModel.deleteCompany();
-          await userViewModel.deleteWorkers();
+          await userViewModel.deleteWorkers(usersForAdmin);
           await userViewModel.deleteUser(email);
 
           CustomSnackbar.show(context, 'Account deleted successfully.', Colors.green);

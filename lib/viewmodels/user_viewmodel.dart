@@ -9,7 +9,7 @@ import '../services/token_service.dart';
 class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
   ApiResponse<String> userResponse = ApiResponse.loading();
-  final CompanyAndActivationViewModel companyAndActivationViewModel = CompanyAndActivationViewModel();
+
 
   String adminId = '';
   List<dynamic> userDetails = [];
@@ -195,14 +195,7 @@ class UserViewModel extends ChangeNotifier {
       return userResponse;
     }
   }
-  Future<dynamic> deleteWorkers() async {
-    List<dynamic> usersForAdmin = [];
-    try{
-      await companyAndActivationViewModel.getUsersAdmin();
-      usersForAdmin = companyAndActivationViewModel.usersForAdmin;
-    }catch(e){
-      print(e);
-    }
+  Future<dynamic> deleteWorkers(List<dynamic> usersForAdmin) async {
 
     try {
       userResponse = ApiResponse.loading();
