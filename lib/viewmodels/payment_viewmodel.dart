@@ -54,5 +54,37 @@ class PaymentViewModel extends ChangeNotifier {
     }
   }
 
+  Future<dynamic> createTransactions(String amount) async {
+
+    //wallet Id al
+    String walletId = '';
+    try{
+      await _walletViewModel.getWallet();
+      walletId = _walletViewModel.walletId;
+    }catch(e){
+      print(e);
+    }
+
+    try {
+      _paymentResponse = ApiResponse.loading();
+      notifyListeners();
+
+      final response = await _paymentRepository.createTransactions(walletId,amount);
+      final decodedBody = json.decode(response) as List<dynamic>;
+
+      TransactionDetails = decodedBody.map((json) => TransactionModel.fromJson(json)).toList();
+      isTransactionsLoaded = TransactionDetails.isNotEmpty;
+
+
+      _paymentResponse = ApiResponse.completed('Durum kontrolü başarılı');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      _paymentResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return _paymentResponse;
+    }
+  }
+
 
 }

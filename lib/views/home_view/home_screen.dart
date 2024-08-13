@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../viewmodels/company_and_activation_viewmodel.dart';
+import '../../viewmodels/payment_viewmodel.dart';
 import '../widgets/custom_scaffold.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 import 'package:vibration/vibration.dart';
@@ -34,10 +35,21 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _scanNFC() async {
+    final PaymentViewModel paymentViewModel = Provider.of<PaymentViewModel>(context,listen:false);
+
     try {
       final nfctag = await FlutterNfcKit.poll();
       if (nfctag.ndefAvailable != null && nfctag.ndefAvailable!) {
         CustomSnackbar.show(context,'NFC Tarama İşlemi Başarılı',Colors.green);
+
+        try{
+          await paymentViewModel.createTransactions(_input.toString());
+          CustomSnackbar.show(context, 'Ödeme Başarıyla Alındı', Colors.greenAccent);
+        }catch(e){
+          print(e);
+        }
+
+
         _input = '';
         tlText = '';
 

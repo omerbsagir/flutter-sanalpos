@@ -13,6 +13,16 @@ class PaymentRepository {
     }
   }
 
+  Future<dynamic> createTransactions(String walletId,String amount) async {
+    try {
+      final response = await _paymentService.createTransactions(walletId,amount);
+      return response;
+    } catch (e) {
+      print('Hata: $e');
+      throw e;
+    }
+  }
+
 
 
 

@@ -24,5 +24,25 @@ class PaymentService extends BaseApiService {
     }
   }
 
+  Future<dynamic> createTransactions(String walletId , String amount) async {
+    try {
+      final response = await post('/createTransactions', {
+        'walletId': walletId ,
+        'amount' : amount
+      });
+
+
+      if (response['statusCode'] == 200) {
+        return response['body'];
+      } else {
+
+        throw Exception('Failed to create transactions: ${response['body']}');
+      }
+    } catch (e) {
+      print('WalletService create transactions hata: $e');
+      throw Exception('Create Transactions başarısız: $e');
+    }
+  }
+
 
 }

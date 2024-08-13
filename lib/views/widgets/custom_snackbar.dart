@@ -28,6 +28,9 @@ class CustomSnackbar {
     if(backgroundColor == Colors.red || backgroundColor == Colors.orange ) {
       Vibration.vibrate(duration: 750);
     }
+    else if(backgroundColor == Colors.greenAccent){
+      Vibration.vibrate(duration: 2000);
+    }
 
   }
 
