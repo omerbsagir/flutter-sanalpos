@@ -309,9 +309,9 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       company_and_activationResponse = ApiResponse.loading();
       notifyListeners();
 
-      await _companyAndActivationRepository.deleteCompany(ownerId);
       await _walletViewModel.deleteWallet();
       await deleteActivation();
+      await _companyAndActivationRepository.deleteCompany(ownerId);
 
       company_and_activationResponse = ApiResponse.completed('Delete successful');
     } catch (e) {

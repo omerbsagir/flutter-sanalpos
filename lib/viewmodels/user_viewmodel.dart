@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
 import '../models/user_model.dart';
