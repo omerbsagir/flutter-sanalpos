@@ -11,7 +11,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   ApiResponse<String> company_and_activationResponse = ApiResponse.loading();
   ApiResponse<String> company_and_activationResponseAct = ApiResponse.loading();
   UserViewModel _userViewModel = UserViewModel();
-  WalletViewModel _walletViewModel = WalletViewModel();
+
 
   String companyId='';
   String iban='';
@@ -158,7 +158,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
     String adminId = '';
     if(role == 'user') {
       try{
-        await _userViewModel.getUser();
+        await _userViewModel.getUsersAdminId();
         adminId = _userViewModel.adminId;
       }catch(e){
         print(e);
@@ -309,7 +309,6 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       company_and_activationResponse = ApiResponse.loading();
       notifyListeners();
 
-      await _walletViewModel.deleteWallet();
       await deleteActivation();
       await _companyAndActivationRepository.deleteCompany(ownerId);
 

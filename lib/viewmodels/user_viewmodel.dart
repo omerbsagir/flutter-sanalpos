@@ -9,10 +9,11 @@ import '../services/token_service.dart';
 class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
   ApiResponse<String> userResponse = ApiResponse.loading();
-  CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
+  final CompanyAndActivationViewModel companyAndActivationViewModel = CompanyAndActivationViewModel();
 
   String adminId = '';
   List<dynamic> userDetails = [];
+
 
   Future<dynamic> login(String email , String password) async {
     try {
@@ -106,6 +107,40 @@ class UserViewModel extends ChangeNotifier {
     return role;
   }
 
+  Future<dynamic> getUsersAdminId() async {
+
+    String userId = '';
+    try{
+      userId = await getUserIdFromToken();
+    }catch(e){
+      print(e);
+    }
+
+    try {
+      userResponse = ApiResponse.loading();
+      notifyListeners();
+
+      final response = await _userRepository.getUser(userId);
+      final decodedBody = json.decode(response) as List<dynamic>;
+
+      if (decodedBody.isNotEmpty) {
+
+        final item = decodedBody[0] as Map<String, dynamic>;
+        adminId = item['adminId'];
+      } else {
+        adminId = '';
+        print('hata');
+      }
+
+      userResponse = ApiResponse.completed('Durum kontrolü başarılı');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      userResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return userResponse;
+    }
+  }
   Future<dynamic> getUser() async {
 
     String userId = '';
@@ -125,12 +160,11 @@ class UserViewModel extends ChangeNotifier {
       if (decodedBody.isNotEmpty) {
 
         final item = decodedBody[0] as Map<String, dynamic>;
-        userDetails[
-          item['email']
-        ];
-        adminId = item['adminId'];
+
+        userDetails.add(item['email']);
+
       } else {
-        adminId = '';
+        userDetails = [];
         print('hata');
       }
 
@@ -143,15 +177,61 @@ class UserViewModel extends ChangeNotifier {
       return userResponse;
     }
   }
+
+
   Future<dynamic> deleteUser(String email) async {
     try {
       userResponse = ApiResponse.loading();
       notifyListeners();
 
-      await _companyAndActivationViewModel.deleteCompany();
       await _userRepository.deleteUser(email);
 
       userResponse = ApiResponse.completed('Delete successfull');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      userResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return userResponse;
+    }
+  }
+  Future<dynamic> deleteWorkers() async {
+    List<dynamic> usersForAdmin = [];
+    try{
+      await companyAndActivationViewModel.getUsersAdmin();
+      usersForAdmin = companyAndActivationViewModel.usersForAdmin;
+    }catch(e){
+      print(e);
+    }
+
+    try {
+      userResponse = ApiResponse.loading();
+      notifyListeners();
+
+      for(int i=0;i<usersForAdmin.length;i++){
+        String email = usersForAdmin[i];
+        await _userRepository.deleteUser(email);
+      }
+
+      userResponse = ApiResponse.completed('Delete successfull');
+    } catch (e) {
+      print('Hata yakalandı: $e');
+      userResponse = ApiResponse.error(e.toString());
+    } finally {
+      notifyListeners();
+      return userResponse;
+    }
+  }
+
+  Future<dynamic> logout() async {
+    try {
+      userResponse = ApiResponse.loading();
+      notifyListeners();
+
+      await _userRepository.logout();
+
+
+      userResponse = ApiResponse.completed('Logout successful');
     } catch (e) {
       print('Hata yakalandı: $e');
       userResponse = ApiResponse.error(e.toString());

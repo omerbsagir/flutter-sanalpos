@@ -140,6 +140,13 @@ class CustomScaffold extends StatelessWidget {
                           Navigator.pushNamed(context, '/activation');
                         },
                       ),
+                      ListTile(
+                        leading: Icon(Icons.settings),
+                        title: Text('Settings'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/settings');
+                        },
+                      ),
                     ],
                   );
                 } else if (snapshot.hasData && snapshot.data == false) {
@@ -149,13 +156,7 @@ class CustomScaffold extends StatelessWidget {
                 }
               },
             ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Settings'),
-              onTap: () {
-                Navigator.pushNamed(context, '/settings');
-              },
-            ),
+
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),

@@ -1,20 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:flutterprojects/repositories/user_repository.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
+import 'package:flutterprojects/viewmodels/wallet_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../viewmodels/company_and_activation_viewmodel.dart';
 import '../widgets/custom_scaffold.dart';
-import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
-import 'package:vibration/vibration.dart';
 import '../widgets/custom_snackbar.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
+  @override
+  _SettingsScreenState createState() => _SettingsScreenState();
+}
 
-  //final UserViewModel _userViewModel = UserViewModel();
-  
+class _SettingsScreenState extends State<SettingsScreen> {
 
-  
+
+  Future<void> _logoutAfterDelete() async {
+    final userViewModel = Provider.of<UserViewModel>(context,listen: false);
+
+    try{
+      await userViewModel.logout();
+
+    }catch(e){
+      print(e);
+    }
+  }
+  Future<void> _confirmDeleteCompany() async {
+     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+     final walletViewModel = Provider.of<WalletViewModel>(context,listen: false);
+
+
+     final bool? shouldDelete = await showDialog<bool>(
+       context: context,
+       builder: (BuildContext context) {
+         return AlertDialog(
+           title: Text('Confirm Delete'),
+           content: Text('Are you sure you want to delete your company?'),
+           actions: <Widget>[
+             TextButton(
+               child: Text('Cancel'),
+               onPressed: () => Navigator.of(context).pop(false),
+             ),
+             TextButton(
+               child: Text('Delete'),
+               onPressed: () => Navigator.of(context).pop(true),
+             ),
+           ],
+         );
+       },
+     );
+
+     if (shouldDelete == true) {
+       try {
+         await walletViewModel.deleteWallet();
+         await companyAndActivationViewModel.deleteCompany();
+         CustomSnackbar.show(context, 'Company deleted successfully', Colors.green);
+       } catch (e) {
+         CustomSnackbar.show(context, 'Failed to delete company: $e', Colors.red);
+       }
+
+     }
+   }
+  Future<void> _confirmDeleteUser() async {
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+    final walletViewModel = Provider.of<WalletViewModel>(context,listen: false);
+    final userViewModel = Provider.of<UserViewModel>(context,listen: false);
+
+    final bool? shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Delete'),
+          content: Text('Are you sure you want to delete your account?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(false),
+            ),
+            TextButton(
+              child: Text('Delete'),
+              onPressed: () => Navigator.of(context).pop(true),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldDelete == true) {
+      try {
+        await userViewModel.getUser();
+        if (userViewModel.userDetails.isNotEmpty) {
+          String email = userViewModel.userDetails[0];
+          await walletViewModel.deleteWallet();
+          await companyAndActivationViewModel.deleteCompany();
+          await userViewModel.deleteWorkers();
+          await userViewModel.deleteUser(email);
+
+          CustomSnackbar.show(context, 'Account deleted successfully.', Colors.green);
+          _logoutAfterDelete();
+          Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+
+        }
+      } catch (e) {
+        CustomSnackbar.show(context, 'Failed to delete account: $e', Colors.red);
+      }
+
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
     return CustomScaffold(
       title: "Settings",
       body: ListView(
@@ -25,7 +122,7 @@ class SettingsScreen extends StatelessWidget {
             title: Text('Delete Account'),
             subtitle: Text('Remove your account from the system'),
             onTap: () {
-              _confirmDeleteUser(context);
+              _confirmDeleteUser();
             },
           ),
           Divider(),
@@ -34,7 +131,7 @@ class SettingsScreen extends StatelessWidget {
             title: Text('Delete Company'),
             subtitle: Text('Remove your company from the system'),
             onTap: () {
-              _confirmDeleteCompany(context);
+              _confirmDeleteCompany();
             },
           ),
         ],
@@ -42,74 +139,7 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  void _confirmDeleteUser(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete User'),
-          content: Text('Are you sure you want to delete your user account? This action cannot be undone.'),
-          actions: [
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: Text('Delete'),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                await DeleteUser(context);
-                CustomSnackbar.show(context, 'User deleted successfully.',Colors.green);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
-  void _confirmDeleteCompany(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Delete Company'),
-          content: Text('Are you sure you want to delete your company? This action cannot be undone.'),
-          actions: [
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: Text('Delete'),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                await DeleteCompany(context);
-                CustomSnackbar.show(context, 'Company deleted successfully.',Colors.green);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-  Future<void> DeleteUser(BuildContext context) async {
-    final userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
-    await userViewModel.getUser();
-    String email = userViewModel.userDetails[0];
-    await userViewModel.deleteUser(email);
-
-  }
-  Future<void> DeleteCompany(BuildContext context) async {
-    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
-
-    await companyAndActivationViewModel.deleteCompany();
-
-  }
 
 }
