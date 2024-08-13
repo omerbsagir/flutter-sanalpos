@@ -16,6 +16,7 @@ class CustomSnackbar {
         borderRadius: BorderRadius.circular(10.0),
       ),
       margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      duration: Duration(milliseconds: 750),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -25,7 +26,7 @@ class CustomSnackbar {
     scaffold.showSnackBar(snackBar);
 
     if(backgroundColor == Colors.red || backgroundColor == Colors.orange ) {
-      Vibration.vibrate(duration: 500);
+      Vibration.vibrate(duration: 750);
     }
 
   }
