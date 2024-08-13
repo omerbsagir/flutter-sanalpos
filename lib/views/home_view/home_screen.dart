@@ -49,7 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
           print(e);
         }
 
-
         _input = '';
         tlText = '';
 
@@ -61,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
         });
         CustomSnackbar.show(context,'NFC Tarama İşlemi Başarısız',Colors.red);
       }
+
     } catch (e) {
       setState(() {
         _input = '';
