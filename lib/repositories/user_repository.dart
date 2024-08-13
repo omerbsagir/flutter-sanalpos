@@ -40,9 +40,9 @@ class UserRepository {
     }
   }
 
-  Future<dynamic> getUsersForUserRole(String userId) async {
+  Future<dynamic> getUser(String userId) async {
     try {
-      final response = await _userService.getUsersForUserRole(userId);
+      final response = await _userService.getUser(userId);
       return response;
     } catch (e) {
       print('Hata: $e');

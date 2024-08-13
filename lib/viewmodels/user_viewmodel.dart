@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
 import '../models/user_model.dart';
 import '../repositories/user_repository.dart';
 import '../data/remote/response/api_response.dart';
@@ -9,9 +10,10 @@ import '../services/token_service.dart';
 class UserViewModel extends ChangeNotifier {
   final UserRepository _userRepository = UserRepository();
   ApiResponse<String> userResponse = ApiResponse.loading();
+  CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
 
   String adminId = '';
-
+  List<dynamic> userDetails = [];
 
   Future<dynamic> login(String email , String password) async {
     try {
@@ -105,7 +107,7 @@ class UserViewModel extends ChangeNotifier {
     return role;
   }
 
-  Future<dynamic> getUsersForUserRole() async {
+  Future<dynamic> getUser() async {
 
     String userId = '';
     try{
@@ -118,12 +120,15 @@ class UserViewModel extends ChangeNotifier {
       userResponse = ApiResponse.loading();
       notifyListeners();
 
-      final response = await _userRepository.getUsersForUserRole(userId);
+      final response = await _userRepository.getUser(userId);
       final decodedBody = json.decode(response) as List<dynamic>;
 
       if (decodedBody.isNotEmpty) {
 
         final item = decodedBody[0] as Map<String, dynamic>;
+        userDetails[
+          item['email']
+        ];
         adminId = item['adminId'];
       } else {
         adminId = '';
@@ -144,6 +149,7 @@ class UserViewModel extends ChangeNotifier {
       userResponse = ApiResponse.loading();
       notifyListeners();
 
+      await _companyAndActivationViewModel.deleteCompany();
       await _userRepository.deleteUser(email);
 
       userResponse = ApiResponse.completed('Delete successfull');

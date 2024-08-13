@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutterprojects/viewmodels/wallet_viewmodel.dart';
 import '../repositories/company_and_activation_repository.dart';
 import '../data/remote/response/api_response.dart';
 import '../viewmodels/user_viewmodel.dart';
@@ -10,6 +11,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   ApiResponse<String> company_and_activationResponse = ApiResponse.loading();
   ApiResponse<String> company_and_activationResponseAct = ApiResponse.loading();
   UserViewModel _userViewModel = UserViewModel();
+  WalletViewModel _walletViewModel = WalletViewModel();
 
   String companyId='';
   String iban='';
@@ -156,7 +158,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
     String adminId = '';
     if(role == 'user') {
       try{
-        await _userViewModel.getUsersForUserRole();
+        await _userViewModel.getUser();
         adminId = _userViewModel.adminId;
       }catch(e){
         print(e);
@@ -308,6 +310,8 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
       notifyListeners();
 
       await _companyAndActivationRepository.deleteCompany(ownerId);
+      await _walletViewModel.deleteWallet();
+      await deleteActivation();
 
       company_and_activationResponse = ApiResponse.completed('Delete successful');
     } catch (e) {
@@ -352,3 +356,4 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
 
 
 }
+

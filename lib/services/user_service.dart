@@ -101,7 +101,7 @@ class UserService extends BaseApiService {
 
   }
 
-  Future<dynamic> getUsersForUserRole(String userId) async {
+  Future<dynamic> getUser(String userId) async {
 
 
 
@@ -122,6 +122,7 @@ class UserService extends BaseApiService {
     }
 
   }
+
 
   Future<dynamic> deleteUser(String email) async {
     try {

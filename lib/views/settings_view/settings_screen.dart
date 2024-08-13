@@ -8,15 +8,10 @@ import 'package:vibration/vibration.dart';
 import '../widgets/custom_snackbar.dart';
 
 class SettingsScreen extends StatelessWidget {
-  
+
   //final UserViewModel _userViewModel = UserViewModel();
   
-  Future<void> DeleteUser() async {
-    final userViewModel = Provider.of<UserViewModel>(context, listen: false);
-    
-    userViewModel.deleteUser(email)
-  }
-  
+
   
   @override
   Widget build(BuildContext context) {
@@ -63,9 +58,9 @@ class SettingsScreen extends StatelessWidget {
             ),
             ElevatedButton(
               child: Text('Delete'),
-              onPressed: () {
-                // Handle user deletion logic here
+              onPressed: () async {
                 Navigator.of(context).pop();
+                await DeleteUser(context);
                 CustomSnackbar.show(context, 'User deleted successfully.',Colors.green);
               },
             ),
@@ -91,9 +86,9 @@ class SettingsScreen extends StatelessWidget {
             ),
             ElevatedButton(
               child: Text('Delete'),
-              onPressed: () {
-                // Handle company deletion logic here
+              onPressed: () async {
                 Navigator.of(context).pop();
+                await DeleteCompany(context);
                 CustomSnackbar.show(context, 'Company deleted successfully.',Colors.green);
               },
             ),
@@ -102,4 +97,19 @@ class SettingsScreen extends StatelessWidget {
       },
     );
   }
+  Future<void> DeleteUser(BuildContext context) async {
+    final userViewModel = Provider.of<UserViewModel>(context, listen: false);
+
+    await userViewModel.getUser();
+    String email = userViewModel.userDetails[0];
+    await userViewModel.deleteUser(email);
+
+  }
+  Future<void> DeleteCompany(BuildContext context) async {
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+
+    await companyAndActivationViewModel.deleteCompany();
+
+  }
+
 }
