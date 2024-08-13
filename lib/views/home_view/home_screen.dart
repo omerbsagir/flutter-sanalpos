@@ -72,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
     await companyAndActivationViewModel.checkActiveStatus();
     activationStatus = companyAndActivationViewModel.checkActiveResponseValueFonk();
 
+    print(activationStatus);
   }
 
 
