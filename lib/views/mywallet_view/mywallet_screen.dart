@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:flutterprojects/viewmodels/wallet_viewmodel.dart';
 import 'package:flutterprojects/viewmodels/payment_viewmodel.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../data/remote/response/api_response.dart';
 import '/views/widgets/custom_scaffold.dart';
@@ -158,7 +159,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                                             children: [
                                               Center(
                                                 child: Text(
-                                                  '+${transaction.amount} TL',
+                                                  '${formatNumberWithDots(transaction.amount)} TL',
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
@@ -259,7 +260,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
           ),
           SizedBox(height: 8),
           Text(
-            balance + ' TL',
+            '${formatNumberWithDots(balance)} TL',
             style: TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -269,5 +270,10 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
         ],
       ),
     );
+  }
+  String formatNumberWithDots(String number) {
+    final numberFormat = NumberFormat('#,##0', 'en_US');
+    final formattedNumber = numberFormat.format(double.tryParse(number) ?? 0);
+    return formattedNumber.replaceAll(',', '.');
   }
 }
