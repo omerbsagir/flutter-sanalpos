@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/data/remote/response/api_response.dart';
 import 'package:provider/provider.dart';
@@ -33,20 +36,45 @@ class _ActivationScreenState extends State<ActivationScreen> {
     final bool? shouldDelete = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirm Delete'),
-          content: Text('Are you sure you want to delete this activation?'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            TextButton(
-              child: Text('Delete'),
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        );
+        if (Platform.isIOS) {
+          // Use CupertinoAlertDialog for iOS
+          return CupertinoAlertDialog(
+            title: Text('İşlemi Onayla'),
+            content: Text('Çalışan kaydını silmek istediğine emin misin?'),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('İptal'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              CupertinoDialogAction(
+                isDestructiveAction: true,
+                child: Text('Sil'),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        } else {
+          // Use AlertDialog for Android
+          return AlertDialog(
+            title: Text('İşlemi Onayla'),
+            content: Text('Çalışan kaydını silmek istediğine emin misin?'),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: <Widget>[
+              TextButton(
+                child: Text('İptal'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              TextButton(
+                child: Text('Sil'),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.red,
+                ),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        }
       },
     );
 
@@ -56,6 +84,8 @@ class _ActivationScreenState extends State<ActivationScreen> {
       await _loadActiveStatus(); // Reload data after deletion
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {

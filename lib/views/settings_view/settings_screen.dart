@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/repositories/user_repository.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
@@ -26,71 +29,120 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
   Future<void> _confirmDeleteCompany() async {
-     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
-     final walletViewModel = Provider.of<WalletViewModel>(context,listen: false);
-     final userViewModel = Provider.of<UserViewModel>(context,listen: false);
-
-     final bool? shouldDelete = await showDialog<bool>(
-       context: context,
-       builder: (BuildContext context) {
-         return AlertDialog(
-           title: Text('Confirm Delete'),
-           content: Text('Are you sure you want to delete your company?'),
-           actions: <Widget>[
-             TextButton(
-               child: Text('Cancel'),
-               onPressed: () => Navigator.of(context).pop(false),
-             ),
-             TextButton(
-               child: Text('Delete'),
-               onPressed: () => Navigator.of(context).pop(true),
-             ),
-           ],
-         );
-       },
-     );
-
-     if (shouldDelete == true) {
-       List<dynamic> usersForAdmin = [];
-       try{
-         await companyAndActivationViewModel.getUsersAdmin();
-         usersForAdmin = companyAndActivationViewModel.usersForAdmin;
-       }catch(e){
-         print(e);
-       }
-       try {
-         await walletViewModel.deleteWallet();
-         await userViewModel.deleteWorkers(usersForAdmin);
-         await companyAndActivationViewModel.deleteCompany();
-         CustomSnackbar.show(context, 'Company deleted successfully', Colors.green);
-       } catch (e) {
-         CustomSnackbar.show(context, 'Failed to delete company: $e', Colors.red);
-       }
-
-     }
-   }
-  Future<void> _confirmDeleteUser() async {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
-    final walletViewModel = Provider.of<WalletViewModel>(context,listen: false);
-    final userViewModel = Provider.of<UserViewModel>(context,listen: false);
+    final walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
+    final userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
     final bool? shouldDelete = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Confirm Delete'),
-          content: Text('Are you sure you want to delete your account?'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-            TextButton(
-              child: Text('Delete'),
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-          ],
-        );
+        if (Platform.isIOS) {
+          // Use CupertinoAlertDialog for iOS
+          return CupertinoAlertDialog(
+            title: Text('İşlemi Onayla'),
+            content: Text('Şirket kaydını silmek istediğine emin misin?'),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('İptal'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              CupertinoDialogAction(
+                isDestructiveAction: true,
+                child: Text('Sil'),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        } else {
+          // Use AlertDialog for Android
+          return AlertDialog(
+            title: Text('İşlemi Onayla'),
+            content: Text('Şirket kaydını silmek istediğine emin misin?'),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: <Widget>[
+              TextButton(
+                child: Text('İptal'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              TextButton(
+                child: Text('Sil'),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.red,
+                ),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        }
+      },
+    );
+
+    if (shouldDelete == true) {
+      List<dynamic> usersForAdmin = [];
+      try {
+        await companyAndActivationViewModel.getUsersAdmin();
+        usersForAdmin = companyAndActivationViewModel.usersForAdmin;
+      } catch (e) {
+        print(e);
+      }
+      try {
+        await walletViewModel.deleteWallet();
+        await userViewModel.deleteWorkers(usersForAdmin);
+        await companyAndActivationViewModel.deleteCompany();
+        CustomSnackbar.show(context, 'Company deleted successfully', Colors.green);
+      } catch (e) {
+        CustomSnackbar.show(context, 'Failed to delete company: $e', Colors.red);
+      }
+    }
+  }
+  Future<void> _confirmDeleteUser() async {
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+    final walletViewModel = Provider.of<WalletViewModel>(context, listen: false);
+    final userViewModel = Provider.of<UserViewModel>(context, listen: false);
+
+    final bool? shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        if (Platform.isIOS) {
+          // Use CupertinoAlertDialog for iOS
+          return CupertinoAlertDialog(
+            title: Text('İşlemi Onayla'),
+            content: Text('Hesap kaydını silmek istediğine emin misin?'),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('İptal'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              CupertinoDialogAction(
+                isDestructiveAction: true,
+                child: Text('Sil'),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        } else {
+          // Use AlertDialog for Android
+          return AlertDialog(
+            title: Text('İşlemi Onayla'),
+            content: Text('Hesap kaydını silmek istediğine emin misin?'),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: <Widget>[
+              TextButton(
+                child: Text('İptal'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              TextButton(
+                child: Text('Sil'),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.red,
+                ),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        }
       },
     );
 
@@ -101,10 +153,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           String email = userViewModel.userDetails[0];
 
           List<dynamic> usersForAdmin = [];
-          try{
+          try {
             await companyAndActivationViewModel.getUsersAdmin();
             usersForAdmin = companyAndActivationViewModel.usersForAdmin;
-          }catch(e){
+          } catch (e) {
             print(e);
           }
 
@@ -116,12 +168,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           CustomSnackbar.show(context, 'Account deleted successfully.', Colors.green);
           _logoutAfterDelete();
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-
         }
       } catch (e) {
         CustomSnackbar.show(context, 'Failed to delete account: $e', Colors.red);
       }
-
     }
   }
 

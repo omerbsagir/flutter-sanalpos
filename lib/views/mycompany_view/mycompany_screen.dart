@@ -27,6 +27,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   final WalletViewModel walletViewModel = WalletViewModel();
 
   List<dynamic> lastUsersForAdmin = [];
+  int listLenght=0;
   int lastUsersForAdminsLenght = 0;
   bool isFirstLoad = true;
 
@@ -56,6 +57,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
     await companyAndActivationViewModel.getUsersAdmin();
 
+    listLenght = companyAndActivationViewModel.usersForAdmin.length;
 
   }
 
