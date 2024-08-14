@@ -64,6 +64,13 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
+                companyAndActivationViewModel.usersForAdmin.clear();
+                await companyAndActivationViewModel.getUsersAdmin();
+                int lenght=0;
+                if(companyAndActivationViewModel.usersForAdmin.length!=null){
+                  lenght = companyAndActivationViewModel.usersForAdmin.length;
+                }
+
                 UserModel newUser = UserModel(
                   email: emailController.text,
                   phone: fullPhoneNumber,
@@ -74,7 +81,11 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
                   CustomSnackbar.show(context,'Hiçbir alan Boş Bırakılamaz',Colors.orange);
                 } else if (passwordController.text.isEmpty) {
                   CustomSnackbar.show(context,'Şifre Alanı Boş Bırakılamaz',Colors.orange);
-                } else {
+                }
+                else if (lenght==5) {
+                  CustomSnackbar.show(context,'En Fazla 5 Çalışanınız Olabilir!',Colors.red);
+                }
+                else {
                   await userViewModel.registerNewUser(newUser);
 
                   final response = userViewModel.userResponse;
