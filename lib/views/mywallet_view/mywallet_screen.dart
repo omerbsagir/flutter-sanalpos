@@ -4,6 +4,7 @@ import 'package:flutterprojects/viewmodels/wallet_viewmodel.dart';
 import 'package:flutterprojects/viewmodels/payment_viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 import '../../data/remote/response/api_response.dart';
 import '/views/widgets/custom_scaffold.dart';
 
@@ -48,6 +49,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
         IconButton(
           icon: Icon(Icons.refresh_rounded),
           onPressed: () {
+            Vibration.vibrate(duration: 100);
             _loadWalletData();
             _loadTransactionsData();
           },

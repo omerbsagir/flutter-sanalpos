@@ -6,6 +6,7 @@ import 'package:flutterprojects/repositories/user_repository.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:flutterprojects/viewmodels/wallet_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 import '../../viewmodels/company_and_activation_viewmodel.dart';
 import '../widgets/custom_scaffold.dart';
 import '../widgets/custom_snackbar.dart';
@@ -189,6 +190,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: Text('Delete Account'),
             subtitle: Text('Remove your account from the system'),
             onTap: () {
+              Vibration.vibrate(duration: 100);
               _confirmDeleteUser();
             },
           ),
@@ -198,6 +200,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: Text('Delete Company'),
             subtitle: Text('Remove your company from the system'),
             onTap: () {
+              Vibration.vibrate(duration: 100);
               _confirmDeleteCompany();
             },
           ),

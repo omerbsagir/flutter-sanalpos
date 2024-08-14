@@ -9,6 +9,7 @@ import '../widgets/custom_snackbar.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
 import '/viewmodels/wallet_viewmodel.dart';
 import '/views/widgets/custom_scaffold.dart';
+import 'package:vibration/vibration.dart';
 
 class MyCompanyScreen extends StatefulWidget {
   @override
@@ -139,6 +140,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
         IconButton(
           icon: Icon(Icons.refresh_rounded),
           onPressed: () {
+            Vibration.vibrate(duration: 100);
             Navigator.pushReplacementNamed(context, '/mycompany');
           },
         ),
@@ -373,6 +375,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             IconButton(
               icon: Icon(Icons.delete, color: Colors.red),
               onPressed: () {
+                Vibration.vibrate(duration: 100);
                 _confirmDeleteWorker(email); // Pass email to delete function
               },
             ),
