@@ -33,7 +33,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   int listLenght = 0;
   int lastUsersForAdminsLenght = 0;
   bool isFirstLoad = true;
-
+  bool afterDelete = false;
 
   @override
   void initState() {
@@ -48,20 +48,32 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
     if (isFirstLoad) {
       lastUsersForAdminsLenght = 0;
       isFirstLoad = false;
-    } else {
+    }
+    else {
       lastUsersForAdminsLenght =
           companyAndActivationViewModel.usersForAdmin.length;
     }
+    if (afterDelete) {
+      await companyAndActivationViewModel.getUsersAdmin();
+      lastUsersForAdminsLenght = companyAndActivationViewModel.usersForAdmin.length;
+      afterDelete = false;
+    }
+
+
     companyAndActivationViewModel.usersForAdmin.clear();
+    companyAndActivationViewModel.companyDetails.clear();
 
     await companyAndActivationViewModel.getCompany();
     await companyAndActivationViewModel.getUsersAdmin();
 
-    listLenght = companyAndActivationViewModel.usersForAdmin.length;
+    setState(() {
+      listLenght = companyAndActivationViewModel.usersForAdmin.length;
+    });
   }
 
   Future<void> _confirmDeleteWorker(String email) async {
     final userViewModel = Provider.of<UserViewModel>(context, listen: false);
+    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
 
     final bool? shouldDelete = await showDialog<bool>(
       context: context,
@@ -108,9 +120,13 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
     if (shouldDelete == true) {
       await userViewModel.deleteUser(email);
-      CustomSnackbar.show(context, 'Worker deleted successfully', Colors.green);
-      await _loadCompanyData(); // Reload data after deletion
+      await companyAndActivationViewModel.getUsersAdmin();
+      setState(() {
+        CustomSnackbar.show(context, 'Worker deleted successfully', Colors.green);
+        Navigator.pushReplacementNamed(context, '/mycompany');
+      });
     }
+
   }
 
   @override
@@ -123,7 +139,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
         IconButton(
           icon: Icon(Icons.refresh_rounded),
           onPressed: () {
-            companyAndActivationViewModel.getCompany();
+            Navigator.pushReplacementNamed(context, '/mycompany');
           },
         ),
       ],
@@ -255,11 +271,12 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                             SizedBox(height: 20),
 
                             if (lastUsersForAdminsLenght != 0 && !isFirstLoad) ...[
-                              if (userDetails[lastUsersForAdminsLenght] != null) ...[
+                              if (lastUsersForAdminsLenght <= userDetails.length) ...[
                                 for (int i = lastUsersForAdminsLenght; i < userDetails.length; i++)
                                   _buildInfoColumn2(userDetails[i]),
                               ],
-                            ] else if (lastUsersForAdminsLenght == 0) ...[
+                            ]
+                            else if (lastUsersForAdminsLenght == 0) ...[
                               for (int i = 0; i < userDetails.length; i++)
                                 _buildInfoColumn2(userDetails[i]),
                             ],
