@@ -48,7 +48,8 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
         IconButton(
           icon: Icon(Icons.refresh_rounded),
           onPressed: () {
-            walletViewModel.getWallet();
+            _loadWalletData();
+            _loadTransactionsData();
           },
         ),
       ],
@@ -68,15 +69,11 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
               Consumer<WalletViewModel>(
                 builder: (context, viewModel, child) {
                   if (viewModel.walletResponse.status == Status.LOADING) {
-                    return Center(
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-                          strokeWidth: 5.0,
-                        ),
-                      ),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        _buildCreditCard('TR', '0'),
+                      ],
                     );
                   } else if (viewModel.walletResponse.status == Status.COMPLETED) {
                     return Column(
@@ -102,14 +99,26 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
               Consumer<PaymentViewModel>(
                 builder: (context, viewModel, child) {
                   if (viewModel.paymentResponse.status == Status.LOADING) {
-                    return Center(
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-                          strokeWidth: 5.0,
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: ExpansionTile(
+                        title: Center(
+                          child: Text(
+                            'View Transactions',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
+                        initiallyExpanded: false,
+                        children: [
+                          // Wrap the list of transactions with SingleChildScrollView
+                          Container(
+                            height: 450, // Adjust the height as needed
+                          ),
+                        ],
                       ),
                     );
                   } else if (viewModel.paymentResponse.status == Status.COMPLETED) {
@@ -125,7 +134,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                           child: Text(
                             'View Transactions',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 15,
                               fontWeight: FontWeight.w500,
                               color: Colors.black,
                             ),
@@ -135,7 +144,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                         children: [
                           // Wrap the list of transactions with SingleChildScrollView
                           Container(
-                            height: 500, // Adjust the height as needed
+                            height: 450, // Adjust the height as needed
                             child: SingleChildScrollView(
                               child: Column(
                                 children: transactionDetails.isNotEmpty
@@ -145,11 +154,11 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.only(right: 10),
+                                          margin: EdgeInsets.only(right: 10 ),
                                           child: Icon(
                                             Icons.fiber_manual_record,
-                                            color: Colors.black,
-                                            size: 10,
+                                            color: Colors.grey,
+                                            size: 8,
                                           ),
                                         ),
                                         Expanded(
@@ -159,7 +168,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                                             children: [
                                               Center(
                                                 child: Text(
-                                                  '${formatNumberWithDots(transaction.amount)},00 TL',
+                                                  '+${formatNumberWithDots(transaction.amount)},00 TL',
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.bold,
@@ -211,7 +220,9 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
 
   Widget _buildCreditCard(String iban, String balance) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+      height: 185,
+      width: 370,
+      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
