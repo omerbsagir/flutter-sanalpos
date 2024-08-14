@@ -72,7 +72,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        _buildCreditCard('TR', '0'),
+                        _buildCreditCard('', '0'),
                       ],
                     );
                   } else if (viewModel.walletResponse.status == Status.COMPLETED) {

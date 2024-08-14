@@ -221,26 +221,29 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                             Text('No company details available.', style: TextStyle(color: Colors.grey)),
                           ],
                           SizedBox(height: 20),
-                          Divider(thickness: 1,color: Colors.black,),
+                          Divider(thickness: 0.75,color: Colors.black,),
                           SizedBox(height: 20),
 
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Row(
                               children: [
+
                                 Expanded(
-                                  child :Text(
-                                    'Çalışanların',
-                                    style: TextStyle(fontSize: 18),
+                                  child :
+                                  Text(
+                                    '    Çalışanların',
+                                    style: TextStyle(fontSize: 18,
+                                    fontWeight: FontWeight.w400,color: Colors.black),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
-                                ElevatedButton(
+
+                                IconButton(
+                                  icon:Icon(Icons.add_box),
                                   onPressed: () async {
                                     Navigator.pushNamed(context, '/calisanekle');
                                   },
-                                  child: Text('Çalışan Ekle'),
-
                                 ),
 
                               ],
@@ -310,7 +313,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   Widget _buildInfoRowName(String value) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -336,6 +339,11 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           children: [
+            SizedBox(width: 10,),
+            Icon(
+              Icons.person,
+              size: 20,
+            ),
             // Email
             Expanded(
               child: Text(
