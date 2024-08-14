@@ -40,7 +40,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
           // Use CupertinoAlertDialog for iOS
           return CupertinoAlertDialog(
             title: Text('İşlemi Onayla'),
-            content: Text('Çalışan kaydını silmek istediğine emin misin?'),
+            content: Text('Aktivasyon kaydını silmek istediğine emin misin?'),
             actions: <Widget>[
               CupertinoDialogAction(
                 child: Text('İptal'),
@@ -57,7 +57,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
           // Use AlertDialog for Android
           return AlertDialog(
             title: Text('İşlemi Onayla'),
-            content: Text('Çalışan kaydını silmek istediğine emin misin?'),
+            content: Text('Aktivasyon kaydını silmek istediğine emin misin?'),
             actionsAlignment: MainAxisAlignment.spaceBetween,
             actions: <Widget>[
               TextButton(

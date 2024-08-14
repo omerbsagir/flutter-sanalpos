@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -59,6 +62,60 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
     listLenght = companyAndActivationViewModel.usersForAdmin.length;
 
+  }
+  Future<void> _confirmDeleteWorker(String email) async {
+    final userViewModel = Provider.of<UserViewModel>(context, listen: false);
+
+    final bool? shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        if (Platform.isIOS) {
+          // Use CupertinoAlertDialog for iOS
+          return CupertinoAlertDialog(
+            title: Text('İşlemi Onayla'),
+            content: Text('Çalışan kaydını silmek istediğine emin misin?'),
+            actions: <Widget>[
+              CupertinoDialogAction(
+                child: Text('İptal'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              CupertinoDialogAction(
+                isDestructiveAction: true,
+                child: Text('Sil'),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        } else {
+          // Use AlertDialog for Android
+          return AlertDialog(
+            title: Text('İşlemi Onayla'),
+            content: Text('Çalışan kaydını silmek istediğine emin misin?'),
+            actionsAlignment: MainAxisAlignment.spaceBetween,
+            actions: <Widget>[
+              TextButton(
+                child: Text('İptal'),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              TextButton(
+                child: Text('Sil'),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.red,
+                ),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ],
+          );
+        }
+      },
+    );
+
+    if (shouldDelete == true) {
+      await userViewModel.deleteUser(email);
+      CustomSnackbar.show(context, 'Worker deleted successfully', Colors.green);
+      await _loadCompanyData(); // Reload data after deletion
+    }
   }
 
   @override
@@ -149,6 +206,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                         if (companyDetails.isNotEmpty) ...[
                           _buildInfoColumn('Name', companyDetails[0]),
                           _buildInfoColumn('IBAN', companyDetails[1]),
+                          _buildInfoColumn('Çalışan Sayısı', listLenght.toString()),
                           _buildActivationStatusColumn(companyDetails[2]),
                         ] else ...[
                           Text('No company details available.', style: TextStyle(color: Colors.grey)),
@@ -223,20 +281,34 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   Widget _buildInfoColumn2(String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              value,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    value,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  SizedBox(height: 4.0),
+                ],
+              ),
             ),
-            SizedBox(height: 4.0),
-          ],
-        ),
+          ),
+          IconButton(
+            icon: Icon(Icons.delete, color: Colors.red),
+            onPressed: () {
+              _confirmDeleteWorker(value); // Pass email to delete function
+            },
+          ),
+        ],
       ),
     );
   }
+
 
   Widget _buildActivationStatusColumn(bool isActive) {
     return Padding(
