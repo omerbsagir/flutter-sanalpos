@@ -26,13 +26,14 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   final TextEditingController password2Id2Controller = TextEditingController();
   final TextEditingController adminIdId2Controller = TextEditingController();
 
-  final UserViewModel userViewModel=UserViewModel();
+  final UserViewModel userViewModel = UserViewModel();
   final WalletViewModel walletViewModel = WalletViewModel();
 
   List<dynamic> lastUsersForAdmin = [];
-  int listLenght=0;
+  int listLenght = 0;
   int lastUsersForAdminsLenght = 0;
   bool isFirstLoad = true;
+
 
   @override
   void initState() {
@@ -41,28 +42,24 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   }
 
   Future<void> _loadCompanyData() async {
-    final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context, listen: false);
-
+    final companyAndActivationViewModel = Provider.of<
+        CompanyAndActivationViewModel>(context, listen: false);
 
     if (isFirstLoad) {
       lastUsersForAdminsLenght = 0;
-
       isFirstLoad = false;
-    }else{
-
-      lastUsersForAdminsLenght = companyAndActivationViewModel.usersForAdmin.length;
-
+    } else {
+      lastUsersForAdminsLenght =
+          companyAndActivationViewModel.usersForAdmin.length;
     }
     companyAndActivationViewModel.usersForAdmin.clear();
 
-
     await companyAndActivationViewModel.getCompany();
-
     await companyAndActivationViewModel.getUsersAdmin();
 
     listLenght = companyAndActivationViewModel.usersForAdmin.length;
-
   }
+
   Future<void> _confirmDeleteWorker(String email) async {
     final userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
@@ -70,7 +67,6 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
       context: context,
       builder: (BuildContext context) {
         if (Platform.isIOS) {
-          // Use CupertinoAlertDialog for iOS
           return CupertinoAlertDialog(
             title: Text('İşlemi Onayla'),
             content: Text('Çalışan kaydını silmek istediğine emin misin?'),
@@ -87,7 +83,6 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             ],
           );
         } else {
-          // Use AlertDialog for Android
           return AlertDialog(
             title: Text('İşlemi Onayla'),
             content: Text('Çalışan kaydını silmek istediğine emin misin?'),
@@ -128,7 +123,6 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
         IconButton(
           icon: Icon(Icons.refresh_rounded),
           onPressed: () {
-            // Sadece kullanıcı manuel olarak yenilerse getCompany'i çağır
             companyAndActivationViewModel.getCompany();
           },
         ),
@@ -136,6 +130,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (!companyAndActivationViewModel.isCompanyLoaded) ...[
               TextField(
@@ -149,13 +144,12 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-
-                  if (nameController.text.isEmpty || ibanController.text.isEmpty ) {
-                    CustomSnackbar.show(context,'Hiçbir alan Boş Bırakılamaz',Colors.orange);
+                  if (nameController.text.isEmpty || ibanController.text.isEmpty) {
+                    CustomSnackbar.show(context, 'Hiçbir alan Boş Bırakılamaz', Colors.orange);
                   } else if (!(nameController.text.length > 2 && nameController.text.length < 8)) {
-                    CustomSnackbar.show(context,'Şirket İsmi 3 ile 8 Karakter Arası Olmalıdır!',Colors.orange);
-                  }else if (!ibanController.text.startsWith('TR') || ibanController.text.length != 26) {
-                    CustomSnackbar.show(context,'Lütfen Geçerli Bir IBAN Girin!',Colors.orange);
+                    CustomSnackbar.show(context, 'Şirket İsmi 3 ile 8 Karakter Arası Olmalıdır!', Colors.orange);
+                  } else if (!ibanController.text.startsWith('TR') || ibanController.text.length != 26) {
+                    CustomSnackbar.show(context, 'Lütfen Geçerli Bir IBAN Girin!', Colors.orange);
                   } else {
                     await companyAndActivationViewModel.createCompany(
                         nameController.text, ibanController.text);
@@ -172,13 +166,10 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                       Navigator.pushNamed(context, '/mycompany');
                     } else {
                       CustomSnackbar.show(context, 'Cüzdan Kaydı Başarısız', Colors.red);
-
                     }
                     nameController.clear();
                     ibanController.clear();
-
                   }
-
                 },
                 child: Text('Register the Company'),
               ),
@@ -199,45 +190,81 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                   } else if (viewModel.company_and_activationResponse.status == Status.COMPLETED) {
                     final companyDetails = viewModel.companyDetails;
                     final userDetails = viewModel.usersForAdmin;
+                    return Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (companyDetails.isNotEmpty) ...[
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        if (companyDetails.isNotEmpty) ...[
-                          _buildInfoColumn('Name', companyDetails[0]),
-                          _buildInfoColumn('IBAN', companyDetails[1]),
-                          _buildInfoColumn('Çalışan Sayısı', listLenght.toString()),
-                          _buildActivationStatusColumn(companyDetails[2]),
-                        ] else ...[
-                          Text('No company details available.', style: TextStyle(color: Colors.grey)),
-                        ],
-
-                        SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () async {
-                            Navigator.pushNamed(context, '/calisanekle');
-                          },
-                          child: Text('Register New Users'),
-                        ),
-                        if (userDetails.isNotEmpty) ...[
+                            Row(
+                              children: [
+                                SizedBox(width: 35,),
+                                Icon(
+                                  Icons.home_work_sharp,
+                                  color: Colors.black54,
+                                  size: 120,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      _buildInfoRowName(companyDetails[0]),
+                                      //_buildInfoRow('IBAN', companyDetails[1]),
+                                      _buildInfoRow('Employee Count', listLenght.toString()),
+                                      _buildActivationStatusRow(companyDetails[2]),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ] else ...[
+                            Text('No company details available.', style: TextStyle(color: Colors.grey)),
+                          ],
                           SizedBox(height: 20),
-                          Text(
-                            'Çalışanların',
-                            style: TextStyle(fontSize: 18),
+                          Divider(thickness: 1,color: Colors.black,),
+                          SizedBox(height: 20),
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child :Text(
+                                    'Çalışanların',
+                                    style: TextStyle(fontSize: 18),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    Navigator.pushNamed(context, '/calisanekle');
+                                  },
+                                  child: Text('Çalışan Ekle'),
+
+                                ),
+
+                              ],
+                            ),
                           ),
-                          if (lastUsersForAdminsLenght != 0 && !isFirstLoad) ...[
-                            if (userDetails[lastUsersForAdminsLenght] != null) ...[
-                              for (int i = lastUsersForAdminsLenght; i < userDetails.length; i++)
+
+                          if (userDetails.isNotEmpty) ...[
+
+                            SizedBox(height: 20),
+
+                            if (lastUsersForAdminsLenght != 0 && !isFirstLoad) ...[
+                              if (userDetails[lastUsersForAdminsLenght] != null) ...[
+                                for (int i = lastUsersForAdminsLenght; i < userDetails.length; i++)
+                                  _buildInfoColumn2(userDetails[i]),
+                              ],
+                            ] else if (lastUsersForAdminsLenght == 0) ...[
+                              for (int i = 0; i < userDetails.length; i++)
                                 _buildInfoColumn2(userDetails[i]),
                             ],
-                          ] else if (lastUsersForAdminsLenght == 0) ...[
-                            for (int i = 0; i < userDetails.length; i++)
-                              _buildInfoColumn2(userDetails[i]),
+                          ] else ...[
+                            Text('No users available.', style: TextStyle(color: Colors.grey)),
                           ],
-                        ] else ...[
-                          Text('No users available.', style: TextStyle(color: Colors.grey)),
                         ],
-                      ],
+                      ),
                     );
                   } else {
                     return Center(
@@ -256,21 +283,46 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
     );
   }
 
-  Widget _buildInfoColumn(String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Center(
+
+  Widget _buildInfoRow(String title, String value) {
+    return Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 4), // Add some space between title and value
+              Text(
+                value,
+                style: TextStyle(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+    );
+  }
+  Widget _buildInfoRowName(String value) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            SizedBox(height: 4.0),
-            Text(
               value,
-              style: TextStyle(fontSize: 16),
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.1,
+                color: Colors.red
+              ),
+              textAlign: TextAlign.center,
             ),
           ],
         ),
@@ -278,59 +330,55 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
     );
   }
 
-  Widget _buildInfoColumn2(String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    value,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  SizedBox(height: 4.0),
-                ],
+  Widget _buildInfoColumn2(String email) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: [
+            // Email
+            Expanded(
+              child: Text(
+                email,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                textAlign: TextAlign.center,
               ),
             ),
-          ),
-          IconButton(
-            icon: Icon(Icons.delete, color: Colors.red),
-            onPressed: () {
-              _confirmDeleteWorker(value); // Pass email to delete function
-            },
-          ),
-        ],
+            // Delete Icon
+            IconButton(
+              icon: Icon(Icons.delete, color: Colors.red),
+              onPressed: () {
+                _confirmDeleteWorker(email); // Pass email to delete function
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
 
-
-  Widget _buildActivationStatusColumn(bool isActive) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Center(
+  Widget _buildActivationStatusRow(bool isActive) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Activation Status',
+              'Activation Status:',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 4.0),
+            SizedBox(height: 4), // Metin ile ikon arasında boşluk
             Icon(
               isActive ? Icons.check_circle : Icons.cancel,
               color: isActive ? Colors.green : Colors.red,
-              size: 30,
+              size: 20,
             ),
           ],
         ),
       ),
     );
   }
-}
 
+}
