@@ -22,6 +22,7 @@ class CustomScaffold extends StatelessWidget {
         title: Text(title),
         backgroundColor: Colors.deepPurpleAccent,
         actions: actions,
+
       ),
       drawer: Drawer(
         child: ListView(
@@ -59,7 +60,7 @@ class CustomScaffold extends StatelessWidget {
                           );
                         } else if (snapshot.hasData && snapshot.data == false) {
                           return Text(
-                            'Your Name',
+                            'Adın',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -68,7 +69,7 @@ class CustomScaffold extends StatelessWidget {
                           );
                         } else {
                           return Text(
-                            'Error',
+                            'Hata',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -95,7 +96,7 @@ class CustomScaffold extends StatelessWidget {
                           return SizedBox.shrink(); // To avoid empty space
                         } else {
                           return Text(
-                            'Error getting user role',
+                            'Hata',
                             style: TextStyle(
                               color: Colors.red,
                               fontSize: 10,
@@ -110,7 +111,7 @@ class CustomScaffold extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Home'),
+              title: Text('Ana Sayfa'),
               onTap: () {
                 HapticFeedback.heavyImpact();
                 Navigator.pushNamed(context, '/home');
@@ -126,7 +127,7 @@ class CustomScaffold extends StatelessWidget {
                     children: [
                       ListTile(
                         leading: Icon(Icons.account_balance_wallet),
-                        title: Text('My Wallet'),
+                        title: Text('Cüzdanım'),
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/mywallet');
@@ -134,7 +135,7 @@ class CustomScaffold extends StatelessWidget {
                       ),
                       ListTile(
                         leading: Icon(Icons.home_work),
-                        title: Text('My Company'),
+                        title: Text('Şirketim'),
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/mycompany');
@@ -142,7 +143,7 @@ class CustomScaffold extends StatelessWidget {
                       ),
                       ListTile(
                         leading: Icon(Icons.verified),
-                        title: Text('Activation'),
+                        title: Text('Aktivasyon'),
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/activation');
@@ -150,7 +151,7 @@ class CustomScaffold extends StatelessWidget {
                       ),
                       ListTile(
                         leading: Icon(Icons.settings),
-                        title: Text('Settings'),
+                        title: Text('Ayarlar'),
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/settings');
@@ -161,14 +162,14 @@ class CustomScaffold extends StatelessWidget {
                 } else if (snapshot.hasData && snapshot.data == false) {
                   return SizedBox.shrink();
                 } else {
-                  return Text('Error checking role');
+                  return Text('Rol alınamadı');
                 }
               },
             ),
 
             ListTile(
               leading: Icon(Icons.exit_to_app),
-              title: Text('Logout'),
+              title: Text('Çıkış'),
               onTap: () {
                 HapticFeedback.heavyImpact();
                 _userRepository.logout();
