@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterprojects/data/remote/response/api_response.dart';
 import 'package:provider/provider.dart';
 import '../widgets/custom_scaffold.dart';
@@ -97,6 +98,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
         IconButton(
           icon: Icon(Icons.refresh_rounded),
           onPressed: () {
+            HapticFeedback.heavyImpact();
             companyAndActivationViewModel.getActivation();
           },
         ),
@@ -124,6 +126,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
                   } else if (vergiNoController.text.length != 10) {
                     CustomSnackbar.show(context, 'Lütfen Geçerli Bir Vergi Numarası Girin', Colors.orange);
                   } else {
+                    HapticFeedback.heavyImpact();
                     await companyAndActivationViewModel.createActivation(
                       tcNoController.text,
                       vergiNoController.text,

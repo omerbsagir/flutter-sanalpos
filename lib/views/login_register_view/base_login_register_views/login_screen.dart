@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterprojects/data/remote/response/api_response.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/custom_snackbar.dart';
@@ -39,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                 } else if (passwordController.text.isEmpty) {
                   CustomSnackbar.show(context,'Şifre Alanı Boş Bırakılamaz',Colors.orange);
                 } else {
-
+                  HapticFeedback.heavyImpact();
                   await userViewModel.login(
                     emailController.text,
                     passwordController.text,
@@ -61,6 +62,7 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height : 20),
             ElevatedButton(
               onPressed: () {
+                HapticFeedback.heavyImpact();
                 Navigator.pushNamed(context, '/');
               },
               style: ElevatedButton.styleFrom(

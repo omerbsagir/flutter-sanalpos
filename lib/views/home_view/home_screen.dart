@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../viewmodels/company_and_activation_viewmodel.dart';
 import '../../viewmodels/payment_viewmodel.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   void _onButtonPressed(String value) {
+    HapticFeedback.heavyImpact();
     setState(() {
       _input += value;
       tlText= ' TL';
@@ -28,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onClearPressed() {
+    HapticFeedback.heavyImpact();
     setState(() {
       _input = '';
       tlText= '';
@@ -148,6 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return ElevatedButton(
                       onPressed: () {
                         if (_input.isNotEmpty && activationStatus != false) {
+                          HapticFeedback.heavyImpact();
                           setState(() {
                             _showNFCScan = true;
                           });

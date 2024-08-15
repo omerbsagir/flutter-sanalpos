@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterprojects/repositories/user_repository.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
@@ -108,6 +109,7 @@ class CustomScaffold extends StatelessWidget {
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
+                HapticFeedback.heavyImpact();
                 Navigator.pushNamed(context, '/home');
               },
             ),
@@ -123,6 +125,7 @@ class CustomScaffold extends StatelessWidget {
                         leading: Icon(Icons.account_balance_wallet),
                         title: Text('My Wallet'),
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/mywallet');
                         },
                       ),
@@ -130,6 +133,7 @@ class CustomScaffold extends StatelessWidget {
                         leading: Icon(Icons.home_work),
                         title: Text('My Company'),
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/mycompany');
                         },
                       ),
@@ -137,6 +141,7 @@ class CustomScaffold extends StatelessWidget {
                         leading: Icon(Icons.verified),
                         title: Text('Activation'),
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/activation');
                         },
                       ),
@@ -144,6 +149,7 @@ class CustomScaffold extends StatelessWidget {
                         leading: Icon(Icons.settings),
                         title: Text('Settings'),
                         onTap: () {
+                          HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/settings');
                         },
                       ),
@@ -161,6 +167,7 @@ class CustomScaffold extends StatelessWidget {
               leading: Icon(Icons.exit_to_app),
               title: Text('Logout'),
               onTap: () {
+                HapticFeedback.heavyImpact();
                 _userRepository.logout();
                 Navigator.pushNamed(context, '/');
               },

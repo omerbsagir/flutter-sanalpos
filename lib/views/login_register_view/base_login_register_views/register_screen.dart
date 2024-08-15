@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterprojects/data/remote/response/api_response.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
@@ -61,6 +62,7 @@ class RegisterScreen extends StatelessWidget {
                 } else if (passwordController.text.isEmpty) {
                   CustomSnackbar.show(context,'Şifre Alanı Boş Bırakılamaz',Colors.orange);
                 } else {
+                  HapticFeedback.heavyImpact();
                   await userViewModel.register(newUser);
 
                   final response = userViewModel.userResponse;
@@ -78,6 +80,7 @@ class RegisterScreen extends StatelessWidget {
             SizedBox(height : 20),
             ElevatedButton(
               onPressed: () {
+                HapticFeedback.heavyImpact();
                 Navigator.pushNamed(context, '/login');
               },
               style: ElevatedButton.styleFrom(

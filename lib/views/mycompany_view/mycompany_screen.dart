@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../data/remote/response/api_response.dart';
@@ -9,7 +10,7 @@ import '../widgets/custom_snackbar.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
 import '/viewmodels/wallet_viewmodel.dart';
 import '/views/widgets/custom_scaffold.dart';
-import 'package:vibration/vibration.dart';
+
 
 class MyCompanyScreen extends StatefulWidget {
   @override
@@ -140,7 +141,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
         IconButton(
           icon: Icon(Icons.refresh_rounded),
           onPressed: () {
-            Vibration.vibrate(duration: 100);
+            HapticFeedback.heavyImpact();
             Navigator.pushReplacementNamed(context, '/mycompany');
           },
         ),
@@ -260,6 +261,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                                 IconButton(
                                   icon:Icon(Icons.add_box),
                                   onPressed: () async {
+                                    HapticFeedback.heavyImpact();
                                     Navigator.pushNamed(context, '/calisanekle');
                                   },
                                 ),
@@ -375,7 +377,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             IconButton(
               icon: Icon(Icons.delete, color: Colors.red),
               onPressed: () {
-                Vibration.vibrate(duration: 100);
+                HapticFeedback.heavyImpact();
                 _confirmDeleteWorker(email); // Pass email to delete function
               },
             ),
