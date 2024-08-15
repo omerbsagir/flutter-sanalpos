@@ -21,7 +21,7 @@ class RegisterScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: Text('Kayıt Ol'),
         automaticallyImplyLeading: false
       ),
       body: Padding(
@@ -30,12 +30,12 @@ class RegisterScreen extends StatelessWidget {
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(labelText: 'E-Posta'),
             ),
             SizedBox(height: 10,),
             IntlPhoneField(
               decoration: InputDecoration(
-                labelText: 'Phone Number',
+                labelText: 'Telefon Numarası',
               ),
               initialCountryCode: 'TR',
               onChanged: (phone) {
@@ -45,7 +45,7 @@ class RegisterScreen extends StatelessWidget {
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(labelText: 'Şifre'),
               obscureText: true,
             ),
             SizedBox(height: 20),
@@ -75,7 +75,7 @@ class RegisterScreen extends StatelessWidget {
                 }
 
               },
-              child: Text('Register'),
+              child: Text('Kayıt Ol'),
             ),
             SizedBox(height : 20),
             ElevatedButton(
@@ -86,7 +86,7 @@ class RegisterScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
               ),
-              child: Text('Go to Login'),
+              child: Text('Giriş Yap'),
             ),
           ],
         ),

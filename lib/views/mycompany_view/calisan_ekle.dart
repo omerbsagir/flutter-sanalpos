@@ -45,12 +45,12 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
 
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(labelText: 'E-Posta'),
             ),
             SizedBox(height: 10,),
             IntlPhoneField(
               decoration: InputDecoration(
-                labelText: 'Phone Number',
+                labelText: 'Telefon Numarası',
               ),
               initialCountryCode: 'TR',
               onChanged: (phone) {
@@ -60,7 +60,7 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(labelText: 'Şifre'),
               obscureText: true,
             ),
             SizedBox(height: 20),

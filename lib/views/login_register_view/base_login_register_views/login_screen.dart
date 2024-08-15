@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Giriş'),
           automaticallyImplyLeading: false
       ),
       body: Padding(
@@ -24,11 +24,11 @@ class LoginScreen extends StatelessWidget {
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(labelText: 'E-Posta'),
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(labelText: 'Şifre'),
               obscureText: true,
             ),
             SizedBox(height: 20),
@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () async {
 
                 if (emailController.text.isEmpty) {
-                  CustomSnackbar.show(context,'Email Alanı Boş Bırakılamaz',Colors.orange);
+                  CustomSnackbar.show(context,'E-Posta Alanı Boş Bırakılamaz',Colors.orange);
                 } else if (passwordController.text.isEmpty) {
                   CustomSnackbar.show(context,'Şifre Alanı Boş Bırakılamaz',Colors.orange);
                 } else {
@@ -57,7 +57,7 @@ class LoginScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.greenAccent, // Yeşil renk
               ),
-              child: Text('Login'),
+              child: Text('Giriş'),
             ),
             SizedBox(height : 20),
             ElevatedButton(
@@ -68,7 +68,7 @@ class LoginScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
               ),
-              child: Text('Go back to Register'),
+              child: Text("Kayıt Ol"),
             ),
           ],
         ),

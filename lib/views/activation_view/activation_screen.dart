@@ -81,7 +81,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
 
     if (shouldDelete == true) {
       await companyAndActivationViewModel.deleteActivation();
-      CustomSnackbar.show(context, 'Activation deleted successfully', Colors.green);
+      CustomSnackbar.show(context, 'Aktivasyon Başarıyla Silindi', Colors.green);
       await _loadActiveStatus(); // Reload data after deletion
     }
   }
@@ -167,7 +167,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
                       children: [
                         SizedBox(height: 10,),
                         Icon(
-                            Icons.verified_user_sharp,
+                          Icons.verified_user_sharp,
                           color: Colors.orangeAccent,
                           size: 75,
                         ),
@@ -191,20 +191,20 @@ class _ActivationScreenState extends State<ActivationScreen> {
                           ElevatedButton(
                             onPressed: _confirmDeleteActivation,
                             child: Text(
-                                'Delete Activation',
-                                style: TextStyle(color: Colors.white),
+                              'Aktivasyonu Sil',
+                              style: TextStyle(color: Colors.white),
                             ),
                             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                           ),
                         ] else ...[
-                          Text('No activation details available.', style: TextStyle(color: Colors.white)),
+                          Text('Aktivasyon mevcut değil.', style: TextStyle(color: Colors.white)),
                         ],
                       ],
                     );
                   } else {
                     return Center(
                       child: Text(
-                        'An error occurred.',
+                        'Bir hata oluştu.',
                         style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                       ),
                     );
@@ -248,7 +248,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Activation Status',
+              'Aktivasyon Durumu',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             SizedBox(height: 4.0),

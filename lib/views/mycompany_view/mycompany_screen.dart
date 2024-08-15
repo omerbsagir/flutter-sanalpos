@@ -124,7 +124,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
       await userViewModel.deleteUser(email);
       await companyAndActivationViewModel.getUsersAdmin();
       setState(() {
-        CustomSnackbar.show(context, 'Worker deleted successfully', Colors.green);
+        CustomSnackbar.show(context, 'Çalışan Başarıyla Silindi', Colors.green);
         Navigator.pushReplacementNamed(context, '/mycompany');
       });
     }
@@ -136,7 +136,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
     final companyAndActivationViewModel = Provider.of<CompanyAndActivationViewModel>(context);
 
     return CustomScaffold(
-      title: 'My Company',
+      title: 'Şirketim',
       actions: [
         IconButton(
           icon: Icon(Icons.refresh_rounded),
@@ -154,7 +154,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             if (!companyAndActivationViewModel.isCompanyLoaded) ...[
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Company Name '),
+                decoration: InputDecoration(labelText: 'Şirket İsmi '),
               ),
               TextField(
                 controller: ibanController,
@@ -164,7 +164,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
               ElevatedButton(
                 onPressed: () async {
                   if (nameController.text.isEmpty || ibanController.text.isEmpty) {
-                    CustomSnackbar.show(context, 'Hiçbir alan Boş Bırakılamaz', Colors.orange);
+                    CustomSnackbar.show(context, 'Hiçbir Alan Boş Bırakılamaz', Colors.orange);
                   } else if (!(nameController.text.length > 2 && nameController.text.length < 8)) {
                     CustomSnackbar.show(context, 'Şirket İsmi 3 ile 8 Karakter Arası Olmalıdır!', Colors.orange);
                   } else if (!ibanController.text.startsWith('TR') || ibanController.text.length != 26) {
@@ -190,7 +190,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                     ibanController.clear();
                   }
                 },
-                child: Text('Register the Company'),
+                child: Text('Şirketi Kaydet'),
               ),
             ] else ...[
               Consumer<CompanyAndActivationViewModel>(
@@ -229,7 +229,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                                     children: [
                                       _buildInfoRowName(companyDetails[0]),
                                       //_buildInfoRow('IBAN', companyDetails[1]),
-                                      _buildInfoRow('Employee Count', listLenght.toString()),
+                                      _buildInfoRow('Çalışan Sayısı', listLenght.toString()),
                                       _buildActivationStatusRow(companyDetails[2]),
                                     ],
                                   ),
@@ -237,7 +237,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                               ],
                             ),
                           ] else ...[
-                            Text('No company details available.', style: TextStyle(color: Colors.grey)),
+                            Text('Şirket bilgileri bulunamadı.', style: TextStyle(color: Colors.grey)),
                           ],
                           SizedBox(height: 20),
                           Divider(thickness: 0.75,color: Colors.black,),
@@ -259,7 +259,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                                 ),
 
                                 IconButton(
-                                  icon:Icon(Icons.add_box),
+                                  icon:Icon(Icons.person_add),
                                   onPressed: () async {
                                     HapticFeedback.heavyImpact();
                                     Navigator.pushNamed(context, '/calisanekle');
@@ -285,7 +285,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                                 _buildInfoColumn2(userDetails[i]),
                             ],
                           ] else ...[
-                            Text('No users available.', style: TextStyle(color: Colors.grey)),
+                            Text('Hiçbir kullanıcı mevcut değil.', style: TextStyle(color: Colors.grey)),
                           ],
                         ],
                       ),
@@ -293,7 +293,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                   } else {
                     return Center(
                       child: Text(
-                        'An error occurred.',
+                        'Bir hata oluştu.',
                         style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                       ),
                     );
@@ -363,7 +363,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             SizedBox(width: 10,),
             Icon(
               Icons.person,
-              size: 20,
+              size: 15,
             ),
             // Email
             Expanded(
@@ -395,7 +395,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Activation Status:',
+              'Aktivasyon Durumu',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               textAlign: TextAlign.center,
             ),

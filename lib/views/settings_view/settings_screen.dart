@@ -91,9 +91,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         await walletViewModel.deleteWallet();
         await userViewModel.deleteWorkers(usersForAdmin);
         await companyAndActivationViewModel.deleteCompany();
-        CustomSnackbar.show(context, 'Company deleted successfully', Colors.green);
+        CustomSnackbar.show(context, 'Şirket Başarıyla Silindi', Colors.green);
       } catch (e) {
-        CustomSnackbar.show(context, 'Failed to delete company: $e', Colors.red);
+        CustomSnackbar.show(context, 'Şirket silinemedi: $e', Colors.red);
       }
     }
   }
@@ -166,12 +166,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           await userViewModel.deleteWorkers(usersForAdmin);
           await userViewModel.deleteUser(email);
 
-          CustomSnackbar.show(context, 'Account deleted successfully.', Colors.green);
+          CustomSnackbar.show(context, 'Hesap başarıyla silindi.', Colors.green);
           _logoutAfterDelete();
           Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
         }
       } catch (e) {
-        CustomSnackbar.show(context, 'Failed to delete account: $e', Colors.red);
+        CustomSnackbar.show(context, 'Hesap silinemedi: $e', Colors.red);
       }
     }
   }
@@ -181,14 +181,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
 
     return CustomScaffold(
-      title: "Settings",
+      title: "Ayarlar",
       body: ListView(
         padding: EdgeInsets.all(16.0),
         children: [
           ListTile(
             leading: Icon(Icons.person_remove),
-            title: Text('Delete Account'),
-            subtitle: Text('Remove your account from the system'),
+            title: Text('Hesabı sil'),
+            subtitle: Text('Sistemden hesabını sil.'),
             onTap: () {
               Vibration.vibrate(duration: 100);
               _confirmDeleteUser();
@@ -197,8 +197,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           Divider(),
           ListTile(
             leading: Icon(Icons.business),
-            title: Text('Delete Company'),
-            subtitle: Text('Remove your company from the system'),
+            title: Text('Şirketi Sil'),
+            subtitle: Text('Sistemden şirketini sil.'),
             onTap: () {
               Vibration.vibrate(duration: 100);
               _confirmDeleteCompany();

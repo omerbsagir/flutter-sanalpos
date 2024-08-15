@@ -45,7 +45,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
     final walletViewModel = Provider.of<WalletViewModel>(context);
 
     return CustomScaffold(
-      title: 'My Wallet',
+      title: 'Cüzdanım',
       actions: [
         IconButton(
           icon: Icon(Icons.refresh_rounded),
@@ -62,7 +62,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
             if (!walletViewModel.isWalletLoaded) ...[
               SizedBox(height: 25),
               Text(
-                'Your Company Does Not Have Wallet',
+                'Şirketinizin Bir Cüzdanı Yok',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -85,14 +85,14 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                         if (viewModel.walletDetails.isNotEmpty) ...[
                           _buildCreditCard(viewModel.walletDetails[0], viewModel.walletDetails[1]),
                         ] else ...[
-                          Text('No wallet details available.', style: TextStyle(color: Colors.grey)),
+                          Text('Cüzdan bilgileri bulunamadı.', style: TextStyle(color: Colors.grey)),
                         ],
                       ],
                     );
                   } else {
                     return Center(
                       child: Text(
-                        'An error occurred.',
+                        'Bir hata oluştu.',
                         style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                       ),
                     );
@@ -107,7 +107,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                       child: ExpansionTile(
                         title: Center(
                           child: Text(
-                            'View Transactions',
+                            'İşlem Geçmişi',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -135,7 +135,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                       child: ExpansionTile(
                         title: Center(
                           child: Text(
-                            'View Transactions',
+                            'İşlem Geçmişi',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w500,
@@ -196,7 +196,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                                     ),
                                   );
                                 }).toList()
-                                    : [Center(child: Text('No transactions available.', style: TextStyle(color: Colors.grey)))],
+                                    : [Center(child: Text('Bir işlem bulunmuyor.', style: TextStyle(color: Colors.grey)))],
                               ),
                             ),
                           ),
@@ -206,7 +206,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                   } else {
                     return Center(
                       child: Text(
-                        'An error occurred.',
+                        'Bir hata oluştu.',
                         style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                       ),
                     );
@@ -265,7 +265,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
           ),
           SizedBox(height: 20),
           Text(
-            'BALANCE',
+            'BAKİYE',
             style: TextStyle(
               color: Colors.white,
               fontSize: 10,
