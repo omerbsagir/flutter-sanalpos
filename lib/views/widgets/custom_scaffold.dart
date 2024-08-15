@@ -28,6 +28,8 @@ class CustomScaffold extends StatelessWidget {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
+              margin: EdgeInsets.zero,
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               decoration: BoxDecoration(
                 color: Colors.deepPurpleAccent,
               ),
@@ -37,7 +39,8 @@ class CustomScaffold extends StatelessWidget {
                   children: <Widget>[
                     CircleAvatar(
                       radius: 40,
-                      // backgroundImage: , // Add the image provider here
+                      backgroundImage: AssetImage('assets/a.png'),
+                      backgroundColor: Colors.deepPurpleAccent,
                     ),
                     SizedBox(height: 10),
                     FutureBuilder<dynamic>(
