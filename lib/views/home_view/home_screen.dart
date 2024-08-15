@@ -24,8 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onButtonPressed(String value) {
     HapticFeedback.heavyImpact();
     setState(() {
-      _input += value;
-      tlText= ' TL';
+
+      if((_input+value).length <= 5){
+        _input += value;
+        tlText= ' TL';
+      }else{
+        CustomSnackbar.show(context,'Maksimum miktar 99.999 TL',Colors.orange);
+      }
     });
   }
 
