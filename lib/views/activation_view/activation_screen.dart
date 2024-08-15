@@ -165,6 +165,24 @@ class _ActivationScreenState extends State<ActivationScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        SizedBox(height: 10,),
+                        Icon(
+                            Icons.verified_user_sharp,
+                          color: Colors.orangeAccent,
+                          size: 75,
+                        ),
+                        SizedBox(height: 10,),
+                        Text(
+                          'ONAY DURUMU',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w700,
+                          ),
+
+                        ),
+                        SizedBox(height: 20,),
+                        Divider(thickness: 1,color: Colors.black,),
+                        SizedBox(height: 20,),
                         if (activationDetails.isNotEmpty) ...[
                           _buildInfoColumn('TC NO', activationDetails[0]),
                           _buildInfoColumn('VERGİ NO', activationDetails[1]),
