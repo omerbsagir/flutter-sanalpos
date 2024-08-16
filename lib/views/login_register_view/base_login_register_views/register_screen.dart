@@ -58,7 +58,7 @@ class RegisterScreen extends StatelessWidget {
                 );
 
                 if (emailController.text.isEmpty || fullPhoneNumber.isEmpty || passwordController.text.isEmpty ) {
-                  CustomSnackbar.show(context,'Hiçbir alan Boş Bırakılamaz',Colors.orange);
+                  CustomSnackbar.show(context,'Hiçbir Alan Boş Bırakılamaz',Colors.orange);
                 } else if (passwordController.text.isEmpty) {
                   CustomSnackbar.show(context,'Şifre Alanı Boş Bırakılamaz',Colors.orange);
                 } else {

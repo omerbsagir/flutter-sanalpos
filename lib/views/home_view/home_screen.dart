@@ -6,7 +6,6 @@ import '../../viewmodels/company_and_activation_viewmodel.dart';
 import '../../viewmodels/payment_viewmodel.dart';
 import '../widgets/custom_scaffold.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
-
 import '../widgets/custom_snackbar.dart';
 
 class HomeScreen extends StatefulWidget {
