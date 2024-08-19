@@ -29,7 +29,7 @@ class CustomSnackbar {
       Vibration.vibrate(duration: 750);
     }
     else if(backgroundColor == Colors.greenAccent){
-      Vibration.vibrate(duration: 2000);
+      Vibration.vibrate(duration: 750);
     }
 
   }

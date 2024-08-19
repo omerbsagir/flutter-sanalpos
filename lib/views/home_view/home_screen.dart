@@ -103,15 +103,16 @@ class _HomeScreenState extends State<HomeScreen> {
     Provider.of<PaymentViewModel>(context, listen: false);
 
 
-
+    _showBottomSheet();
     try {
       final nfctag = await Future.any([
         FlutterNfcKit.poll(),
       ]);
 
-       if (nfctag.ndefAvailable != null && nfctag.ndefAvailable!) {
+
+       if (nfctag.ndefAvailable != null) {
         CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarılı', Colors.green);
-        _showBottomSheet();
+
 
         try {
           await paymentViewModel.createTransactions(_input.toString());
@@ -126,15 +127,18 @@ class _HomeScreenState extends State<HomeScreen> {
         _resetInput();
       } else {
         _resetInput();
+        Navigator.pop(context);
         CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarısız', Colors.red);
       }
 
 
     } on TimeoutException catch (_) {
       _resetInput();
+      Navigator.pop(context);
       CustomSnackbar.show(context, 'NFC tarama süresi doldu', Colors.red);
     } catch (e) {
       _resetInput();
+      Navigator.pop(context);
       CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarısız', Colors.red);
     } finally {
       await FlutterNfcKit.finish();
@@ -192,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
+                    backgroundColor: Colors.red,
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                   ),
                   child: Text('Cancel', style: TextStyle(fontSize: 20,color:Colors.white)), // Increased font size

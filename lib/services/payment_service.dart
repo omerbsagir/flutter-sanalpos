@@ -26,7 +26,7 @@ class PaymentService extends BaseApiService {
 
   Future<dynamic> createTransactions(String walletId , String amount) async {
     try {
-      final response = await post('/createTransactions', {
+      final response = await post('/createTransaction', {
         'walletId': walletId ,
         'amount' : amount
       });
