@@ -188,7 +188,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             leading: Icon(Icons.person_remove),
             title: Text('Hesabı sil'),
-            subtitle: Text('Sistemden hesabını sil.'),
+            subtitle: Text('Hesabını sistemden sil.'),
             onTap: () {
               Vibration.vibrate(duration: 100);
               _confirmDeleteUser();
@@ -198,7 +198,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             leading: Icon(Icons.business),
             title: Text('Şirketi Sil'),
-            subtitle: Text('Sistemden şirketini sil.'),
+            subtitle: Text('Şirketini sistemden sil.'),
             onTap: () {
               Vibration.vibrate(duration: 100);
               _confirmDeleteCompany();
