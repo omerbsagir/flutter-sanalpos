@@ -9,4 +9,10 @@ class TransactionModel {
     required this.amount,
   });
 
+  factory TransactionModel.fromJson(Map<String, dynamic> json) {
+    return TransactionModel(
+      date: json['date'],
+      amount: json['amount'],
+    );
+  }
 }
