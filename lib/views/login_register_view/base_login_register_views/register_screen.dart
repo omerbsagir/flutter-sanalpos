@@ -77,7 +77,7 @@ class RegisterScreen extends StatelessWidget {
               },
               child: Text('Kayıt Ol'),
             ),
-            SizedBox(height : 20),
+            SizedBox(height : 10),
             ElevatedButton(
               onPressed: () {
                 HapticFeedback.heavyImpact();
@@ -91,6 +91,7 @@ class RegisterScreen extends StatelessWidget {
           ],
         ),
       ),
+
     );
   }
 }

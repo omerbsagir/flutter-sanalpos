@@ -59,7 +59,7 @@ class LoginScreen extends StatelessWidget {
               ),
               child: Text('Giriş'),
             ),
-            SizedBox(height : 20),
+            SizedBox(height : 10),
             ElevatedButton(
               onPressed: () {
                 HapticFeedback.heavyImpact();
