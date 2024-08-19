@@ -30,7 +30,7 @@ class RegisterScreen extends StatelessWidget {
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'e_posta'),
+              decoration: InputDecoration(labelText: 'E_Posta'),
             ),
             SizedBox(height: 10,),
             IntlPhoneField(
