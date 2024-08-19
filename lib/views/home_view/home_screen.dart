@@ -103,12 +103,16 @@ class _HomeScreenState extends State<HomeScreen> {
     Provider.of<PaymentViewModel>(context, listen: false);
 
 
-    _showBottomSheet();
-    try {
-      final nfctag = await Future.any([
-        FlutterNfcKit.poll(),
-      ]);
 
+    try {
+
+      final nfctag = await Future.any([
+        FlutterNfcKit.poll(
+          timeout: Duration(seconds: 10), // Süreyi 10 saniyeye çıkarın
+          //iosAlertMessage: 'Kartınızı cihazınıza yaklaştırın',
+        ),
+      ]);
+      _showBottomSheet();
 
        if (nfctag.ndefAvailable != null) {
         CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarılı', Colors.green);
@@ -138,7 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
       CustomSnackbar.show(context, 'NFC tarama süresi doldu', Colors.red);
     } catch (e) {
       _resetInput();
-      Navigator.pop(context);
       CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarısız', Colors.red);
     } finally {
       await FlutterNfcKit.finish();
