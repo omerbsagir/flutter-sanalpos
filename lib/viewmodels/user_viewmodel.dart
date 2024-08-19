@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
+import 'package:e_pos/viewmodels/company_and_activation_viewmodel.dart';
 import '../models/user_model.dart';
 import '../repositories/user_repository.dart';
 import '../data/remote/response/api_response.dart';

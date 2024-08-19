@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterprojects/data/remote/response/api_response.dart';
+import 'package:e_pos/data/remote/response/api_response.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/custom_snackbar.dart';
@@ -30,7 +30,7 @@ class RegisterScreen extends StatelessWidget {
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'E-Posta'),
+              decoration: InputDecoration(labelText: 'e_posta'),
             ),
             SizedBox(height: 10,),
             IntlPhoneField(

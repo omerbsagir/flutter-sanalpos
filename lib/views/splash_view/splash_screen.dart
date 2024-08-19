@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/services/user_service.dart';
+import 'package:e_pos/services/user_service.dart';
 import '../../services/token_service.dart';
 
 class SplashScreen extends StatelessWidget {

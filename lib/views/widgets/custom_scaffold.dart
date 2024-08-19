@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterprojects/repositories/user_repository.dart';
-import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
-import 'package:flutterprojects/viewmodels/company_and_activation_viewmodel.dart';
+import 'package:e_pos/repositories/user_repository.dart';
+import 'package:e_pos/viewmodels/user_viewmodel.dart';
+import 'package:e_pos/viewmodels/company_and_activation_viewmodel.dart';
 
 class CustomScaffold extends StatelessWidget {
   final String title;

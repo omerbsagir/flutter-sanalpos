@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
+import 'package:e_pos/viewmodels/user_viewmodel.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import '../../data/remote/response/api_response.dart';
@@ -45,7 +45,7 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
 
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'E-Posta'),
+              decoration: InputDecoration(labelText: 'e_posta'),
             ),
             SizedBox(height: 10,),
             IntlPhoneField(

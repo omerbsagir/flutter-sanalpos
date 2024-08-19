@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
+import 'package:e_pos/viewmodels/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 import '../../data/remote/response/api_response.dart';
 import '../widgets/custom_snackbar.dart';

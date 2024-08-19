@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutterprojects/utils/constants.dart';
+import 'package:e_pos/utils/constants.dart';
 
 
 abstract class BaseApiService {

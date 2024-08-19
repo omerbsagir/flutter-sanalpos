@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/viewmodels/wallet_viewmodel.dart';
+import 'package:e_pos/viewmodels/wallet_viewmodel.dart';
 import '../repositories/company_and_activation_repository.dart';
 import '../data/remote/response/api_response.dart';
 import '../viewmodels/user_viewmodel.dart';

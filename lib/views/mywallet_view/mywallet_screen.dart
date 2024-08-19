@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
-import 'package:flutterprojects/viewmodels/wallet_viewmodel.dart';
-import 'package:flutterprojects/viewmodels/payment_viewmodel.dart';
+import 'package:e_pos/viewmodels/user_viewmodel.dart';
+import 'package:e_pos/viewmodels/wallet_viewmodel.dart';
+import 'package:e_pos/viewmodels/payment_viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
@@ -117,9 +117,8 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                         ),
                         initiallyExpanded: false,
                         children: [
-                          // Wrap the list of transactions with SingleChildScrollView
                           Container(
-                            height: 450, // Adjust the height as needed
+                            height: 10, // Adjust the height as needed
                           ),
                         ],
                       ),
@@ -145,19 +144,20 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                         ),
                         initiallyExpanded: true,
                         children: [
-                          // Wrap the list of transactions with SingleChildScrollView
                           Container(
-                            height: 450, // Adjust the height as needed
+                            constraints: BoxConstraints(
+                              maxHeight: MediaQuery.of(context).size.height * 0.45,
+                            ),
                             child: SingleChildScrollView(
                               child: Column(
                                 children: transactionDetails.isNotEmpty
                                     ? transactionDetails.map<Widget>((transaction) {
                                   return Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 10),
                                     child: Row(
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.only(right: 10 ),
+                                          margin: EdgeInsets.only(right: 10),
                                           child: Icon(
                                             Icons.fiber_manual_record,
                                             color: Colors.grey,
@@ -167,15 +167,14 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
-
                                             children: [
                                               Center(
                                                 child: Text(
                                                   '+${formatNumberWithDots(transaction.amount)},00 TL',
                                                   style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.lightGreen
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.lightGreen
                                                   ),
                                                 ),
                                               ),
@@ -213,7 +212,6 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                   }
                 },
               )
-
             ],
           ],
         ),
@@ -285,6 +283,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
       ),
     );
   }
+
   String formatNumberWithDots(String number) {
     final numberFormat = NumberFormat('#,##0', 'en_US');
     final formattedNumber = numberFormat.format(double.tryParse(number) ?? 0);

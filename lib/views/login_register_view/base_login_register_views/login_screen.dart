@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterprojects/data/remote/response/api_response.dart';
+import 'package:e_pos/data/remote/response/api_response.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/custom_snackbar.dart';
 import '/viewmodels/user_viewmodel.dart';
@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'E-Posta'),
+              decoration: InputDecoration(labelText: 'e_posta'),
             ),
             TextField(
               controller: passwordController,
@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () async {
 
                 if (emailController.text.isEmpty) {
-                  CustomSnackbar.show(context,'E-Posta Alanı Boş Bırakılamaz',Colors.orange);
+                  CustomSnackbar.show(context,'e_posta Alanı Boş Bırakılamaz',Colors.orange);
                 } else if (passwordController.text.isEmpty) {
                   CustomSnackbar.show(context,'Şifre Alanı Boş Bırakılamaz',Colors.orange);
                 } else {

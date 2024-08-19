@@ -1,4 +1,4 @@
-import 'package:flutterprojects/models/user_model.dart';
+import 'package:e_pos/models/user_model.dart';
 import '/services/user_service.dart';
 
 class UserRepository {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/models/transactions_model.dart';
+import 'package:e_pos/models/transactions_model.dart';
 import '../repositories/payment_repository.dart';
 import '../data/remote/response/api_response.dart';
 import '../viewmodels/user_viewmodel.dart';

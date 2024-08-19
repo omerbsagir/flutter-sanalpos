@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterprojects/repositories/user_repository.dart';
-import 'package:flutterprojects/viewmodels/user_viewmodel.dart';
-import 'package:flutterprojects/viewmodels/wallet_viewmodel.dart';
+import 'package:e_pos/repositories/user_repository.dart';
+import 'package:e_pos/viewmodels/user_viewmodel.dart';
+import 'package:e_pos/viewmodels/wallet_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 import '../../viewmodels/company_and_activation_viewmodel.dart';
