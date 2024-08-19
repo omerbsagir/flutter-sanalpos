@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutterprojects/utils/constants.dart';
 
 
-class BaseApiService {
+abstract class BaseApiService {
 
   Future<Map<String, dynamic>> post(String endpoint, Map<String, dynamic> body) async {
     try {
