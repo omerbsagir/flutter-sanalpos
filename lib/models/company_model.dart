@@ -1,28 +1,15 @@
 class CompanyModel {
   final String iban;
   final String name;
+  final String ownerId;
+
   CompanyModel({
 
 
     required this.iban,
     required this.name,
+    required this.ownerId
 
   });
 
-
-  factory CompanyModel.fromJson(Map<String, dynamic> json) {
-    return CompanyModel(
-
-      iban: json['iban'],
-      name: json['name'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-
-      'iban':iban,
-      'name': name,
-    };
-  }
 }
