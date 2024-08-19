@@ -45,7 +45,7 @@ class _CalisanEkleScreenState extends State<CalisanEkleScreen> {
 
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'E_Posta'),
+              decoration: InputDecoration(labelText: 'E-Posta'),
             ),
             SizedBox(height: 10,),
             IntlPhoneField(

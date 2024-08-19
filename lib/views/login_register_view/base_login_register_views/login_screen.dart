@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'E_Posta'),
+              decoration: InputDecoration(labelText: 'E-Posta'),
             ),
             TextField(
               controller: passwordController,
@@ -36,7 +36,7 @@ class LoginScreen extends StatelessWidget {
               onPressed: () async {
 
                 if (emailController.text.isEmpty) {
-                  CustomSnackbar.show(context,'E_Posta Alanı Boş Bırakılamaz',Colors.orange);
+                  CustomSnackbar.show(context,'E-Posta Alanı Boş Bırakılamaz',Colors.orange);
                 } else if (passwordController.text.isEmpty) {
                   CustomSnackbar.show(context,'Şifre Alanı Boş Bırakılamaz',Colors.orange);
                 } else {
