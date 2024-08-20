@@ -21,12 +21,19 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onButtonPressed(String value) {
     HapticFeedback.heavyImpact();
     setState(() {
+
       if ((_input + value).length <= 5) {
         _input += value;
         tlText = ' TL';
       } else {
         CustomSnackbar.show(
             context, 'Maksimum miktar 99.999 TL', Colors.orange);
+      }
+      if(value=='0'){
+        if(_input.length==1){
+          CustomSnackbar.show(context, 'İlk Rakam 0 Olamaz', Colors.orange);
+          _resetInput();
+        }
       }
     });
   }

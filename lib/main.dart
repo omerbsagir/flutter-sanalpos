@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
 
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Sanal Pos',
         initialRoute: '/splashScreen',
         routes: {
