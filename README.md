@@ -28,7 +28,7 @@ Bu uygulama, **Flutter** ile geliştirilmiş bir sanal POS projesidir. Uygulama,
 
 ## Backend
 
-Uygulamanın backend kısmı **Node.js** ile yazılmıştır ve AWS altyapısı üzerinde çalışmaktadır. (Lambda, API Gateway, Cognito, DynamoDB). Detaylar için https://github.com/omerbsagir/nodejs_for_epos
+Uygulamanın backend kısmı **Node.js** ile yazılmıştır ve AWS altyapısı üzerinde çalışmaktadır. (Lambda, API Gateway, Cognito, DynamoDB). Detaylar için https://github.com/omerbsagir/nodejs_for_epos ziyaret edin.
 
 ## Nasıl Kurulur?
 
