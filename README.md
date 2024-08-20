@@ -3,8 +3,7 @@
 
 ## Genel Bakış
 
-UYARI: Uygulama, NFC aracılığıyla alınan tag'lerin içeriğini yalnızca null olup olmadığını kontrol etmektedir. İlgili veriler, herhangi bir banka veya başka bir kuruluşun endpointlerine gönderilmemekte, yalnızca mocklanmış bir şekilde işlem görmektedir. Bu kısmı isterseniz kendi ihtiyaçlarınıza göre geliştirebilir ve gerçek veri işleme ekleyebilirsiniz!!
-
+> ⚠️ **Uyarı:** Uygulama, NFC aracılığıyla alınan tag'lerin içeriğini yalnızca null olup olmadığını kontrol etmektedir. İlgili veriler, herhangi bir banka veya başka bir kuruluşun endpointlerine gönderilmemekte, yalnızca mocklanmış bir şekilde işlem görmektedir. Bu kısmı isterseniz kendi ihtiyaçlarınıza göre geliştirebilir ve gerçek veri işleme ekleyebilirsiniz!!
 
 
 Bu uygulama, **Flutter** ile geliştirilmiş bir sanal POS projesidir. Uygulama, şirket sahipleri ve çalışanları için iki farklı yetki seviyesi sunar: **Admin** ve **User**. Authentication ve Yetkilendirme (Authorization) işlemleri **JWT** tokenları ile gerçekleştirilir. **User** rolüne sahip hesapları yalnızca **Admin** rolündeki kullanıcılar, uygulamanın **Şirketim** menüsünden kayıt edebilir.
@@ -57,8 +56,7 @@ Katkıda bulunmak isterseniz, lütfen bir pull request oluşturun veya bir issue
 
 ## Overview
 
-NOTE: The application currently only checks if the content of NFC tags is null or not. The relevant data is not being sent to any bank or other external endpoint; this process is currently mocked. You can extend this functionality to include actual data processing as per your needs!!
-
+> ⚠️ **Note:** The application currently only checks if the content of NFC tags is null or not. The relevant data is not being sent to any bank or other external endpoint; this process is currently mocked. You can extend this functionality to include actual data processing as per your needs!!
 
 
 This application is a virtual POS system developed using **Flutter**. It offers two authorization levels for company owners and employees: **Admin** and **User**. Authentication and Authorization processes are managed via **JWT** tokens. Accounts with the **User** role can only be registered by users with the **Admin** role through the **My Company** menu of the app.
