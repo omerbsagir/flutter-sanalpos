@@ -35,7 +35,7 @@ Uygulamanın backend kısmı **Node.js** ile yazılmıştır ve AWS altyapısı 
 1. **Flutter** SDK'sını yükleyin.
 2. Projeyi GitHub üzerinden klonlayın.
    ```bash
-   git clone https://github.com/username/flutter-pos-app.git
+   git clone https://github.com/username/flutter-sanalpos.git
    ```
 3. Gerekli bağımlılıkları yükleyin:
    ```bash
@@ -88,7 +88,7 @@ The backend of the application is written in **Node.js** and runs on AWS infrast
 1. Install **Flutter** SDK.
 2. Clone the project from GitHub.
    ```bash
-   git clone https://github.com/username/flutter-pos-app.git
+   git clone https://github.com/username/flutter-sanalpos.git
    ```
 3. Install the necessary dependencies:
    ```bash
