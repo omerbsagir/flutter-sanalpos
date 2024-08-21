@@ -136,11 +136,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
           try {
-              await paymentViewModel.createTransactions(_input.toString());
-              CustomSnackbar.show(context, 'Ödeme Başarıyla Alındı', Colors.greenAccent);
+            await paymentViewModel.createTransactions(_input.toString());
+            CustomSnackbar.show(context, 'Ödeme Başarıyla Alındı', Colors.greenAccent);
           } catch (e) {
-              print(e);
-              CustomSnackbar.show(context, 'Ödeme İşlemi Başarısız', Colors.red);
+            print(e);
+            CustomSnackbar.show(context, 'Ödeme İşlemi Başarısız', Colors.red);
           }
 
           // NFC taraması başarılı olunca giriş alanını sıfırla
@@ -216,7 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: 30), // Increased spacing
                 Text(
-                    'NFC taranmaya hazır, kartınızı cihazınıza yaklaştırın',
+                  'NFC taranmaya hazır, kartınızı cihazınıza yaklaştırın',
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500), // Increased font size and weight
                   textAlign: TextAlign.center,
                 ),
@@ -242,8 +242,8 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
       ),
     ).whenComplete(() {
-        FlutterNfcKit.finish();
-        _resetInput();
+      FlutterNfcKit.finish();
+      _resetInput();
     });
   }
 
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return CustomScaffold(
       title: "Ana Sayfa / NFC",
       body: Center(
-          child : Column(
+        child : Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
@@ -265,10 +265,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   _input + tlText,
                   style: TextStyle(
-                    fontSize: 80,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 0
+                      fontSize: 80,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: 0
                   ),
                 ),
               ),
