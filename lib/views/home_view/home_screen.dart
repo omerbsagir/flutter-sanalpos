@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:e_pos/viewmodels/user_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -110,38 +111,48 @@ class _HomeScreenState extends State<HomeScreen> {
     Provider.of<PaymentViewModel>(context, listen: false);
 
 
-
     try {
 
-      final nfctag = await Future.any([
-        FlutterNfcKit.poll(
-          timeout: Duration(seconds: 10), // Süreyi 10 saniyeye çıkarın
-          //iosAlertMessage: 'Kartınızı cihazınıza yaklaştırın',
-        ),
-      ]);
-      _showBottomSheet();
+      var availability = await FlutterNfcKit.nfcAvailability;
 
-       if (nfctag.ndefAvailable != null) {
-        CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarılı', Colors.green);
+      if (availability != NFCAvailability.available) {
+        print("NFC available değil");
+        CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarısız', Colors.red);
+        _resetInput();
+      }
+      else{
+        _showBottomSheet();
 
+        final nfctag = await Future.any([
+          FlutterNfcKit.poll(
+            timeout: Duration(seconds: 10),
+            //iosAlertMessage: 'Kartınızı cihazınıza yaklaştırın',
+          ),
+        ]);
 
-        try {
-          await paymentViewModel.createTransactions(_input.toString());
+        if (nfctag.ndefAvailable != null) {
           Navigator.pop(context);
-          CustomSnackbar.show(context, 'Ödeme Başarıyla Alındı', Colors.greenAccent);
-        } catch (e) {
-          print(e);
-          CustomSnackbar.show(context, 'Ödeme İşlemi Başarısız', Colors.red);
+          CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarılı', Colors.green);
+
+
+          try {
+              await paymentViewModel.createTransactions(_input.toString());
+              CustomSnackbar.show(context, 'Ödeme Başarıyla Alındı', Colors.greenAccent);
+          } catch (e) {
+              print(e);
+              CustomSnackbar.show(context, 'Ödeme İşlemi Başarısız', Colors.red);
+          }
+
+          // NFC taraması başarılı olunca giriş alanını sıfırla
+          _resetInput();
+        } else {
+          _resetInput();
+          Navigator.pop(context);
+          CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarısız', Colors.red);
         }
 
-        // NFC taraması başarılı olunca giriş alanını sıfırla
-        _resetInput();
-      } else {
-        _resetInput();
-        Navigator.pop(context);
-        CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarısız', Colors.red);
-      }
 
+      }
 
     } on TimeoutException catch (_) {
       _resetInput();
@@ -149,8 +160,10 @@ class _HomeScreenState extends State<HomeScreen> {
       CustomSnackbar.show(context, 'NFC tarama süresi doldu', Colors.red);
     } catch (e) {
       _resetInput();
+      Navigator.pop(context);
       CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarısız', Colors.red);
     } finally {
+
       await FlutterNfcKit.finish();
     }
   }
@@ -173,9 +186,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadActivationStatus() async {
     final companyAndActivationViewModel =
     Provider.of<CompanyAndActivationViewModel>(context, listen: false);
+    final userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
-    await companyAndActivationViewModel.checkActiveStatus();
-    activationStatus = companyAndActivationViewModel.isActive;
+    final role = await userViewModel.getRoleFromToken();
+
+    if(role == 'admin'){
+      await companyAndActivationViewModel.checkActiveStatus();
+      activationStatus = companyAndActivationViewModel.isActive;
+    }else{
+      activationStatus=true;
+    }
+
   }
 
   void _showBottomSheet() {
@@ -221,7 +242,8 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
       ),
     ).whenComplete(() {
-
+        FlutterNfcKit.finish();
+        _resetInput();
     });
   }
 

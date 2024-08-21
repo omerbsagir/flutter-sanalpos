@@ -80,11 +80,30 @@ class WalletViewModel extends ChangeNotifier {
   }
 
   Future<dynamic> getWallet() async {
-    String ownerId = '';
+
+    String role='';
     try{
-      ownerId = await _userViewModel.getUserIdFromToken();
+      role = await _userViewModel.getRoleFromToken();
     }catch(e){
       print(e);
+    }
+
+    String ownerId = '';
+
+    if(role=='admin'){
+      try{
+        ownerId = await _userViewModel.getUserIdFromToken();
+      }catch(e){
+        print(e);
+      }
+    }else {
+      try{
+        await _userViewModel.getUsersAdminId();
+        ownerId = _userViewModel.adminId;
+      }catch(e){
+        print(e);
+      }
+
     }
 
     try {
