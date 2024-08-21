@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (availability != NFCAvailability.available) {
         print("NFC available değil");
-        CustomSnackbar.show(context, 'NFC Tarama İşlemi Başarısız', Colors.red);
+        CustomSnackbar.show(context, 'NFC Cihazınızda Kullanılamıyor', Colors.red);
         _resetInput();
       }
       else{
