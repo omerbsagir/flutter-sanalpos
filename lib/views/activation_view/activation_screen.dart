@@ -10,6 +10,8 @@ import '../widgets/custom_snackbar.dart';
 import '/viewmodels/company_and_activation_viewmodel.dart';
 
 class ActivationScreen extends StatefulWidget {
+  const ActivationScreen({super.key});
+
   @override
   _ActivationScreenState createState() => _ActivationScreenState();
 }
@@ -40,16 +42,16 @@ class _ActivationScreenState extends State<ActivationScreen> {
         if (Platform.isIOS) {
           // Use CupertinoAlertDialog for iOS
           return CupertinoAlertDialog(
-            title: Text('İşlemi Onayla'),
-            content: Text('Aktivasyon kaydını silmek istediğine emin misin?'),
+            title: const Text('İşlemi Onayla'),
+            content: const Text('Aktivasyon kaydını silmek istediğine emin misin?'),
             actions: <Widget>[
               CupertinoDialogAction(
-                child: Text('İptal'),
+                child: const Text('İptal'),
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               CupertinoDialogAction(
                 isDestructiveAction: true,
-                child: Text('Sil'),
+                child: const Text('Sil'),
                 onPressed: () => Navigator.of(context).pop(true),
               ),
             ],
@@ -57,21 +59,21 @@ class _ActivationScreenState extends State<ActivationScreen> {
         } else {
           // Use AlertDialog for Android
           return AlertDialog(
-            title: Text('İşlemi Onayla'),
-            content: Text('Aktivasyon kaydını silmek istediğine emin misin?'),
+            title: const Text('İşlemi Onayla'),
+            content: const Text('Aktivasyon kaydını silmek istediğine emin misin?'),
             actionsAlignment: MainAxisAlignment.spaceBetween,
             actions: <Widget>[
               TextButton(
-                child: Text('İptal'),
+                child: const Text('İptal'),
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               TextButton(
-                child: Text('Sil'),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.red,
                 ),
                 onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Sil'),
               ),
             ],
           );
@@ -96,7 +98,7 @@ class _ActivationScreenState extends State<ActivationScreen> {
       title: 'Aktivasyon',
       actions: [
         IconButton(
-          icon: Icon(Icons.refresh_rounded),
+          icon: const Icon(Icons.refresh_rounded),
           onPressed: () {
             HapticFeedback.heavyImpact();
             companyAndActivationViewModel.getActivation();
@@ -104,19 +106,19 @@ class _ActivationScreenState extends State<ActivationScreen> {
         ),
       ],
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             if (!companyAndActivationViewModel.isActivationLoaded) ...[
               TextField(
                 controller: tcNoController,
-                decoration: InputDecoration(labelText: 'TC No'),
+                decoration: const InputDecoration(labelText: 'TC No'),
               ),
               TextField(
                 controller: vergiNoController,
-                decoration: InputDecoration(labelText: 'Vergi No'),
+                decoration: const InputDecoration(labelText: 'Vergi No'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   if (tcNoController.text.isEmpty || vergiNoController.text.isEmpty) {
@@ -143,13 +145,13 @@ class _ActivationScreenState extends State<ActivationScreen> {
                     vergiNoController.clear();
                   }
                 },
-                child: Text('Aktivasyon Oluştur'),
+                child: const Text('Aktivasyon Oluştur'),
               ),
             ] else ...[
               Consumer<CompanyAndActivationViewModel>(
                 builder: (context, viewModel, child) {
                   if (viewModel.company_and_activationResponseAct.status == Status.LOADING) {
-                    return Center(
+                    return const Center(
                       child: SizedBox(
                         width: 20,
                         height: 20,
@@ -165,14 +167,14 @@ class _ActivationScreenState extends State<ActivationScreen> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 10,),
-                        Icon(
+                        const SizedBox(height: 10,),
+                        const Icon(
                           Icons.verified_user_sharp,
                           color: Colors.orangeAccent,
                           size: 75,
                         ),
-                        SizedBox(height: 10,),
-                        Text(
+                        const SizedBox(height: 10,),
+                        const Text(
                           'ONAY DURUMU',
                           style: TextStyle(
                             fontSize: 25,
@@ -180,29 +182,29 @@ class _ActivationScreenState extends State<ActivationScreen> {
                           ),
 
                         ),
-                        SizedBox(height: 20,),
-                        Divider(thickness: 1,color: Colors.black,),
-                        SizedBox(height: 20,),
+                        const SizedBox(height: 20,),
+                        const Divider(thickness: 1,color: Colors.black,),
+                        const SizedBox(height: 20,),
                         if (activationDetails.isNotEmpty) ...[
                           _buildInfoColumn('TC NO', activationDetails[0]),
                           _buildInfoColumn('VERGİ NO', activationDetails[1]),
                           _buildActivationStatusColumn(activationDetails[2]),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: _confirmDeleteActivation,
-                            child: Text(
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                            child: const Text(
                               'Aktivasyonu Sil',
                               style: TextStyle(color: Colors.white),
                             ),
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                           ),
                         ] else ...[
-                          Text('Aktivasyon mevcut değil.', style: TextStyle(color: Colors.white)),
+                          const Text('Aktivasyon mevcut değil.', style: TextStyle(color: Colors.white)),
                         ],
                       ],
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: Text(
                         'Bir hata oluştu.',
                         style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
@@ -227,12 +229,12 @@ class _ActivationScreenState extends State<ActivationScreen> {
           children: [
             Text(
               title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            SizedBox(height: 4.0),
+            const SizedBox(height: 4.0),
             Text(
               value,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ),
@@ -247,11 +249,11 @@ class _ActivationScreenState extends State<ActivationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Aktivasyon Durumu',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            SizedBox(height: 4.0),
+            const SizedBox(height: 4.0),
             Icon(
               isActive ? Icons.check_circle : Icons.cancel,
               color: isActive ? Colors.green : Colors.red,

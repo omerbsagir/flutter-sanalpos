@@ -9,7 +9,7 @@ class CompanyAndActivationRepository {
       await _companyAndActivationService.createCompany(name,ownerId, iban);
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<void> createActivation(String ownerId ,String companyId,String tcNo ,String vergiNo) async {
@@ -17,7 +17,7 @@ class CompanyAndActivationRepository {
       await _companyAndActivationService.createActivation(ownerId,companyId, tcNo,vergiNo);
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<dynamic> checkActiveStatus(String companyId) async {
@@ -27,7 +27,7 @@ class CompanyAndActivationRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<dynamic> getCompany(String ownerId) async {
@@ -36,7 +36,7 @@ class CompanyAndActivationRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<dynamic> getActivation(String companyId) async {
@@ -45,7 +45,7 @@ class CompanyAndActivationRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<dynamic> deleteActivation(String ownerId) async {
@@ -54,7 +54,7 @@ class CompanyAndActivationRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<dynamic> deleteCompany(String ownerId) async {
@@ -63,7 +63,7 @@ class CompanyAndActivationRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<dynamic> getUsersAdmin(String adminId) async {
@@ -72,7 +72,7 @@ class CompanyAndActivationRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
 

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:e_pos/viewmodels/company_and_activation_viewmodel.dart';
 import '../models/user_model.dart';
 import '../repositories/user_repository.dart';
 import '../data/remote/response/api_response.dart';
@@ -74,7 +73,7 @@ class UserViewModel extends ChangeNotifier {
 
   Future<String> getUserIdFromToken() async {
     final token = await TokenService.getToken();
-    final tokenMap = await TokenService.parseJwt(token.toString());
+    final tokenMap = TokenService.parseJwt(token.toString());
 
     String userId = tokenMap['userId'];
 
@@ -83,7 +82,7 @@ class UserViewModel extends ChangeNotifier {
 
   Future<bool> checkRoleFromToken() async {
     final token = await TokenService.getToken();
-    final tokenMap = await TokenService.parseJwt(token.toString());
+    final tokenMap = TokenService.parseJwt(token.toString());
 
     String role = tokenMap['role'];
 
@@ -100,7 +99,7 @@ class UserViewModel extends ChangeNotifier {
   }
   Future<String> getRoleFromToken() async {
     final token = await TokenService.getToken();
-    final tokenMap = await TokenService.parseJwt(token.toString());
+    final tokenMap = TokenService.parseJwt(token.toString());
 
     String role = tokenMap['role'];
 

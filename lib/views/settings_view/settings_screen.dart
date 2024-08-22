@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:e_pos/repositories/user_repository.dart';
 import 'package:e_pos/viewmodels/user_viewmodel.dart';
 import 'package:e_pos/viewmodels/wallet_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +11,8 @@ import '../widgets/custom_scaffold.dart';
 import '../widgets/custom_snackbar.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -40,16 +41,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
         if (Platform.isIOS) {
           // Use CupertinoAlertDialog for iOS
           return CupertinoAlertDialog(
-            title: Text('İşlemi Onayla'),
-            content: Text('Şirket kaydını silmek istediğine emin misin?'),
+            title: const Text('İşlemi Onayla'),
+            content: const Text('Şirket kaydını silmek istediğine emin misin?'),
             actions: <Widget>[
               CupertinoDialogAction(
-                child: Text('İptal'),
+                child: const Text('İptal'),
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               CupertinoDialogAction(
                 isDestructiveAction: true,
-                child: Text('Sil'),
+                child: const Text('Sil'),
                 onPressed: () => Navigator.of(context).pop(true),
               ),
             ],
@@ -57,21 +58,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
         } else {
           // Use AlertDialog for Android
           return AlertDialog(
-            title: Text('İşlemi Onayla'),
-            content: Text('Şirket kaydını silmek istediğine emin misin?'),
+            title: const Text('İşlemi Onayla'),
+            content: const Text('Şirket kaydını silmek istediğine emin misin?'),
             actionsAlignment: MainAxisAlignment.spaceBetween,
             actions: <Widget>[
               TextButton(
-                child: Text('İptal'),
+                child: const Text('İptal'),
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               TextButton(
-                child: Text('Sil'),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.red,
                 ),
                 onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Sil'),
               ),
             ],
           );
@@ -108,16 +109,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
         if (Platform.isIOS) {
           // Use CupertinoAlertDialog for iOS
           return CupertinoAlertDialog(
-            title: Text('İşlemi Onayla'),
-            content: Text('Hesap kaydını silmek istediğine emin misin?'),
+            title: const Text('İşlemi Onayla'),
+            content: const Text('Hesap kaydını silmek istediğine emin misin?'),
             actions: <Widget>[
               CupertinoDialogAction(
-                child: Text('İptal'),
+                child: const Text('İptal'),
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               CupertinoDialogAction(
                 isDestructiveAction: true,
-                child: Text('Sil'),
+                child: const Text('Sil'),
                 onPressed: () => Navigator.of(context).pop(true),
               ),
             ],
@@ -125,21 +126,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
         } else {
           // Use AlertDialog for Android
           return AlertDialog(
-            title: Text('İşlemi Onayla'),
-            content: Text('Hesap kaydını silmek istediğine emin misin?'),
+            title: const Text('İşlemi Onayla'),
+            content: const Text('Hesap kaydını silmek istediğine emin misin?'),
             actionsAlignment: MainAxisAlignment.spaceBetween,
             actions: <Widget>[
               TextButton(
-                child: Text('İptal'),
+                child: const Text('İptal'),
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               TextButton(
-                child: Text('Sil'),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.red,
                 ),
                 onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Sil'),
               ),
             ],
           );
@@ -183,22 +184,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return CustomScaffold(
       title: "Ayarlar",
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         children: [
           ListTile(
-            leading: Icon(Icons.person_remove),
-            title: Text('Hesabı sil'),
-            subtitle: Text('Hesabını sistemden sil.'),
+            leading: const Icon(Icons.person_remove),
+            title: const Text('Hesabı sil'),
+            subtitle: const Text('Hesabını sistemden sil.'),
             onTap: () {
               Vibration.vibrate(duration: 100);
               _confirmDeleteUser();
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.business),
-            title: Text('Şirketi Sil'),
-            subtitle: Text('Şirketini sistemden sil.'),
+            leading: const Icon(Icons.business),
+            title: const Text('Şirketi Sil'),
+            subtitle: const Text('Şirketini sistemden sil.'),
             onTap: () {
               Vibration.vibrate(duration: 100);
               _confirmDeleteCompany();

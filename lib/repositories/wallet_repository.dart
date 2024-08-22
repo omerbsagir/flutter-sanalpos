@@ -8,7 +8,7 @@ class WalletRepository {
       await _walletService.createWallet(ownerId, companyId,iban);
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -17,7 +17,7 @@ class WalletRepository {
       await _walletService.updateWallet(walletId);
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -27,7 +27,7 @@ class WalletRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<dynamic> deleteWallet(String ownerId) async {
@@ -36,7 +36,7 @@ class WalletRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
 

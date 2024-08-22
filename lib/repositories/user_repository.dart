@@ -11,7 +11,7 @@ class UserRepository {
       await _userService.login(email, password);
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -20,7 +20,7 @@ class UserRepository {
       await _userService.register(user.email, user.phone, user.password);
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<void> registerNewUser(UserModel user , String adminId) async {
@@ -28,7 +28,7 @@ class UserRepository {
       await _userService.registerNewUser(user.email, user.phone, user.password,adminId);
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<void> logout() async {
@@ -36,7 +36,7 @@ class UserRepository {
       await _userService.logout();
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -46,7 +46,7 @@ class UserRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
   Future<dynamic> deleteUser(String email) async {
@@ -55,7 +55,7 @@ class UserRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
 

@@ -6,10 +6,12 @@ class SplashScreen extends StatelessWidget {
 
   final UserService _userService = UserService();
 
+  SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     _checkLogin(context);
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
       ),

@@ -9,7 +9,7 @@ class CustomScaffold extends StatelessWidget {
   final Widget body;
   final List<IconButton>? actions; // Make actions optional
 
-  CustomScaffold({required this.body, required this.title, this.actions});
+  CustomScaffold({super.key, required this.body, required this.title, this.actions});
 
   final UserViewModel _userViewModel = UserViewModel();
   final CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
@@ -31,35 +31,35 @@ class CustomScaffold extends StatelessWidget {
             DrawerHeader(
               margin: EdgeInsets.zero,
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.deepPurpleAccent,
               ),
               child: SingleChildScrollView( // Make content scrollable if needed
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 40,
                       backgroundImage: AssetImage('assets/a.png'),
                       backgroundColor: Colors.deepPurpleAccent,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     FutureBuilder<dynamic>(
                       future: _companyAndActivationViewModel.getCompanyForNavBar(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         } else if (snapshot.hasData) {
                           return Text(
                             _companyAndActivationViewModel.companyName,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           );
                         } else if (snapshot.hasData && snapshot.data == false) {
-                          return Text(
+                          return const Text(
                             'Adın',
                             style: TextStyle(
                               color: Colors.white,
@@ -68,7 +68,7 @@ class CustomScaffold extends StatelessWidget {
                             ),
                           );
                         } else {
-                          return Text(
+                          return const Text(
                             'Hata',
                             style: TextStyle(
                               color: Colors.white,
@@ -83,19 +83,19 @@ class CustomScaffold extends StatelessWidget {
                       future: _userViewModel.getRoleFromToken(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
+                          return const CircularProgressIndicator();
                         } else if (snapshot.hasData) {
                           return Text(
                             snapshot.data,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.yellow,
                               fontSize: 10,
                             ),
                           );
                         } else if (snapshot.hasData && snapshot.data == false) {
-                          return SizedBox.shrink(); // To avoid empty space
+                          return const SizedBox.shrink(); // To avoid empty space
                         } else {
-                          return Text(
+                          return const Text(
                             'Hata',
                             style: TextStyle(
                               color: Colors.red,
@@ -110,8 +110,8 @@ class CustomScaffold extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Ana Sayfa'),
+              leading: const Icon(Icons.home),
+              title: const Text('Ana Sayfa'),
               onTap: () {
                 HapticFeedback.heavyImpact();
                 Navigator.pushNamed(context, '/home');
@@ -121,37 +121,37 @@ class CustomScaffold extends StatelessWidget {
               future: _userViewModel.checkRoleFromToken(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasData && snapshot.data == true) {
                   return Column(
                     children: [
                       ListTile(
-                        leading: Icon(Icons.account_balance_wallet),
-                        title: Text('Cüzdanım'),
+                        leading: const Icon(Icons.account_balance_wallet),
+                        title: const Text('Cüzdanım'),
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/mywallet');
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.home_work),
-                        title: Text('Şirketim'),
+                        leading: const Icon(Icons.home_work),
+                        title: const Text('Şirketim'),
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/mycompany');
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.verified),
-                        title: Text('Aktivasyon'),
+                        leading: const Icon(Icons.verified),
+                        title: const Text('Aktivasyon'),
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/activation');
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.settings),
-                        title: Text('Ayarlar'),
+                        leading: const Icon(Icons.settings),
+                        title: const Text('Ayarlar'),
                         onTap: () {
                           HapticFeedback.heavyImpact();
                           Navigator.pushNamed(context, '/settings');
@@ -160,16 +160,16 @@ class CustomScaffold extends StatelessWidget {
                     ],
                   );
                 } else if (snapshot.hasData && snapshot.data == false) {
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 } else {
-                  return Text('Rol alınamadı');
+                  return const Text('Rol alınamadı');
                 }
               },
             ),
 
             ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Çıkış'),
+              leading: const Icon(Icons.exit_to_app),
+              title: const Text('Çıkış'),
               onTap: () {
                 HapticFeedback.heavyImpact();
                 _userRepository.logout();

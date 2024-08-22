@@ -12,9 +12,9 @@ class PaymentViewModel extends ChangeNotifier {
   final PaymentRepository _paymentRepository = PaymentRepository();
 
   ApiResponse<String> _paymentResponse = ApiResponse.loading();
-  UserViewModel _userViewModel = UserViewModel();
-  WalletViewModel _walletViewModel = WalletViewModel();
-  CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
+  final UserViewModel _userViewModel = UserViewModel();
+  final WalletViewModel _walletViewModel = WalletViewModel();
+  final CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
   ApiResponse get paymentResponse => _paymentResponse;
 
   List<TransactionModel> TransactionDetails = [];

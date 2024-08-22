@@ -18,10 +18,12 @@ import 'viewmodels/payment_viewmodel.dart';
 
 void main()  {
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -40,12 +42,12 @@ class MyApp extends StatelessWidget {
           '/splashScreen' : (context) => SplashScreen(),
           '/': (context) => RegisterScreen(),
           '/login': (context) => LoginScreen(),
-          '/home': (context) => HomeScreen(),
-          '/mycompany': (context) => MyCompanyScreen(),
-          '/activation': (context) => ActivationScreen(),
-          '/calisanekle' : (context) => CalisanEkleScreen(),
-          '/mywallet' : (context) => MyWalletScreen(),
-          '/settings' : (context) => SettingsScreen(),
+          '/home': (context) => const HomeScreen(),
+          '/mycompany': (context) => const MyCompanyScreen(),
+          '/activation': (context) => const ActivationScreen(),
+          '/calisanekle' : (context) => const CalisanEkleScreen(),
+          '/mywallet' : (context) => const MyWalletScreen(),
+          '/settings' : (context) => const SettingsScreen(),
 
         },
       ),

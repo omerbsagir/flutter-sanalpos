@@ -5,11 +5,12 @@ import 'package:e_pos/viewmodels/wallet_viewmodel.dart';
 import 'package:e_pos/viewmodels/payment_viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:vibration/vibration.dart';
 import '../../data/remote/response/api_response.dart';
 import '/views/widgets/custom_scaffold.dart';
 
 class MyWalletScreen extends StatefulWidget {
+  const MyWalletScreen({super.key});
+
   @override
   _MyWalletScreenState createState() => _MyWalletScreenState();
 }
@@ -48,7 +49,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
       title: 'Cüzdanım',
       actions: [
         IconButton(
-          icon: Icon(Icons.refresh_rounded),
+          icon: const Icon(Icons.refresh_rounded),
           onPressed: () {
             HapticFeedback.heavyImpact();
             _loadWalletData();
@@ -60,8 +61,8 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
         child: Column(
           children: [
             if (!walletViewModel.isWalletLoaded) ...[
-              SizedBox(height: 25),
-              Text(
+              const SizedBox(height: 25),
+              const Text(
                 'Şirketinizin Bir Cüzdanı Yok',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -85,12 +86,12 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                         if (viewModel.walletDetails.isNotEmpty) ...[
                           _buildCreditCard(viewModel.walletDetails[0], viewModel.walletDetails[1]),
                         ] else ...[
-                          Text('Cüzdan bilgileri bulunamadı.', style: TextStyle(color: Colors.grey)),
+                          const Text('Cüzdan bilgileri bulunamadı.', style: TextStyle(color: Colors.grey)),
                         ],
                       ],
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: Text(
                         'Bir hata oluştu.',
                         style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
@@ -105,7 +106,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ExpansionTile(
-                        title: Center(
+                        title: const Center(
                           child: Text(
                             'İşlem Geçmişi',
                             style: TextStyle(
@@ -132,7 +133,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: ExpansionTile(
-                        title: Center(
+                        title: const Center(
                           child: Text(
                             'İşlem Geçmişi',
                             style: TextStyle(
@@ -157,8 +158,8 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.only(right: 10),
-                                          child: Icon(
+                                          margin: const EdgeInsets.only(right: 10),
+                                          child: const Icon(
                                             Icons.fiber_manual_record,
                                             color: Colors.grey,
                                             size: 8,
@@ -171,18 +172,18 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                                               Center(
                                                 child: Text(
                                                   '+${formatNumberWithDots(transaction.amount)},00 TL',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.bold,
                                                       color: Colors.lightGreen
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(height: 4.0),
+                                              const SizedBox(height: 4.0),
                                               Center(
                                                 child: Text(
-                                                  '${transaction.date}',
-                                                  style: TextStyle(
+                                                  transaction.date,
+                                                  style: const TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.grey,
                                                   ),
@@ -195,7 +196,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                                     ),
                                   );
                                 }).toList()
-                                    : [Center(child: Text('Bir işlem bulunmuyor.', style: TextStyle(color: Colors.grey)))],
+                                    : [const Center(child: Text('Bir işlem bulunmuyor.', style: TextStyle(color: Colors.grey)))],
                               ),
                             ),
                           ),
@@ -203,7 +204,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
                       ),
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: Text(
                         'Bir hata oluştu.',
                         style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
@@ -223,16 +224,16 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
     return Container(
       height: 185,
       width: 370,
-      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-      padding: EdgeInsets.all(20),
+      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [Colors.green, Colors.deepPurpleAccent],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black26,
             blurRadius: 10,
@@ -244,7 +245,7 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'IBAN',
             style: TextStyle(
               color: Colors.white,
@@ -252,17 +253,17 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             iban,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 17,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 20),
-          Text(
+          const SizedBox(height: 20),
+          const Text(
             'BAKİYE',
             style: TextStyle(
               color: Colors.white,
@@ -270,10 +271,10 @@ class _MyWalletScreenState extends State<MyWalletScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(
             '${formatNumberWithDots(balance)},00 TL',
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.bold,

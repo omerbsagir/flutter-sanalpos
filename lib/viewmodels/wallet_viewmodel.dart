@@ -10,8 +10,8 @@ class WalletViewModel extends ChangeNotifier {
   final WalletRepository _walletRepository = WalletRepository();
 
   ApiResponse<String> _walletResponse = ApiResponse.loading();
-  UserViewModel _userViewModel = UserViewModel();
-  CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
+  final UserViewModel _userViewModel = UserViewModel();
+  final CompanyAndActivationViewModel _companyAndActivationViewModel = CompanyAndActivationViewModel();
   ApiResponse get walletResponse => _walletResponse;
 
   List<dynamic> walletDetails = [];

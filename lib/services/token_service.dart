@@ -3,7 +3,7 @@ import 'dart:convert';
 
 
 class TokenService {
-  static final FlutterSecureStorage _storage = FlutterSecureStorage();
+  static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
 
   Future<bool> checkToken() async {

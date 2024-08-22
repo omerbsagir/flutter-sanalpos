@@ -13,6 +13,8 @@ import '/views/widgets/custom_scaffold.dart';
 
 
 class MyCompanyScreen extends StatefulWidget {
+  const MyCompanyScreen({super.key});
+
   @override
   _MyCompanyScreenState createState() => _MyCompanyScreenState();
 }
@@ -82,37 +84,37 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
       builder: (BuildContext context) {
         if (Platform.isIOS) {
           return CupertinoAlertDialog(
-            title: Text('İşlemi Onayla'),
-            content: Text('Çalışan kaydını silmek istediğine emin misin?'),
+            title: const Text('İşlemi Onayla'),
+            content: const Text('Çalışan kaydını silmek istediğine emin misin?'),
             actions: <Widget>[
               CupertinoDialogAction(
-                child: Text('İptal'),
+                child: const Text('İptal'),
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               CupertinoDialogAction(
                 isDestructiveAction: true,
-                child: Text('Sil'),
+                child: const Text('Sil'),
                 onPressed: () => Navigator.of(context).pop(true),
               ),
             ],
           );
         } else {
           return AlertDialog(
-            title: Text('İşlemi Onayla'),
-            content: Text('Çalışan kaydını silmek istediğine emin misin?'),
+            title: const Text('İşlemi Onayla'),
+            content: const Text('Çalışan kaydını silmek istediğine emin misin?'),
             actionsAlignment: MainAxisAlignment.spaceBetween,
             actions: <Widget>[
               TextButton(
-                child: Text('İptal'),
+                child: const Text('İptal'),
                 onPressed: () => Navigator.of(context).pop(false),
               ),
               TextButton(
-                child: Text('Sil'),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.red,
                 ),
                 onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Sil'),
               ),
             ],
           );
@@ -139,7 +141,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
       title: 'Şirketim',
       actions: [
         IconButton(
-          icon: Icon(Icons.refresh_rounded),
+          icon: const Icon(Icons.refresh_rounded),
           onPressed: () {
             HapticFeedback.heavyImpact();
             Navigator.pushReplacementNamed(context, '/mycompany');
@@ -147,20 +149,20 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
         ),
       ],
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (!companyAndActivationViewModel.isCompanyLoaded) ...[
               TextField(
                 controller: nameController,
-                decoration: InputDecoration(labelText: 'Şirket İsmi '),
+                decoration: const InputDecoration(labelText: 'Şirket İsmi '),
               ),
               TextField(
                 controller: ibanController,
-                decoration: InputDecoration(labelText: 'IBAN'),
+                decoration: const InputDecoration(labelText: 'IBAN'),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   if (nameController.text.isEmpty || ibanController.text.isEmpty) {
@@ -190,13 +192,13 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                     ibanController.clear();
                   }
                 },
-                child: Text('Şirketi Kaydet'),
+                child: const Text('Şirketi Kaydet'),
               ),
             ] else ...[
               Consumer<CompanyAndActivationViewModel>(
                 builder: (context, viewModel, child) {
                   if (viewModel.company_and_activationResponse.status == Status.LOADING) {
-                    return Center(
+                    return const Center(
                       child: SizedBox(
                         width: 20,
                         height: 20,
@@ -217,8 +219,8 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
                             Row(
                               children: [
-                                SizedBox(width: 35,),
-                                Icon(
+                                const SizedBox(width: 35,),
+                                const Icon(
                                   Icons.home_work_sharp,
                                   color: Colors.black54,
                                   size: 120,
@@ -237,18 +239,18 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                               ],
                             ),
                           ] else ...[
-                            Text('Şirket bilgileri bulunamadı.', style: TextStyle(color: Colors.grey)),
+                            const Text('Şirket bilgileri bulunamadı.', style: TextStyle(color: Colors.grey)),
                           ],
-                          SizedBox(height: 20),
-                          Divider(thickness: 0.75,color: Colors.black,),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
+                          const Divider(thickness: 0.75,color: Colors.black,),
+                          const SizedBox(height: 20),
 
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Row(
                               children: [
 
-                                Expanded(
+                                const Expanded(
                                   child :
                                   Text(
                                     '    Çalışanların',
@@ -259,7 +261,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                                 ),
 
                                 IconButton(
-                                  icon:Icon(Icons.person_add),
+                                  icon:const Icon(Icons.person_add),
                                   onPressed: () async {
                                     HapticFeedback.heavyImpact();
                                     Navigator.pushNamed(context, '/calisanekle');
@@ -272,7 +274,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
                           if (userDetails.isNotEmpty) ...[
 
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
 
                             if (lastUsersForAdminsLenght != 0 && !isFirstLoad) ...[
                               if (lastUsersForAdminsLenght <= userDetails.length) ...[
@@ -285,13 +287,13 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
                                 _buildInfoColumn2(userDetails[i]),
                             ],
                           ] else ...[
-                            Text('Hiçbir kullanıcı mevcut değil.', style: TextStyle(color: Colors.grey)),
+                            const Text('Hiçbir kullanıcı mevcut değil.', style: TextStyle(color: Colors.grey)),
                           ],
                         ],
                       ),
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: Text(
                         'Bir hata oluştu.',
                         style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
@@ -317,13 +319,13 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             children: [
               Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 4), // Add some space between title and value
+              const SizedBox(height: 4), // Add some space between title and value
               Text(
                 value,
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -340,7 +342,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
           children: [
             Text(
               value,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 0.1,
@@ -360,8 +362,8 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           children: [
-            SizedBox(width: 10,),
-            Icon(
+            const SizedBox(width: 10,),
+            const Icon(
               Icons.person,
               size: 15,
             ),
@@ -369,13 +371,13 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
             Expanded(
               child: Text(
                 email,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 textAlign: TextAlign.center,
               ),
             ),
             // Delete Icon
             IconButton(
-              icon: Icon(Icons.delete, color: Colors.red),
+              icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () {
                 HapticFeedback.heavyImpact();
                 _confirmDeleteWorker(email); // Pass email to delete function
@@ -394,12 +396,12 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
+            const Text(
               'Aktivasyon Durumu',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 4), // Metin ile ikon arasında boşluk
+            const SizedBox(height: 4), // Metin ile ikon arasında boşluk
             Icon(
               isActive ? Icons.check_circle : Icons.cancel,
               color: isActive ? Colors.green : Colors.red,

@@ -8,8 +8,11 @@ import '../../viewmodels/payment_viewmodel.dart';
 import '../widgets/custom_scaffold.dart';
 import 'package:flutter_nfc_kit/flutter_nfc_kit.dart';
 import '../widgets/custom_snackbar.dart';
+import '../../data/remote/response/api_response.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -56,15 +59,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Container(
 
             child : AlertDialog(
-              title: Text('İşlem Yapılacak Miktar',style : TextStyle(fontSize: 25,fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
+              title: const Text('İşlem Yapılacak Miktar',style : TextStyle(fontSize: 25,fontWeight: FontWeight.w400),textAlign: TextAlign.center,),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     _input + tlText,
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+                    style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog
@@ -72,14 +75,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurpleAccent,
-                      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Taramayı Başlat',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop(); // Close the dialog
@@ -87,9 +90,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey,
-                      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Geri',
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.white),
                     ),
@@ -125,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         final nfctag = await Future.any([
           FlutterNfcKit.poll(
-            timeout: Duration(seconds: 10),
+            timeout: const Duration(seconds: 10),
 
           ),
         ]);
@@ -204,9 +207,9 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (context) {
         return Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Container(
-            padding: EdgeInsets.fromLTRB(5, 20, 5, 40),
+            padding: const EdgeInsets.fromLTRB(5, 20, 5, 40),
             child: Column(
               mainAxisSize: MainAxisSize.min, // Adjusted to fit content
               children: [
@@ -214,13 +217,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   'assets/nfc_scan.png', // Replace with your own image asset
                   height: 250, // Increased image size
                 ),
-                SizedBox(height: 30), // Increased spacing
-                Text(
+                const SizedBox(height: 30), // Increased spacing
+                const Text(
                   'NFC taranmaya hazır, kartınızı cihazınıza yaklaştırın',
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500), // Increased font size and weight
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 30), // Increased spacing
+                const SizedBox(height: 30), // Increased spacing
                 ElevatedButton(
                   onPressed: () {
                     _resetInput();
@@ -228,9 +231,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                   ),
-                  child: Text('Cancel', style: TextStyle(fontSize: 20,color:Colors.white)), // Increased font size
+                  child: const Text('Cancel', style: TextStyle(fontSize: 20,color:Colors.white)), // Increased font size
                 ),
               ],
             ),
@@ -238,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       },
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
       ),
     ).whenComplete(() {
@@ -260,11 +263,11 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Container(
                 color: Colors.black12,
                 alignment: Alignment.centerRight,
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child:
                 Text(
                   _input + tlText,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 80,
                       color: Colors.black87,
                       fontWeight: FontWeight.w300,
@@ -273,15 +276,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Divider(thickness: 2,color: Colors.grey,height: 0,),
-            SizedBox(height: 20,),
+            const Divider(thickness: 2,color: Colors.grey,height: 0,),
+            const SizedBox(height: 20,),
             Expanded(
               flex: 9,
               child: Container(
                 color: Colors.white12,
                 child: GridView.builder(
-                  padding: EdgeInsets.all(10.0),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: const EdgeInsets.all(10.0),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     childAspectRatio: 1.5,
                     crossAxisSpacing: 10.0,
@@ -295,7 +298,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                         ),
-                        child: SizedBox.shrink(),
+                        child: const SizedBox.shrink(),
                       );
                     } else if (index == 11) {
                       return ElevatedButton(
@@ -316,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.greenAccent,
                         ),
-                        child: SizedBox.shrink(),
+                        child: const SizedBox.shrink(),
                       );
                     } else if (index == 10) {
                       return ElevatedButton(
@@ -324,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.grey[200],
                         ),
-                        child: Text(
+                        child: const Text(
                           '0',
                           style: TextStyle(fontSize: 24),
                         ),
@@ -337,7 +340,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         child: Text(
                           '${index + 1}',
-                          style: TextStyle(fontSize: 24),
+                          style: const TextStyle(fontSize: 24),
                         ),
                       );
                     }

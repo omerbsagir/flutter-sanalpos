@@ -15,26 +15,28 @@ class RegisterScreen extends StatelessWidget {
 
   String fullPhoneNumber = '';
 
+  RegisterScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final userViewModel = Provider.of<UserViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kayıt Ol'),
+        title: const Text('Kayıt Ol'),
         automaticallyImplyLeading: false
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'E-Posta'),
+              decoration: const InputDecoration(labelText: 'E-Posta'),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             IntlPhoneField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Telefon Numarası',
               ),
               initialCountryCode: 'TR',
@@ -45,10 +47,10 @@ class RegisterScreen extends StatelessWidget {
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Şifre'),
+              decoration: const InputDecoration(labelText: 'Şifre'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 UserModel newUser = UserModel(
@@ -75,9 +77,9 @@ class RegisterScreen extends StatelessWidget {
                 }
 
               },
-              child: Text('Kayıt Ol'),
+              child: const Text('Kayıt Ol'),
             ),
-            SizedBox(height : 10),
+            const SizedBox(height : 10),
             ElevatedButton(
               onPressed: () {
                 HapticFeedback.heavyImpact();
@@ -86,7 +88,7 @@ class RegisterScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
               ),
-              child: Text('Giriş Yap'),
+              child: const Text('Giriş Yap'),
             ),
           ],
         ),

@@ -8,15 +8,15 @@ class CustomSnackbar {
       content: Text(
         message,
         textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: backgroundColor,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      duration: Duration(milliseconds: 750),
+      margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      duration: const Duration(milliseconds: 750),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

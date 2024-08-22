@@ -9,29 +9,31 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final userViewModel = Provider.of<UserViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Giriş'),
+        title: const Text('Giriş'),
           automaticallyImplyLeading: false
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             TextField(
               controller: emailController,
-              decoration: InputDecoration(labelText: 'E-Posta'),
+              decoration: const InputDecoration(labelText: 'E-Posta'),
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Şifre'),
+              decoration: const InputDecoration(labelText: 'Şifre'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
 
@@ -57,9 +59,9 @@ class LoginScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.greenAccent, // Yeşil renk
               ),
-              child: Text('Giriş'),
+              child: const Text('Giriş'),
             ),
-            SizedBox(height : 10),
+            const SizedBox(height : 10),
             ElevatedButton(
               onPressed: () {
                 HapticFeedback.heavyImpact();
@@ -68,7 +70,7 @@ class LoginScreen extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
               ),
-              child: Text("Kayıt Ol"),
+              child: const Text("Kayıt Ol"),
             ),
           ],
         ),

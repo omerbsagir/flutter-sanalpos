@@ -9,7 +9,7 @@ class PaymentRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -19,7 +19,7 @@ class PaymentRepository {
       return response;
     } catch (e) {
       print('Hata: $e');
-      throw e;
+      rethrow;
     }
   }
 

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:e_pos/viewmodels/wallet_viewmodel.dart';
 import '../repositories/company_and_activation_repository.dart';
 import '../data/remote/response/api_response.dart';
 import '../viewmodels/user_viewmodel.dart';
@@ -10,7 +9,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   final CompanyAndActivationRepository _companyAndActivationRepository = CompanyAndActivationRepository();
   ApiResponse<String> company_and_activationResponse = ApiResponse.loading();
   ApiResponse<String> company_and_activationResponseAct = ApiResponse.loading();
-  UserViewModel _userViewModel = UserViewModel();
+  final UserViewModel _userViewModel = UserViewModel();
 
 
   String companyId='';
@@ -21,7 +20,7 @@ class CompanyAndActivationViewModel extends ChangeNotifier {
   List<dynamic> usersForAdmin = [];
 
   bool isActive = false;
-  dynamic? get companyDetailsFonk => companyDetails; //getter
+  dynamic get companyDetailsFonk => companyDetails; //getter
 
   bool isCompanyLoaded = false;
   bool isUsersLoaded = false;
