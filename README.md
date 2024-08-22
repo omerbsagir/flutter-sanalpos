@@ -16,7 +16,7 @@ Bu uygulama, **Flutter** ile geliştirilmiş bir sanal POS projesidir. Uygulama,
 
 2. **Şirketim**: Buradan bir şirket oluşturabilir, mevcut şirketinizin detaylarını görebilir ve çalışan hesabı kayıt edebilirsiniz.
 
-3. **Aktivasyon**: Şirketinizi kaydettikten sonra ödeme alabilmek için bir aktivasyon oluşturmanız gerekir. Eğer halihazırda bir aktivasyon başvurusu varsa, bu menüde aktivasyon durumu gösterilir.
+3. **Aktivasyon**: Şirketinizi kaydettikten sonra ödeme alabilmek için bir aktivasyon oluşturmanız gerekir. Eğer halihazırda bir aktivasyon başvurusu varsa, bu menüde aktivasyon durumu gösterilir. Eğer yoksa bir aktivasyon oluşturulması istenir.
 
 4. **Cüzdanım**: Şirketinizi oluştururken belirttiğiniz IBAN'a gelen ödemelerin detaylarını ve hesap bakiyenizi bu menüde görebilirsiniz.
 
@@ -65,11 +65,11 @@ This application is a virtual POS system developed using **Flutter**. It offers 
 
 The **Admin** role users have access to five main menus:
 
-1. **Home**: This menu is used to receive NFC payments. To receive payments, you need to register a company and ensure that it is active.
+1. **Home**: This menu is used to receive NFC payments. To receive payments, you need to register a company and ensure that it is active. To set the activation status, you need to change the relevant variable in the corresponding table in the database (DynamoDB) to either true or false.
 
 2. **My Company**: Here, you can create a company, view details of your existing company, and register employee accounts.
 
-3. **Activation**: After registering your company, you need to create an activation to enable payments. If there is an existing activation request, the activation status will be displayed in this menu. To set the activation status, you need to change the relevant variable in the corresponding table in the database (DynamoDB) to either true or false.
+3. **Activation**: After registering your company, you need to create an activation to enable payments. If there is an existing activation request, the activation status will be displayed in this menu. If not, a request is made to create an activation.
 
 4. **My Wallet**: In this menu, you can view details of payments made to the IBAN you specified during company registration and check your account balance.
 
