@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _showAmountDialog() {
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevents dismissing the dialog by tapping outside
+      barrierDismissible: false, // Prevents dismissing the dialog by tapping outside!
       builder: (BuildContext context) {
         return Center(
           child: Container(
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final nfctag = await Future.any([
           FlutterNfcKit.poll(
             timeout: Duration(seconds: 10),
-            //iosAlertMessage: 'Kartınızı cihazınıza yaklaştırın',
+
           ),
         ]);
 
