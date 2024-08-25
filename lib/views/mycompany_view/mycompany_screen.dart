@@ -39,6 +39,8 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   bool isFirstLoad = true;
   bool afterDelete = false;
 
+
+  //asd
   @override
   void initState() {
     super.initState();
