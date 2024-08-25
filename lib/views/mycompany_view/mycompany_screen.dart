@@ -40,7 +40,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
   bool afterDelete = false;
 
 
-
+'21312'
   @override
   void initState() {
     super.initState();
