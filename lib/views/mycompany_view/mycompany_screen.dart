@@ -41,7 +41,7 @@ class _MyCompanyScreenState extends State<MyCompanyScreen> {
 
 
 
-  @override2
+  @override
   void initState() {
     super.initState();
     _loadCompanyData();
