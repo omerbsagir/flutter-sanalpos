@@ -110,6 +110,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   Future<void> _scanNFC() async {
+
+
     final PaymentViewModel paymentViewModel =
     Provider.of<PaymentViewModel>(context, listen: false);
 
